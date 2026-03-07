@@ -927,6 +927,75 @@ const SCHREIB_HARD=[
 ];
 const WIZ_SCHREIB=["MAGISCHE BUCHSTABEN! Du schreibst wie ein echter Zauberer!","FANTASTISCH! Jeder Buchstabe sitzt perfekt!","WUNDERBAR! Deine Schreibkraft ist beeindruckend!","BRILLANT! Merlix kann fast nicht so gut schreiben wie du!"];
 
+// ─── Textaufgaben ───────────────────────────────────────────────────────
+const TEXTAUFGABEN=[
+  {text:"Leo hat 12 Äpfel. Er gibt seiner Freundin Mia 5 Äpfel. Wie viele Äpfel hat Leo noch?",answer:7,emoji:"🍎",hint:"12 minus 5"},
+  {text:"Im Klassenzimmer sitzen 8 Mädchen und 9 Jungen. Wie viele Kinder sind es zusammen?",answer:17,emoji:"👧",hint:"8 plus 9"},
+  {text:"Oma backt 24 Kekse. Sie verteilt sie gleichmäßig auf 4 Teller. Wie viele Kekse liegen auf jedem Teller?",answer:6,emoji:"🍪",hint:"24 geteilt durch 4"},
+  {text:"Papa kauft 3 Packungen Eier. In jeder Packung sind 6 Eier. Wie viele Eier hat Papa insgesamt?",answer:18,emoji:"🥚",hint:"3 mal 6"},
+  {text:"Auf dem Spielplatz sind 15 Kinder. 7 Kinder gehen nach Hause. Wie viele Kinder bleiben auf dem Spielplatz?",answer:8,emoji:"🛝",hint:"15 minus 7"},
+  {text:"Leo liest jeden Tag 5 Seiten. Wie viele Seiten hat er nach 7 Tagen gelesen?",answer:35,emoji:"📖",hint:"5 mal 7"},
+  {text:"In Leos Regal stehen 18 Bücher. Er bekommt zum Geburtstag noch 7 dazu. Wie viele Bücher hat er jetzt?",answer:25,emoji:"📚",hint:"18 plus 7"},
+  {text:"Im Bus sitzen 32 Personen. An der Haltestelle steigen 14 aus. Wie viele Personen sind noch im Bus?",answer:18,emoji:"🚌",hint:"32 minus 14"},
+  {text:"Mia hat 45 Cent. Ein Eis kostet 30 Cent. Wie viel Geld hat sie nach dem Kauf noch übrig?",answer:15,emoji:"🍦",hint:"45 minus 30"},
+  {text:"Im Garten wachsen 4 Reihen mit Tomaten. In jeder Reihe stehen 8 Pflanzen. Wie viele Tomatenpflanzen sind es insgesamt?",answer:32,emoji:"🍅",hint:"4 mal 8"},
+  {text:"Leo sammelt Muscheln am Strand. Am Montag findet er 13 und am Dienstag findet er 9. Wie viele hat er zusammen?",answer:22,emoji:"🐚",hint:"13 plus 9"},
+  {text:"In der Klasse sind 26 Kinder. Die Hälfte sind Mädchen. Wie viele Mädchen sind in der Klasse?",answer:13,emoji:"👩‍🎓",hint:"26 geteilt durch 2"},
+  {text:"Leo hat 50 Cent. Er kauft eine Brezel für 35 Cent. Wie viel Wechselgeld bekommt er zurück?",answer:15,emoji:"🥨",hint:"50 minus 35"},
+  {text:"Auf dem Bauernhof leben 6 Kühe und doppelt so viele Hühner. Wie viele Hühner gibt es?",answer:12,emoji:"🐔",hint:"6 mal 2"},
+  {text:"Im Schwimmbad sind 48 Kinder. Ein Drittel springt vom Sprungbrett. Wie viele Kinder springen?",answer:16,emoji:"🏊",hint:"48 geteilt durch 3"},
+  {text:"Leo fährt mit dem Fahrrad 8 Minuten zur Schule. Wie viele Minuten fährt er in 5 Tagen insgesamt?",answer:40,emoji:"🚲",hint:"8 mal 5"},
+  {text:"Mama kauft 3 Flaschen Saft für je 2 Euro. Wie viel bezahlt sie insgesamt?",answer:6,emoji:"🧃",hint:"3 mal 2"},
+  {text:"Auf einer Wiese stehen 27 Bäume. Im Sturm fallen 9 um. Wie viele stehen noch?",answer:18,emoji:"🌳",hint:"27 minus 9"},
+  {text:"In einem Zug sitzen 56 Menschen. Im nächsten Wagen sitzen noch 38. Wie viele Menschen sind im Zug?",answer:94,emoji:"🚂",hint:"56 plus 38"},
+  {text:"Leo hat 72 Murmeln und verteilt sie gleichmäßig an 8 Freunde. Wie viele bekommt jeder?",answer:9,emoji:"🔮",hint:"72 geteilt durch 8"},
+];
+
+// ─── Test-Modus Fragen-Pools ────────────────────────────────────────────
+const TEST_LESEN=[
+  {text:"Die Katze sitzt auf dem Dach. Sie schaut in den Garten. Dort spielt ein Hund mit einem Ball. Die Katze hat keine Lust nach unten zu gehen.",q:"Wo sitzt die Katze?",o:["Im Garten","Auf dem Dach","Neben dem Hund"],c:1},
+  {text:"Tom geht zum Bäcker. Er kauft zwei Brötchen und ein Stück Kuchen. Das kostet zusammen drei Euro. Tom bezahlt mit einem Fünf-Euro-Schein.",q:"Wie viel Wechselgeld bekommt Tom?",o:["Einen Euro","Zwei Euro","Drei Euro"],c:1},
+  {text:"Im Winter fliegen die Zugvögel in den Süden. Dort ist es warm. Im Frühling kommen sie zurück nach Deutschland. Dann bauen sie ihre Nester.",q:"Wann kommen die Zugvögel zurück?",o:["Im Sommer","Im Frühling","Im Herbst"],c:1},
+  {text:"Lisa hat ein neues Haustier. Es hat vier Beine, weiches Fell und schnurrt. Es trinkt gerne Milch und schläft viel.",q:"Welches Tier hat Lisa?",o:["Einen Hund","Eine Katze","Einen Hamster"],c:1},
+  {text:"Der Mond leuchtet in der Nacht. Aber er hat kein eigenes Licht. Er wird von der Sonne angestrahlt. Deshalb können wir ihn sehen.",q:"Warum leuchtet der Mond?",o:["Er hat eigenes Licht","Die Sonne strahlt ihn an","Die Sterne leuchten auf ihn"],c:1},
+];
+const TEST_MATHE=[
+  {q:"34 + 28 = ?",answer:62},{q:"71 − 35 = ?",answer:36},{q:"7 × 6 = ?",answer:42},
+  {q:"56 − 19 = ?",answer:37},{q:"45 + 37 = ?",answer:82},{q:"8 × 4 = ?",answer:32},
+  {q:"93 − 47 = ?",answer:46},{q:"5 × 9 = ?",answer:45},{q:"64 + 28 = ?",answer:92},
+  {q:"81 − 36 = ?",answer:45},
+];
+const TEST_SCHREIBEN=[
+  {word:"Freund",hint:"Jemand den du gern hast",img:"🤝"},
+  {word:"Schule",hint:"Dort lernst du jeden Tag",img:"🏫"},
+  {word:"Garten",hint:"Dort wachsen Blumen",img:"🌻"},
+  {word:"Wolke",hint:"Weiß und am Himmel",img:"☁️"},
+  {word:"Spiegel",hint:"Darin siehst du dich selbst",img:"🪞"},
+  {word:"Brücke",hint:"Geht über einen Fluss",img:"🌉"},
+  {word:"Fenster",hint:"Aus Glas, in der Wand",img:"🪟"},
+  {word:"Drache",hint:"Feuerspeiendes Fabelwesen",img:"🐉"},
+  {word:"Ritter",hint:"Kämpfte mit Schwert und Rüstung",img:"⚔️"},
+  {word:"Insel",hint:"Land umgeben von Wasser",img:"🏝️"},
+];
+const TEST_WISSEN=[
+  {q:"Welches Tier ist das größte Säugetier der Welt?",o:["Elefant","Blauwal","Giraffe"],c:1},
+  {q:"Wie viele Beine hat eine Biene?",o:["4","6","8"],c:1},
+  {q:"Was ist die Hauptstadt von Frankreich?",o:["London","Berlin","Paris"],c:2},
+  {q:"Wie heißt der Stoff, der Blätter grün macht?",o:["Zucker","Chlorophyll","Wasser"],c:1},
+  {q:"Welcher Planet ist am nächsten an der Sonne?",o:["Venus","Erde","Merkur"],c:2},
+  {q:"Was brauchen Pflanzen zum Wachsen?",o:["Dunkelheit","Wasser, Licht und Erde","Nur Wasser"],c:1},
+  {q:"Wie viele Stunden hat ein Tag?",o:["12","24","36"],c:1},
+  {q:"Was passiert mit Wasser bei 0 Grad?",o:["Es kocht","Es verdampft","Es gefriert"],c:2},
+];
+const WIZ_TEST=["PRÜFUNG BESTANDEN! Merlix verleiht dir ein Zauber-Zeugnis!","FANTASTISCH! Du hast den Test gemeistert wie ein echter Zauberer!","BRAVO! Dein Zeugnis ist so gut, dass sogar die Sterne staunen!","WUNDERBAR! Merlix ist mächtig stolz auf seinen Zauberlehrling!"];
+const TEST_NOTEN=[
+  {min:90,note:"1 ⭐",text:"AUSGEZEICHNET",emoji:"🏆",color:"var(--gold)",msg:"Du bist ein Wissens-Champion! Besser geht es kaum!"},
+  {min:75,note:"2 ⭐",text:"SEHR GUT",emoji:"🌟",color:"var(--green)",msg:"Super Ergebnis! Du kannst richtig stolz auf dich sein!"},
+  {min:60,note:"3 ⭐",text:"GUT",emoji:"👍",color:"var(--blue)",msg:"Gut gemacht! Mit etwas Übung wird es noch besser!"},
+  {min:40,note:"4",text:"OKAY",emoji:"💪",color:"var(--orange)",msg:"Nicht schlecht! Übe weiter und du wirst immer besser!"},
+  {min:0,note:"5",text:"WEITER ÜBEN",emoji:"📚",color:"var(--wizard-purple)",msg:"Kein Problem! Jeder Zauberer braucht Übung. Versuch es nochmal!"},
+];
+
 // ─── Wizard messages ────────────────────────────────────────────────────
 const WIZ_PERFECT=["FANTASTISCH, Leo! Alle richtig! Du bist ein wahrer Lese-Meister!","WUNDERBAR! Meine Zauberkraft wächst durch dein Wissen!","UNGLAUBLICH! Perfekt! Du liest ja besser als manche Zauberer!","MAGISCH! Alles richtig! Du hast die Weisheit eines Drachen!","SPEKTAKULÄR! Dein Wissen leuchtet heller als mein Zauberstab!","BRILLANT, Leo! Ich bin beeindruckt!","ERSTKLASSIG! Du bist auf dem Weg zum Lese-Zauberer!","HERVORRAGEND! Sogar meine Eule staunt!"];
 const WIZ_GOOD=["SUPER GEMACHT, Leo! Fast alles richtig! Beim nächsten Mal schaffst du alle!","KLASSE, Leo! Du wirst jeden Tag ein bisschen besser!","PRIMA! Du bist auf einem guten Weg, junger Zauberlehrling!","GUT GEMACHT! Übung macht den Meister – und den Zauberer!"];
@@ -962,6 +1031,25 @@ let schreibInput='';
 let schreibChecked=false;
 let schreibCorrect=false;
 let schreibAttempts=0;
+let schreibHintsUsed=0;
+
+// Textaufgaben state
+let textaufgaben=[];
+let textCurrent=0;
+let textScore=0;
+let textAnswered=false;
+let textUserAnswer='';
+
+// Test state
+let testMode=false;
+let testQuestions=[];
+let testCurrent=0;
+let testScore=0;
+let testTotal=0;
+let testAnswered=false;
+let testSelected=null;
+let testInput='';
+let testType=''; // current question type
 let selectedDay=null;
 let quizAnswers={};
 let quizSubmitted=false;
@@ -1314,9 +1402,13 @@ function render(){
         </div>
         <div style="padding:24px 24px 0">
           <button class="main-btn blue-btn" onclick="startMath()" style="width:100%">
-            🔢 Neue Mathe-Runde starten!
+            🔢 Kopfrechnen-Runde
           </button>
-          <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-dim);font-weight:600">8 Aufgaben: Plus, Minus & Einmaleins</div>
+          <div style="text-align:center;margin-top:6px;font-size:12px;color:var(--text-dim);font-weight:600">8 Aufgaben: Plus, Minus & Einmaleins</div>
+          <button class="main-btn blue-btn" onclick="startTextaufgaben()" style="width:100%;margin-top:12px;background:linear-gradient(135deg,#0891b2,#0e7490)">
+            📖 Textaufgaben
+          </button>
+          <div style="text-align:center;margin-top:6px;font-size:12px;color:var(--text-dim);font-weight:600">5 Rechengeschichten zum Knobeln</div>
         </div>`;
     } else if(activeTab==='eng'){
       const engDone=progress.engDone||{};
@@ -1395,6 +1487,35 @@ function render(){
           </button>
         </div>
         <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-dim);font-weight:600">Jede Runde: 6 Wörter richtig schreiben</div>`;
+    } else if(activeTab==='test'){
+      const testsDone=progress.testsDone||0;
+      const bestNote=progress.bestNote||'-';
+      tabContent=`
+        <div class="merlix-tip">
+          <div class="merlix-tip-avatar">🧙‍♂️</div>
+          <div class="merlix-tip-text"><strong>Merlix sagt:</strong> "Bereit für die große Zauberer-Prüfung? Ich teste dich in allen Fächern: Lesen, Mathe, Schreiben und Allgemeinwissen. Am Ende bekommst du ein Zeugnis von mir persönlich!"</div>
+        </div>
+        <div style="padding:8px 24px 0;text-align:center">
+          <div style="font-size:64px;margin:8px 0">📋</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--gold)">Merlix' Zauberer-Prüfung</div>
+          <div style="font-size:14px;color:var(--text-dim);font-weight:600;margin:8px 0 4px">8 Fragen aus allen Bereichen:</div>
+          <div style="font-size:13px;color:var(--text-dim);font-weight:600">📖 2× Lesen &nbsp; 🔢 2× Mathe &nbsp; ✏️ 2× Schreiben &nbsp; 🧠 2× Wissen</div>
+          <div style="margin-top:16px">
+            <button class="main-btn" onclick="startTest()" style="width:100%;background:linear-gradient(135deg,#b45309,#d97706);color:#fff;box-shadow:0 4px 20px rgba(217,119,6,0.3)">
+              🏆 Prüfung starten!
+            </button>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:10px;justify-content:center">
+            <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.15);border-radius:12px;padding:10px 16px;flex:1">
+              <div style="font-size:22px;font-weight:900;color:var(--gold)">${testsDone}</div>
+              <div style="font-size:11px;color:var(--text-dim);font-weight:700">Tests gemacht</div>
+            </div>
+            <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.15);border-radius:12px;padding:10px 16px;flex:1">
+              <div style="font-size:22px;font-weight:900;color:var(--gold)">${bestNote}</div>
+              <div style="font-size:11px;color:var(--text-dim);font-weight:700">Beste Note</div>
+            </div>
+          </div>
+        </div>`;
     }
 
     app.innerHTML=`
@@ -1411,9 +1532,14 @@ function render(){
       <div class="tabs">
         <button class="tab-btn ${activeTab==='read'?'active-read':''}" onclick="switchTab('read')"><span class="tab-emoji">📖</span>Lesen</button>
         <button class="tab-btn ${activeTab==='math'?'active-math':''}" onclick="switchTab('math')"><span class="tab-emoji">🔢</span>Mathe</button>
-        <button class="tab-btn ${activeTab==='eng'?'active-eng':''}" onclick="switchTab('eng')"><span class="tab-emoji">🇬🇧</span>Englisch</button>
+        <button class="tab-btn ${activeTab==='eng'?'active-eng':''}" onclick="switchTab('eng')"><span class="tab-emoji">🔤</span>Englisch</button>
         <button class="tab-btn ${activeTab==='wissen'?'active-wissen':''}" onclick="switchTab('wissen')"><span class="tab-emoji">🧠</span>Wissen</button>
         <button class="tab-btn ${activeTab==='schreib'?'active-schreib':''}" onclick="switchTab('schreib')"><span class="tab-emoji">✏️</span>Schreiben</button>
+      </div>
+      <div style="padding:8px 24px 0">
+        <button onclick="switchTab('test')" style="width:100%;padding:12px;border-radius:14px;border:2px solid ${activeTab==='test'?'var(--gold)':'rgba(251,191,36,0.15)'};background:${activeTab==='test'?'rgba(251,191,36,0.15)':'rgba(251,191,36,0.04)'};color:${activeTab==='test'?'var(--gold)':'var(--text-dim)'};font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px">
+          <span style="font-size:20px">📋</span> Test-Modus – Zeig was du kannst!
+        </button>
       </div>
       ${tabContent}
     `;
@@ -1517,7 +1643,7 @@ function render(){
         bot=`<div class="score-summary ${cor===3?'perfect':cor>=2?'good':'tryagain'}"><div class="score-emoji">${cor===3?'🎉':cor>=2?'👍':'💪'}</div><div class="score-text" style="color:${cor===3?'var(--green)':cor>=2?'var(--gold)':'var(--orange)'}">${cor} von 3 richtig!</div></div>
           <div style="padding:0 24px;text-align:center;margin-top:14px"><button class="main-btn orange-btn" onclick="goBack()">Zurück 📅</button></div>`;}
       app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="engStep=0;render()">← Wörter nochmal ansehen</button><div class="step-info">Quiz: ${les.title}</div></div>
-        <div style="padding:0 24px 6px"><div class="quiz-title" style="color:var(--orange)">🇬🇧 Quiz: ${les.title}</div></div>${qH}${bot}`;
+        <div style="padding:0 24px 6px"><div class="quiz-title" style="color:var(--orange)">🔤 Quiz: ${les.title}</div></div>${qH}${bot}`;
     }
 
   // ─── WISSEN VIEW ──────────────────────────────────────────────────────
@@ -1582,15 +1708,24 @@ function render(){
           <button class="main-btn pink-btn" style="width:calc(100% - 48px);margin:16px auto 0" onclick="goBack()">Zurück 📅</button>
         </div>`;
     } else {
-      // Show letter boxes as hint for length
-      const letterHint=w.word.split('').map((_,i)=>`<span style="display:inline-block;width:28px;height:36px;border-bottom:3px solid ${schreibChecked?(schreibCorrect?'var(--green)':'var(--red)'):'rgba(236,72,153,0.4)'};margin:0 2px;font-family:'Fredoka One',cursive;font-size:22px;color:${schreibChecked?(schreibCorrect?'var(--green)':'var(--red)'):'transparent'};line-height:36px">${schreibChecked?w.word[i]:'_'}</span>`).join('');
+      // Show letter boxes - revealed letters from hints shown
+      const letterHint=w.word.split('').map((_,i)=>{
+        const revealed=i<schreibHintsUsed;
+        const checked=schreibChecked;
+        const borderColor=checked?(schreibCorrect?'var(--green)':'var(--red)'):revealed?'#ec4899':'rgba(236,72,153,0.4)';
+        const textColor=checked?(schreibCorrect?'var(--green)':'var(--red)'):revealed?'#ec4899':'transparent';
+        const letter=checked?w.word[i]:(revealed?w.word[i]:'_');
+        return `<span style="display:inline-block;width:28px;height:36px;border-bottom:3px solid ${borderColor};margin:0 2px;font-family:'Fredoka One',cursive;font-size:22px;color:${textColor};line-height:36px">${letter}</span>`;
+      }).join('');
+
+      const canHint=!schreibChecked&&schreibHintsUsed<w.word.length-1;
+      const hintBtnHTML=canHint?`<button onclick="schreibHint()" style="background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.25);border-radius:10px;padding:8px 16px;color:#ec4899;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:8px">🧙‍♂️ Tipp! Nächsten Buchstaben zeigen (${schreibHintsUsed}/${w.word.length-1} benutzt)</button>`:'';
 
       let feedbackHTML='';
       if(schreibChecked){
         if(schreibCorrect){
-          feedbackHTML=`<div style="text-align:center;margin-top:14px;font-size:18px;font-weight:800;color:var(--green)">✅ Perfekt! Richtig geschrieben!</div>`;
+          feedbackHTML=`<div style="text-align:center;margin-top:14px;font-size:18px;font-weight:800;color:var(--green)">✅ Perfekt! Richtig geschrieben!${schreibHintsUsed>0?' (mit '+schreibHintsUsed+' Tipp'+(schreibHintsUsed>1?'s':'')+'!)':''}</div>`;
         } else {
-          // Show what was wrong
           const userLetters=schreibInput.toLowerCase().split('');
           const correctLetters=w.word.toLowerCase().split('');
           let comparison='';
@@ -1612,10 +1747,11 @@ function render(){
         <div style="text-align:center;padding:0 24px">
           <div style="font-size:14px;color:#ec4899;font-weight:700;margin-bottom:4px">HINWEIS:</div>
           <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--text);margin-bottom:12px">${w.hint}</div>
-          <div style="margin-bottom:16px;letter-spacing:4px">${letterHint}</div>
-          <div style="font-size:12px;color:var(--text-dim);font-weight:700;margin-bottom:8px">${w.word.length} Buchstaben</div>
+          <div style="margin-bottom:8px;letter-spacing:4px">${letterHint}</div>
+          <div style="font-size:12px;color:var(--text-dim);font-weight:700;margin-bottom:4px">${w.word.length} Buchstaben</div>
+          ${hintBtnHTML}
         </div>
-        <div style="padding:0 24px">
+        <div style="padding:12px 24px 0">
           <input type="text" id="schreibInput" value="${schreibInput}" 
             ${schreibChecked&&(schreibCorrect||schreibAttempts>=2)?'disabled':''}
             oninput="schreibInput=this.value" onkeydown="if(event.key==='Enter')schreibCheck()"
@@ -1628,12 +1764,106 @@ function render(){
         <div style="text-align:center;margin-top:10px;font-size:14px;font-weight:700;color:var(--text-dim)">${schreibScore} richtig bisher</div>`;
       if(!schreibChecked||(!schreibCorrect&&schreibAttempts<2))setTimeout(()=>{const inp=document.getElementById('schreibInput');if(inp){inp.focus();if(!schreibChecked)inp.setSelectionRange(inp.value.length,inp.value.length);}},100);
     }
+
+  // ─── TEXTAUFGABEN VIEW ────────────────────────────────────────────────
+  } else if(currentView==='textaufgaben'){
+    const t=textaufgaben[textCurrent];
+    const isDone=textCurrent>=textaufgaben.length;
+    const dots=textaufgaben.map((_,i)=>{
+      let cls='eng-pip';if(i<textCurrent)cls+=textaufgaben[i].wasCorrect?' pip-done':' ';if(i===textCurrent&&!isDone)cls+=' pip-current';
+      return `<div class="${cls}" style="${i<textCurrent&&!textaufgaben[i].wasCorrect?'background:var(--red);border-color:var(--red)':''}${i===textCurrent&&!isDone?'border-color:var(--blue);box-shadow:0 0 8px var(--blue-glow)':''}"></div>`;
+    }).join('');
+    if(isDone){
+      const stars=textScore>=5?3:textScore>=3?2:1;
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button></div>
+        <div style="text-align:center;padding:40px 24px">
+          <div style="font-size:64px;margin-bottom:12px">${stars===3?'🎉':stars===2?'👍':'💪'}</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:28px;color:${stars===3?'var(--green)':stars===2?'var(--gold)':'var(--blue)'}">${textScore} von ${textaufgaben.length} richtig!</div>
+          <div class="stars-earned" style="margin:16px 0">${'⭐'.repeat(stars)}${'<span style="filter:grayscale(1) opacity(0.3)">⭐</span>'.repeat(3-stars)}</div>
+          <button class="main-btn blue-btn" style="width:calc(100% - 48px);margin:16px auto 0" onclick="goBack()">Zurück 📅</button>
+        </div>`;
+    } else {
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button><div class="step-info">Aufgabe ${textCurrent+1}/${textaufgaben.length}</div></div>
+        <div class="eng-progress" style="margin-top:8px">${dots}</div>
+        <div style="text-align:center;font-size:48px;margin:14px 0 6px">${t.emoji}</div>
+        <div class="text-card" style="margin:0 24px;font-size:17px;line-height:1.8;padding:22px">${t.text}</div>
+        <div style="padding:16px 24px 0">
+          <div class="math-input-row">
+            <input type="number" class="math-input ${textAnswered?(parseInt(textUserAnswer)===t.answer?'correct-input':'wrong-input'):''}" id="textInput"
+              value="${textUserAnswer}" ${textAnswered?'disabled':''} oninput="textUserAnswer=this.value" onkeydown="if(event.key==='Enter')textCheck()"
+              placeholder="?" autocomplete="off" inputmode="numeric" style="border-color:rgba(8,145,178,0.3)">
+          </div>
+          ${textAnswered?`<div style="text-align:center;margin-top:12px;font-size:17px;font-weight:800;color:${parseInt(textUserAnswer)===t.answer?'var(--green)':'var(--red)'}">${parseInt(textUserAnswer)===t.answer?'✅ Richtig!':'❌ Die Antwort ist '+t.answer}</div>
+          ${parseInt(textUserAnswer)!==t.answer?'<div style="text-align:center;margin-top:4px;font-size:13px;color:var(--text-dim);font-weight:600">💡 Tipp: '+t.hint+'</div>':''}`:
+          `<div style="text-align:center;margin-top:8px;font-size:12px;color:var(--text-dim);font-weight:600">💡 Tipp: ${t.hint}</div>`}
+          <button class="main-btn blue-btn" style="margin-top:14px;width:100%;background:linear-gradient(135deg,#0891b2,#0e7490)" onclick="${textAnswered?'textNext()':'textCheck()'}">${textAnswered?'Nächste Aufgabe →':'Prüfen!'}</button>
+        </div>`;
+      if(!textAnswered)setTimeout(()=>{const inp=document.getElementById('textInput');if(inp)inp.focus();},100);
+    }
+
+  // ─── TEST VIEW ────────────────────────────────────────────────────────
+  } else if(currentView==='test'){
+    const isDone=testCurrent>=testQuestions.length;
+    if(isDone){
+      const pct=Math.round(testScore/testTotal*100);
+      const note=TEST_NOTEN.find(n=>pct>=n.min);
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button></div>
+        <div style="text-align:center;padding:20px 24px">
+          <div style="font-size:80px;margin-bottom:8px">${note.emoji}</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:16px;color:var(--text-dim);letter-spacing:2px">MERLIX' ZAUBER-ZEUGNIS</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:36px;color:${note.color};margin:8px 0">${note.text}</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:48px;color:var(--gold);margin:4px 0">Note: ${note.note}</div>
+          <div style="font-size:16px;color:var(--text);font-weight:700;margin:12px 0">${testScore} von ${testTotal} Punkten (${pct}%)</div>
+          <div style="font-size:15px;color:var(--wizard-purple);font-weight:600;font-style:italic;margin:8px 24px">"${note.msg}"</div>
+          <div style="font-size:13px;color:var(--text-dim);margin-top:8px">– Zauberer Merlix 🧙‍♂️</div>
+          <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+            ${testQuestions.map((tq,i)=>`<div style="background:${tq.wasCorrect?'rgba(34,197,94,0.15)':'rgba(248,113,113,0.1)'};border:1px solid ${tq.wasCorrect?'rgba(34,197,94,0.3)':'rgba(248,113,113,0.2)'};border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;color:${tq.wasCorrect?'var(--green)':'var(--red)'}">${tq.wasCorrect?'✅':'❌'} ${tq.label}</div>`).join('')}
+          </div>
+          <button class="main-btn" onclick="goBack()" style="width:100%;margin-top:20px;background:linear-gradient(135deg,#b45309,#d97706);color:#fff;box-shadow:0 4px 20px rgba(217,119,6,0.3)">Zurück zum Portal 📅</button>
+        </div>`;
+    } else {
+      const tq=testQuestions[testCurrent];
+      const dots2=testQuestions.map((_,i)=>{
+        let cls='eng-pip';if(i<testCurrent)cls+=testQuestions[i].wasCorrect?' pip-done':' ';if(i===testCurrent)cls+=' pip-current';
+        return `<div class="${cls}" style="${i<testCurrent&&!testQuestions[i].wasCorrect?'background:var(--red);border-color:var(--red)':''}${i===testCurrent?'border-color:var(--gold);box-shadow:0 0 8px var(--gold-glow)':''}"></div>`;
+      }).join('');
+      let qHTML='';
+      if(tq.type==='lesen'){
+        qHTML=`<div class="text-card" style="margin:0 24px 14px;font-size:16px;line-height:1.8;padding:18px">${tq.text}</div>
+          <div style="padding:0 24px"><div style="font-weight:800;font-size:15px;margin-bottom:10px">${tq.q}</div>
+          ${tq.o.map((opt,oi)=>{const sel=testSelected===oi;const sC=testAnswered&&oi===tq.c;const sW=testAnswered&&sel&&oi!==tq.c;
+            return `<button class="option-btn ${sC?'show-correct':sW?'show-wrong':sel?'selected':''}" ${testAnswered?'disabled':''} onclick="testSelect(${oi})">${sC?'✅ ':sW?'❌ ':''}${opt}</button>`;}).join('')}
+          </div>`;
+      } else if(tq.type==='mathe'){
+        qHTML=`<div style="text-align:center;margin:16px 0"><div style="font-family:'Fredoka One',cursive;font-size:36px;color:#fff;text-shadow:0 0 15px var(--blue-glow)">${tq.q}</div></div>
+          <div style="padding:0 24px"><div class="math-input-row"><input type="number" class="math-input ${testAnswered?(parseInt(testInput)===tq.answer?'correct-input':'wrong-input'):''}" id="testMathInput" value="${testInput}" ${testAnswered?'disabled':''} oninput="testInput=this.value" onkeydown="if(event.key==='Enter')testCheck()" placeholder="?" autocomplete="off" inputmode="numeric"></div>
+          ${testAnswered?`<div style="text-align:center;margin-top:10px;font-size:16px;font-weight:800;color:${parseInt(testInput)===tq.answer?'var(--green)':'var(--red)'}">${parseInt(testInput)===tq.answer?'✅ Richtig!':'❌ Richtig: '+tq.answer}</div>`:''}</div>`;
+        if(!testAnswered)setTimeout(()=>{const inp=document.getElementById('testMathInput');if(inp)inp.focus();},100);
+      } else if(tq.type==='schreiben'){
+        qHTML=`<div style="text-align:center;font-size:48px;margin:8px 0">${tq.img}</div>
+          <div style="text-align:center;font-size:14px;color:#ec4899;font-weight:700">HINWEIS: ${tq.hint}</div>
+          <div style="text-align:center;font-size:12px;color:var(--text-dim);font-weight:700;margin:6px 0">${tq.word.length} Buchstaben</div>
+          <div style="padding:0 24px"><input type="text" id="testSchreibInput" value="${testInput}" ${testAnswered?'disabled':''} oninput="testInput=this.value" onkeydown="if(event.key==='Enter')testCheck()" placeholder="Tippe das Wort..." autocomplete="off" autocapitalize="off" spellcheck="false" style="width:100%;padding:14px;border-radius:14px;border:2px solid ${testAnswered?(testInput.trim().toLowerCase()===tq.word.toLowerCase()?'var(--green)':'var(--red)'):'rgba(236,72,153,0.3)'};background:rgba(255,255,255,0.06);color:#fff;font-family:'Fredoka One',cursive;font-size:22px;text-align:center;outline:none">
+          ${testAnswered?`<div style="text-align:center;margin-top:10px;font-size:16px;font-weight:800;color:${testInput.trim().toLowerCase()===tq.word.toLowerCase()?'var(--green)':'var(--red)'}">${testInput.trim().toLowerCase()===tq.word.toLowerCase()?'✅ Richtig!':'❌ Richtig: '+tq.word}</div>`:''}</div>`;
+        if(!testAnswered)setTimeout(()=>{const inp=document.getElementById('testSchreibInput');if(inp)inp.focus();},100);
+      } else if(tq.type==='wissen'){
+        qHTML=`<div style="padding:0 24px"><div style="font-weight:800;font-size:16px;margin:12px 0 14px;text-align:center">${tq.q}</div>
+          ${tq.o.map((opt,oi)=>{const sel=testSelected===oi;const sC=testAnswered&&oi===tq.c;const sW=testAnswered&&sel&&oi!==tq.c;
+            return `<button class="option-btn ${sC?'show-correct':sW?'show-wrong':sel?'selected':''}" ${testAnswered?'disabled':''} onclick="testSelect(${oi})">${sC?'✅ ':sW?'❌ ':''}${opt}</button>`;}).join('')}</div>`;
+      }
+      const typeLabel={lesen:'📖 Lesen',mathe:'🔢 Mathe',schreiben:'✏️ Schreiben',wissen:'🧠 Wissen'}[tq.type];
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Abbrechen</button><div class="step-info">Frage ${testCurrent+1}/${testQuestions.length}</div></div>
+        <div class="eng-progress" style="margin-top:8px">${dots2}</div>
+        <div style="text-align:center;margin:10px 0 6px"><span style="background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.25);border-radius:8px;padding:4px 12px;font-size:12px;font-weight:800;color:var(--gold)">${typeLabel}</span></div>
+        ${qHTML}
+        <div style="padding:12px 24px 0"><button class="main-btn" onclick="${testAnswered?'testNext()':'testCheck()'}" style="width:100%;background:linear-gradient(135deg,#b45309,#d97706);color:#fff;box-shadow:0 4px 20px rgba(217,119,6,0.3)" ${!testAnswered&&testSelected===null&&!testInput?'disabled':''}>${testAnswered?'Weiter →':'Prüfen!'}</button></div>`;
+    }
   }
 }
 
 function renderReward(){
   const{score,total,type}=rewardData;
-  const msgs=type==='math'?WIZ_MATH:type==='eng'?WIZ_ENG:type==='wissen'?WIZ_WISSEN:type==='schreib'?WIZ_SCHREIB:score===total?WIZ_PERFECT:score>=total-1?WIZ_GOOD:WIZ_TRY;
+  const msgs=type==='math'?WIZ_MATH:type==='eng'?WIZ_ENG:type==='wissen'?WIZ_WISSEN:type==='schreib'?WIZ_SCHREIB:type==='test'?WIZ_TEST:score===total?WIZ_PERFECT:score>=total-1?WIZ_GOOD:WIZ_TRY;
   const msg=pickRandom(msgs);
   let ov=document.getElementById('reward-overlay');
   if(!ov){ov=document.createElement('div');ov.id='reward-overlay';ov.className='reward-overlay';document.body.appendChild(ov);}
@@ -1796,14 +2026,87 @@ window.wissenNext=function(){
   render();window.scrollTo(0,0);
 };
 
+// Textaufgaben
+window.startTextaufgaben=function(){
+  const shuffled=[...TEXTAUFGABEN].sort(()=>Math.random()-0.5);
+  textaufgaben=shuffled.slice(0,5).map(t=>({...t,wasCorrect:false}));
+  textCurrent=0;textScore=0;textAnswered=false;textUserAnswer='';
+  currentView='textaufgaben';render();window.scrollTo(0,0);
+};
+window.textCheck=function(){
+  if(textAnswered||!textUserAnswer)return;textAnswered=true;
+  const t=textaufgaben[textCurrent];const correct=parseInt(textUserAnswer)===t.answer;
+  t.wasCorrect=correct;if(correct){textScore++;celebrateCorrect(1);}render();
+};
+window.textNext=function(){
+  textCurrent++;textAnswered=false;textUserAnswer='';
+  if(textCurrent>=textaufgaben.length){
+    const stars=textScore>=5?3:textScore>=3?2:1;
+    progress.mathCompleted=(progress.mathCompleted||0)+1;progress.mathStars=(progress.mathStars||0)+stars;save();
+    celebrateCorrect(stars);
+    setTimeout(()=>{showReward=true;rewardData={score:textScore,total:textaufgaben.length,type:'math'};renderReward();},stars===3?1500:800);
+  }render();window.scrollTo(0,0);
+};
+
+// Test-Modus
+window.startTest=function(){
+  // Pick 2 from each category
+  const lesenQs=[...TEST_LESEN].sort(()=>Math.random()-0.5).slice(0,2).map(q=>({...q,type:'lesen',label:'📖 Lesen',wasCorrect:false}));
+  const matheQs=[...TEST_MATHE].sort(()=>Math.random()-0.5).slice(0,2).map(q=>({...q,type:'mathe',label:'🔢 Mathe',wasCorrect:false}));
+  const schreibQs=[...TEST_SCHREIBEN].sort(()=>Math.random()-0.5).slice(0,2).map(q=>({...q,type:'schreiben',label:'✏️ Schreiben',wasCorrect:false}));
+  const wissenQs=[...TEST_WISSEN].sort(()=>Math.random()-0.5).slice(0,2).map(q=>({...q,type:'wissen',label:'🧠 Wissen',wasCorrect:false}));
+  // Shuffle all together
+  testQuestions=[...lesenQs,...matheQs,...schreibQs,...wissenQs].sort(()=>Math.random()-0.5);
+  testCurrent=0;testScore=0;testTotal=testQuestions.length;testAnswered=false;testSelected=null;testInput='';
+  currentView='test';render();window.scrollTo(0,0);
+};
+window.testSelect=function(oi){if(testAnswered)return;testSelected=oi;render();};
+window.testCheck=function(){
+  if(testAnswered)return;
+  const tq=testQuestions[testCurrent];testAnswered=true;
+  let correct=false;
+  if(tq.type==='lesen'||tq.type==='wissen'){
+    correct=testSelected===tq.c;
+  }else if(tq.type==='mathe'){
+    correct=parseInt(testInput)===tq.answer;
+  }else if(tq.type==='schreiben'){
+    correct=testInput.trim().toLowerCase()===tq.word.toLowerCase();
+  }
+  tq.wasCorrect=correct;if(correct){testScore++;celebrateCorrect(1);}
+  render();
+};
+window.testNext=function(){
+  testCurrent++;testAnswered=false;testSelected=null;testInput='';
+  if(testCurrent>=testQuestions.length){
+    const pct=Math.round(testScore/testTotal*100);
+    const note=TEST_NOTEN.find(n=>pct>=n.min);
+    progress.testsDone=(progress.testsDone||0)+1;
+    if(!progress.bestNote||note.note<progress.bestNote)progress.bestNote=note.note;
+    progress.testStars=(progress.testStars||0)+(testScore>=7?3:testScore>=5?2:1);save();
+    celebrateCorrect(testScore>=7?3:testScore>=5?2:1);
+    setTimeout(()=>{showReward=true;rewardData={score:testScore,total:testTotal,type:'test'};renderReward();},1200);
+  }
+  render();window.scrollTo(0,0);
+};
+
+// Schreiben
 // Schreiben
 window.startSchreib=function(diff){
   schreibDifficulty=diff;
   const bank=diff==='easy'?SCHREIB_EASY:diff==='medium'?SCHREIB_MEDIUM:SCHREIB_HARD;
   const shuffled=[...bank].sort(()=>Math.random()-0.5);
   schreibWords=shuffled.slice(0,6).map(w=>({...w,wasCorrect:false}));
-  schreibCurrent=0;schreibScore=0;schreibInput='';schreibChecked=false;schreibCorrect=false;schreibAttempts=0;
+  schreibCurrent=0;schreibScore=0;schreibInput='';schreibChecked=false;schreibCorrect=false;schreibAttempts=0;schreibHintsUsed=0;
   currentView='schreib';render();window.scrollTo(0,0);
+};
+window.schreibHint=function(){
+  const w=schreibWords[schreibCurrent];
+  if(schreibHintsUsed<w.word.length-1){
+    schreibHintsUsed++;
+    // Merlix gives a hint with a little flair
+    spawnParticles(8,['#ec4899','#f472b6','#fbbf24']);
+    render();
+  }
 };
 window.schreibCheck=function(){
   if(!schreibInput.trim())return;
@@ -1812,11 +2115,11 @@ window.schreibCheck=function(){
   schreibChecked=true;schreibAttempts++;
   if(schreibCorrect){w.wasCorrect=true;schreibScore++;celebrateCorrect(1);}
   else if(schreibAttempts>=2){w.wasCorrect=false;}
-  else{schreibChecked=true;} // show error but allow retry
+  else{schreibChecked=true;}
   render();
 };
 window.schreibNext=function(){
-  schreibCurrent++;schreibInput='';schreibChecked=false;schreibCorrect=false;schreibAttempts=0;
+  schreibCurrent++;schreibInput='';schreibChecked=false;schreibCorrect=false;schreibAttempts=0;schreibHintsUsed=0;
   if(schreibCurrent>=schreibWords.length){
     const stars=schreibScore>=6?3:schreibScore>=4?2:1;
     progress.schreibCompleted=(progress.schreibCompleted||0)+1;
