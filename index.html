@@ -16,13 +16,15 @@
   --green: #34d399;
   --green-glow: rgba(52,211,153,0.3);
   --red: #f87171;
+  --blue: #60a5fa;
+  --blue-glow: rgba(96,165,250,0.3);
+  --orange: #fb923c;
+  --orange-glow: rgba(251,146,60,0.3);
   --text: #e2e8f0;
   --text-dim: #64748b;
   --wizard-purple: #a78bfa;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
   font-family: 'Nunito', sans-serif;
   background: var(--bg-deep);
@@ -30,430 +32,241 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
-
-/* ─── Starfield Background ─── */
-.starfield {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none; z-index: 0;
-}
-.star {
-  position: absolute;
-  width: 2px; height: 2px;
-  background: #fff;
-  border-radius: 50%;
-  animation: twinkle var(--dur) ease-in-out infinite;
-}
-@keyframes twinkle {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.8; }
-}
-
-.app { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding-bottom: 40px; }
+.starfield { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+.star { position:absolute; width:2px; height:2px; background:#fff; border-radius:50%; animation:twinkle var(--dur) ease-in-out infinite; }
+@keyframes twinkle { 0%,100%{opacity:0.2} 50%{opacity:0.8} }
+.app { position:relative; z-index:1; max-width:780px; margin:0 auto; padding-bottom:40px; }
 
 /* ─── Header ─── */
 .header {
   background: linear-gradient(160deg, #1e1b4b, #312e81, #1e1b4b);
-  padding: 28px 24px 24px;
-  border-radius: 0 0 28px 28px;
-  position: relative;
-  overflow: hidden;
+  padding: 28px 24px 24px; border-radius: 0 0 28px 28px;
+  position: relative; overflow: hidden;
   border-bottom: 2px solid rgba(139,92,246,0.3);
 }
-.header::before {
-  content: ''; position: absolute; top: -60px; right: -40px;
-  width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(139,92,246,0.15), transparent 70%);
-}
-.header-title {
-  font-family: 'Fredoka One', cursive;
-  font-size: 30px; color: #fff;
-  text-shadow: 0 0 30px var(--accent-glow);
-}
-.header-sub {
-  font-size: 15px; color: var(--wizard-purple); font-weight: 700; margin-top: 4px;
-}
-.wizard-mini {
-  position: absolute; top: 16px; right: 20px; font-size: 52px;
-  filter: drop-shadow(0 0 12px var(--accent-glow));
-  animation: wizardFloat 3s ease-in-out infinite;
-}
-@keyframes wizardFloat {
-  0%, 100% { transform: translateY(0) rotate(-5deg); }
-  50% { transform: translateY(-8px) rotate(5deg); }
-}
+.header::before { content:''; position:absolute; top:-60px; right:-40px; width:200px; height:200px; background:radial-gradient(circle,rgba(139,92,246,0.15),transparent 70%); }
+.header-title { font-family:'Fredoka One',cursive; font-size:30px; color:#fff; text-shadow:0 0 30px var(--accent-glow); }
+.header-sub { font-size:15px; color:var(--wizard-purple); font-weight:700; margin-top:4px; }
+.wizard-mini { position:absolute; top:16px; right:20px; font-size:52px; filter:drop-shadow(0 0 12px var(--accent-glow)); animation:wizFloat 3s ease-in-out infinite; cursor:pointer; }
+@keyframes wizFloat { 0%,100%{transform:translateY(0) rotate(-5deg)} 50%{transform:translateY(-8px) rotate(5deg)} }
+.stats { display:flex; gap:10px; margin-top:18px; }
+.stat-card { flex:1; background:rgba(255,255,255,0.08); border-radius:14px; padding:10px 8px; text-align:center; border:1px solid rgba(255,255,255,0.06); }
+.stat-num { font-size:26px; font-weight:900; }
+.stat-label { font-size:11px; font-weight:700; color:var(--text-dim); margin-top:2px; }
 
-/* ─── Stats ─── */
-.stats {
-  display: flex; gap: 10px; margin-top: 18px;
+/* ─── Tabs ─── */
+.tabs { display:flex; gap:8px; padding:18px 24px 0; }
+.tab-btn {
+  flex:1; padding:14px 8px; border-radius:14px; border:2px solid rgba(255,255,255,0.08);
+  background:var(--bg-card); color:var(--text-dim); font-family:'Nunito',sans-serif;
+  font-size:14px; font-weight:800; cursor:pointer; text-align:center;
+  transition:all 0.2s;
 }
-.stat-card {
-  flex: 1;
-  background: rgba(255,255,255,0.08);
-  border-radius: 14px;
-  padding: 10px 8px;
-  text-align: center;
-  border: 1px solid rgba(255,255,255,0.06);
-  backdrop-filter: blur(4px);
-}
-.stat-num {
-  font-size: 26px; font-weight: 900;
-}
-.stat-label {
-  font-size: 11px; font-weight: 700; color: var(--text-dim); margin-top: 2px;
-}
+.tab-btn.active-read { background:rgba(139,92,246,0.15); border-color:var(--accent); color:var(--wizard-purple); }
+.tab-btn.active-math { background:rgba(96,165,250,0.15); border-color:var(--blue); color:var(--blue); }
+.tab-btn.active-eng { background:rgba(251,146,60,0.15); border-color:var(--orange); color:var(--orange); }
+.tab-btn:hover:not(.active-read):not(.active-math):not(.active-eng) { border-color:rgba(255,255,255,0.15); }
+.tab-emoji { font-size:22px; display:block; margin-bottom:4px; }
 
 /* ─── Progress Bar ─── */
-.progress-wrap {
-  padding: 18px 24px 0;
-}
-.progress-bar {
-  background: rgba(255,255,255,0.06);
-  border-radius: 10px; height: 10px; overflow: hidden;
-}
-.progress-fill {
-  height: 100%; border-radius: 10px;
-  background: linear-gradient(90deg, #7c3aed, #a78bfa, #c4b5fd, #a78bfa, #7c3aed);
-  background-size: 300% 100%;
-  animation: progressShimmer 3s ease infinite;
-  transition: width 0.6s ease;
-}
-@keyframes progressShimmer {
-  0% { background-position: 300% 0; }
-  100% { background-position: 0% 0; }
-}
-.progress-text {
-  font-size: 12px; color: var(--text-dim); font-weight: 700; margin-top: 5px;
-}
+.progress-wrap { padding:18px 24px 0; }
+.progress-bar { background:rgba(255,255,255,0.06); border-radius:10px; height:10px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:10px; transition:width 0.6s ease; }
+.progress-fill.purple { background:linear-gradient(90deg,#7c3aed,#a78bfa,#c4b5fd,#a78bfa,#7c3aed); background-size:300% 100%; animation:pShimmer 3s ease infinite; }
+.progress-fill.bluefill { background:linear-gradient(90deg,#3b82f6,#60a5fa,#93c5fd,#60a5fa,#3b82f6); background-size:300% 100%; animation:pShimmer 3s ease infinite; }
+.progress-fill.orangefill { background:linear-gradient(90deg,#f97316,#fb923c,#fdba74,#fb923c,#f97316); background-size:300% 100%; animation:pShimmer 3s ease infinite; }
+@keyframes pShimmer { 0%{background-position:300% 0} 100%{background-position:0% 0} }
+.progress-text { font-size:12px; color:var(--text-dim); font-weight:700; margin-top:5px; }
 
 /* ─── Level Badge ─── */
-.level-badge {
-  margin: 14px 24px 0;
-  background: linear-gradient(135deg, rgba(251,191,36,0.1), rgba(251,191,36,0.03));
-  border: 1px solid rgba(251,191,36,0.2);
-  border-radius: 14px;
-  padding: 12px 16px;
-  display: flex; align-items: center; gap: 12px;
-}
-.level-icon { font-size: 32px; }
-.level-info {}
-.level-title { font-weight: 800; font-size: 14px; color: var(--gold); }
-.level-desc { font-size: 12px; color: var(--text-dim); font-weight: 600; }
+.level-badge { margin:14px 24px 0; border-radius:14px; padding:12px 16px; display:flex; align-items:center; gap:12px; }
+.level-badge.purple-badge { background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(139,92,246,0.03)); border:1px solid rgba(139,92,246,0.2); }
+.level-badge.blue-badge { background:linear-gradient(135deg,rgba(96,165,250,0.1),rgba(96,165,250,0.03)); border:1px solid rgba(96,165,250,0.2); }
+.level-badge.orange-badge { background:linear-gradient(135deg,rgba(251,146,60,0.1),rgba(251,146,60,0.03)); border:1px solid rgba(251,146,60,0.2); }
+.level-icon { font-size:32px; }
+.level-title { font-weight:800; font-size:14px; }
+.level-desc { font-size:12px; color:var(--text-dim); font-weight:600; }
 
-/* ─── Day List ─── */
-.section-title {
-  font-family: 'Fredoka One', cursive;
-  font-size: 19px; color: var(--wizard-purple);
-  margin: 18px 24px 10px;
-}
-.day-list {
-  padding: 0 24px;
-  display: flex; flex-direction: column; gap: 8px;
-}
+/* ─── Day & Item List ─── */
+.section-title { font-family:'Fredoka One',cursive; font-size:19px; color:var(--wizard-purple); margin:18px 24px 10px; }
+.section-title.blue-title { color:var(--blue); }
+.section-title.orange-title { color:var(--orange); }
+.day-list { padding:0 24px; display:flex; flex-direction:column; gap:8px; }
 .day-btn {
-  display: flex; align-items: center; gap: 12px;
-  background: var(--bg-card);
-  border: 2px solid rgba(255,255,255,0.05);
-  border-radius: 14px;
-  padding: 13px 14px;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  color: var(--text);
-  font-family: 'Nunito', sans-serif;
-  transition: all 0.2s ease;
+  display:flex; align-items:center; gap:12px; background:var(--bg-card);
+  border:2px solid rgba(255,255,255,0.05); border-radius:14px; padding:13px 14px;
+  cursor:pointer; width:100%; text-align:left; color:var(--text);
+  font-family:'Nunito',sans-serif; transition:all 0.2s;
 }
-.day-btn:not(:disabled):hover {
-  border-color: rgba(139,92,246,0.3);
-  background: rgba(139,92,246,0.08);
-  transform: translateX(4px);
-}
-.day-btn:disabled {
-  opacity: 0.3; cursor: default;
-}
-.day-btn.done {
-  background: rgba(34,197,94,0.06);
-  border-color: rgba(34,197,94,0.2);
-}
-.day-btn.today {
-  border-color: var(--accent);
-  box-shadow: 0 0 20px var(--accent-glow);
-  background: rgba(139,92,246,0.1);
-}
-.day-emoji { font-size: 26px; width: 36px; text-align: center; flex-shrink: 0; }
-.day-info { flex: 1; min-width: 0; }
-.day-date { font-size: 12px; font-weight: 700; color: var(--text-dim); }
-.day-title { font-size: 15px; font-weight: 800; color: #f1f5f9; margin-top: 1px; }
-.day-badge-today {
-  background: var(--accent); color: #fff;
-  font-size: 9px; font-weight: 800;
-  padding: 2px 7px; border-radius: 5px;
-  margin-left: 6px; text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.day-score {
-  background: rgba(34,197,94,0.15);
-  border-radius: 8px; padding: 5px 9px;
-  font-size: 12px; font-weight: 800; color: var(--green);
-  flex-shrink: 0;
-}
-.day-arrow { color: var(--accent); font-size: 18px; font-weight: 900; flex-shrink: 0; }
+.day-btn:hover { border-color:rgba(139,92,246,0.3); background:rgba(139,92,246,0.08); transform:translateX(4px); }
+.day-btn.done { background:rgba(34,197,94,0.06); border-color:rgba(34,197,94,0.2); }
+.day-btn.today { border-color:var(--accent); box-shadow:0 0 20px var(--accent-glow); background:rgba(139,92,246,0.1); }
+.day-emoji { font-size:26px; width:36px; text-align:center; flex-shrink:0; }
+.day-info { flex:1; min-width:0; }
+.day-date { font-size:12px; font-weight:700; color:var(--text-dim); }
+.day-title { font-size:15px; font-weight:800; color:#f1f5f9; margin-top:1px; }
+.day-badge-today { background:var(--accent); color:#fff; font-size:9px; font-weight:800; padding:2px 7px; border-radius:5px; margin-left:6px; text-transform:uppercase; letter-spacing:0.5px; }
+.day-score { background:rgba(34,197,94,0.15); border-radius:8px; padding:5px 9px; font-size:12px; font-weight:800; color:var(--green); flex-shrink:0; }
+.day-arrow { color:var(--accent); font-size:18px; font-weight:900; flex-shrink:0; }
 
-/* ─── Reading View ─── */
-.topbar {
-  display: flex; align-items: center; padding: 14px 20px; gap: 10px;
-}
-.back-btn {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 10px;
-  padding: 8px 14px;
-  color: var(--wizard-purple);
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800; font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.back-btn:hover { background: rgba(139,92,246,0.15); }
-.step-info { margin-left: auto; font-size: 13px; font-weight: 700; color: var(--text-dim); }
-.reading-hero { text-align: center; font-size: 52px; margin-bottom: 6px; }
-.reading-title {
-  font-family: 'Fredoka One', cursive;
-  font-size: 26px; color: var(--wizard-purple);
-  text-align: center;
-}
-.reading-date { text-align: center; color: var(--text-dim); font-size: 13px; font-weight: 700; margin-top: 2px; }
-
-.text-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  padding: 30px 28px;
-  margin: 18px 24px 0;
-  line-height: 2.1;
-  font-size: 19px;
-  font-weight: 500;
-  letter-spacing: 0.015em;
-  color: #1a1a1a;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-}
-
-.tip-card {
-  background: rgba(251,191,36,0.07);
-  border: 1px solid rgba(251,191,36,0.15);
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin: 14px 24px 0;
-  display: flex; gap: 10px; align-items: flex-start;
-}
-.tip-card span:first-child { font-size: 18px; }
-.tip-card p { font-size: 13px; color: var(--gold); font-weight: 600; line-height: 1.5; }
-
-.main-btn {
-  display: block; width: calc(100% - 48px); margin: 22px 24px 0;
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
-  border: none; border-radius: 14px; padding: 16px;
-  color: #fff; font-family: 'Nunito', sans-serif;
-  font-size: 17px; font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 4px 20px var(--accent-glow);
-  transition: all 0.15s;
-}
-.main-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 28px var(--accent-glow); }
-.main-btn:active { transform: scale(0.98); }
-.main-btn:disabled {
-  background: rgba(255,255,255,0.06);
-  color: var(--text-dim);
-  box-shadow: none;
-  cursor: default;
-}
+/* ─── Topbar & Reading ─── */
+.topbar { display:flex; align-items:center; padding:14px 20px; gap:10px; }
+.back-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:8px 14px; color:var(--wizard-purple); font-family:'Nunito',sans-serif; font-weight:800; font-size:13px; cursor:pointer; transition:all 0.2s; }
+.back-btn:hover { background:rgba(139,92,246,0.15); }
+.step-info { margin-left:auto; font-size:13px; font-weight:700; color:var(--text-dim); }
+.reading-hero { text-align:center; font-size:52px; margin-bottom:6px; }
+.reading-title { font-family:'Fredoka One',cursive; font-size:26px; color:var(--wizard-purple); text-align:center; }
+.reading-date { text-align:center; color:var(--text-dim); font-size:13px; font-weight:700; margin-top:2px; }
+.text-card { background:#ffffff; border:1px solid #e2e8f0; border-radius:18px; padding:30px 28px; margin:18px 24px 0; line-height:2.1; font-size:19px; font-weight:500; letter-spacing:0.015em; color:#1a1a1a; box-shadow:0 4px 24px rgba(0,0,0,0.1); }
+.tip-card { background:rgba(251,191,36,0.07); border:1px solid rgba(251,191,36,0.15); border-radius:12px; padding:12px 16px; margin:14px 24px 0; display:flex; gap:10px; align-items:flex-start; }
+.tip-card span:first-child { font-size:18px; }
+.tip-card p { font-size:13px; color:var(--gold); font-weight:600; line-height:1.5; }
+.main-btn { display:block; width:calc(100% - 48px); margin:22px 24px 0; border:none; border-radius:14px; padding:16px; font-family:'Nunito',sans-serif; font-size:17px; font-weight:800; cursor:pointer; transition:all 0.15s; }
+.main-btn.purple-btn { background:linear-gradient(135deg,#7c3aed,#6d28d9); color:#fff; box-shadow:0 4px 20px var(--accent-glow); }
+.main-btn.blue-btn { background:linear-gradient(135deg,#3b82f6,#2563eb); color:#fff; box-shadow:0 4px 20px var(--blue-glow); }
+.main-btn.orange-btn { background:linear-gradient(135deg,#f97316,#ea580c); color:#fff; box-shadow:0 4px 20px var(--orange-glow); }
+.main-btn:hover { transform:translateY(-1px); }
+.main-btn:active { transform:scale(0.98); }
+.main-btn:disabled { background:rgba(255,255,255,0.06); color:var(--text-dim); box-shadow:none; cursor:default; }
 
 /* ─── Quiz ─── */
-.quiz-title {
-  font-family: 'Fredoka One', cursive;
-  font-size: 22px; color: var(--wizard-purple);
-  text-align: center; margin-bottom: 18px;
+.quiz-title { font-family:'Fredoka One',cursive; font-size:22px; color:var(--wizard-purple); text-align:center; margin-bottom:18px; }
+.question-card { background:var(--bg-card); border:2px solid rgba(255,255,255,0.05); border-radius:16px; padding:18px; margin:0 24px 12px; }
+.question-card.correct { background:rgba(34,197,94,0.06); border-color:rgba(34,197,94,0.2); }
+.question-card.wrong { background:rgba(248,113,113,0.06); border-color:rgba(248,113,113,0.2); }
+.question-text { font-weight:800; font-size:15px; margin-bottom:12px; }
+.option-btn { display:block; width:100%; background:rgba(255,255,255,0.05); border:2px solid transparent; border-radius:10px; padding:11px 14px; color:var(--text); font-family:'Nunito',sans-serif; font-size:14px; font-weight:600; text-align:left; cursor:pointer; margin-bottom:6px; transition:all 0.15s; }
+.option-btn:hover:not(:disabled) { background:rgba(139,92,246,0.12); }
+.option-btn.selected { background:rgba(139,92,246,0.2); border-color:var(--accent); }
+.option-btn.show-correct { background:rgba(34,197,94,0.15); border-color:var(--green); }
+.option-btn.show-wrong { background:rgba(248,113,113,0.15); border-color:var(--red); }
+
+/* ─── Math Game ─── */
+.math-area { padding:0 24px; }
+.math-problem { text-align:center; margin:20px 0; }
+.math-problem-text { font-family:'Fredoka One',cursive; font-size:48px; color:#fff; text-shadow:0 0 20px var(--blue-glow); }
+.math-input-row { display:flex; justify-content:center; gap:12px; align-items:center; margin-top:16px; }
+.math-input { width:120px; padding:14px; border-radius:14px; border:2px solid rgba(96,165,250,0.3); background:rgba(255,255,255,0.08); color:#fff; font-family:'Fredoka One',cursive; font-size:32px; text-align:center; outline:none; transition:border-color 0.2s; }
+.math-input:focus { border-color:var(--blue); box-shadow:0 0 20px var(--blue-glow); }
+.math-input.correct-input { border-color:var(--green); background:rgba(34,197,94,0.1); }
+.math-input.wrong-input { border-color:var(--red); background:rgba(248,113,113,0.1); }
+.math-score-bar { display:flex; justify-content:center; gap:8px; margin:16px 0; }
+.math-dot { width:18px; height:18px; border-radius:50%; background:rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.15); transition:all 0.3s; }
+.math-dot.dot-correct { background:var(--green); border-color:var(--green); box-shadow:0 0 8px var(--green-glow); }
+.math-dot.dot-wrong { background:var(--red); border-color:var(--red); }
+.math-dot.dot-current { border-color:var(--blue); box-shadow:0 0 8px var(--blue-glow); }
+.math-streak { text-align:center; font-size:14px; font-weight:700; color:var(--text-dim); margin-top:8px; }
+
+/* ─── English ─── */
+.eng-card {
+  background:linear-gradient(135deg,rgba(251,146,60,0.08),rgba(251,146,60,0.02));
+  border:2px solid rgba(251,146,60,0.15); border-radius:20px;
+  padding:28px 24px; margin:0 24px; text-align:center;
 }
-.question-card {
-  background: var(--bg-card);
-  border: 2px solid rgba(255,255,255,0.05);
-  border-radius: 16px;
-  padding: 18px;
-  margin: 0 24px 12px;
+.eng-word { font-family:'Fredoka One',cursive; font-size:44px; color:var(--orange); text-shadow:0 0 20px var(--orange-glow); }
+.eng-phonetic { font-size:16px; color:var(--text-dim); font-weight:700; margin-top:4px; font-style:italic; }
+.eng-meaning { font-size:18px; color:var(--text); font-weight:700; margin-top:12px; }
+.eng-example { font-size:15px; color:var(--text-dim); font-weight:600; margin-top:6px; font-style:italic; }
+.eng-illustration { font-size:64px; margin:16px 0; }
+.eng-options { display:flex; flex-direction:column; gap:8px; margin:18px 24px 0; }
+.eng-opt-btn { padding:14px 18px; border-radius:12px; border:2px solid rgba(251,146,60,0.15); background:rgba(255,255,255,0.04); color:var(--text); font-family:'Nunito',sans-serif; font-size:15px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.15s; }
+.eng-opt-btn:hover { border-color:rgba(251,146,60,0.3); background:rgba(251,146,60,0.08); }
+.eng-opt-btn.eng-selected { border-color:var(--orange); background:rgba(251,146,60,0.15); }
+.eng-opt-btn.eng-correct { border-color:var(--green); background:rgba(34,197,94,0.15); }
+.eng-opt-btn.eng-wrong { border-color:var(--red); background:rgba(248,113,113,0.15); }
+.eng-progress { display:flex; gap:6px; justify-content:center; margin:14px 0; }
+.eng-pip { width:14px; height:14px; border-radius:50%; background:rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.15); transition:all 0.3s; }
+.eng-pip.pip-done { background:var(--orange); border-color:var(--orange); }
+.eng-pip.pip-current { border-color:var(--orange); box-shadow:0 0 8px var(--orange-glow); }
+
+/* ─── Merlix Walking ─── */
+.merlix-walker {
+  position:fixed; bottom:20px; z-index:999; font-size:60px;
+  pointer-events:none; filter:drop-shadow(0 0 20px var(--accent-glow));
+  transition:none;
 }
-.question-card.correct { background: rgba(34,197,94,0.06); border-color: rgba(34,197,94,0.2); }
-.question-card.wrong { background: rgba(248,113,113,0.06); border-color: rgba(248,113,113,0.2); }
-.question-text { font-weight: 800; font-size: 15px; margin-bottom: 12px; }
-.option-btn {
-  display: block; width: 100%;
-  background: rgba(255,255,255,0.05);
-  border: 2px solid transparent;
-  border-radius: 10px;
-  padding: 11px 14px;
-  color: var(--text);
-  font-family: 'Nunito', sans-serif;
-  font-size: 14px; font-weight: 600;
-  text-align: left;
-  cursor: pointer;
-  margin-bottom: 6px;
-  transition: all 0.15s;
+@keyframes wizWalk {
+  0% { left:-80px; transform:scaleX(1) translateY(0); }
+  10% { transform:scaleX(1) translateY(-10px); }
+  20% { transform:scaleX(1) translateY(0); }
+  30% { transform:scaleX(1) translateY(-10px); }
+  40% { transform:scaleX(1) translateY(0); }
+  48% { left:calc(50% - 30px); transform:scaleX(1) translateY(0); }
+  52% { left:calc(50% - 30px); transform:scaleX(1) translateY(-20px) rotate(10deg); }
+  56% { left:calc(50% - 30px); transform:scaleX(1) translateY(0) rotate(-5deg); }
+  60% { left:calc(50% - 30px); transform:scaleX(1) translateY(0); }
+  70% { transform:scaleX(1) translateY(-10px); }
+  80% { transform:scaleX(1) translateY(0); }
+  90% { transform:scaleX(1) translateY(-10px); }
+  100% { left:calc(100% + 80px); transform:scaleX(1) translateY(0); }
 }
-.option-btn:hover:not(:disabled) { background: rgba(139,92,246,0.12); }
-.option-btn.selected { background: rgba(139,92,246,0.2); border-color: var(--accent); }
-.option-btn.show-correct { background: rgba(34,197,94,0.15); border-color: var(--green); }
-.option-btn.show-wrong { background: rgba(248,113,113,0.15); border-color: var(--red); }
+.merlix-spell {
+  position:fixed; z-index:998; font-family:'Fredoka One',cursive;
+  font-size:18px; color:var(--gold); pointer-events:none;
+  text-shadow:0 0 10px var(--gold-glow);
+  animation:spellFloat 2s ease-out forwards;
+}
+@keyframes spellFloat {
+  0% { opacity:1; transform:translateY(0) scale(1); }
+  100% { opacity:0; transform:translateY(-80px) scale(1.3); }
+}
 
 /* ─── Wizard Reward Overlay ─── */
-.reward-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  z-index: 1000;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(10,14,26,0.92);
-  backdrop-filter: blur(8px);
-  animation: fadeIn 0.4s ease;
-}
-@keyframes fadeIn {
-  from { opacity: 0; } to { opacity: 1; }
-}
-.reward-box {
-  text-align: center;
-  padding: 20px;
-  max-width: 380px;
-  width: 90%;
-  animation: rewardPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-@keyframes rewardPop {
-  from { transform: scale(0.5) translateY(40px); opacity: 0; }
-  to { transform: scale(1) translateY(0); opacity: 1; }
-}
-.wizard-big {
-  font-size: 100px;
-  animation: wizardEntrance 1s ease;
-  filter: drop-shadow(0 0 40px var(--accent-glow));
-}
-@keyframes wizardEntrance {
-  0% { transform: scale(0) rotate(-180deg); opacity: 0; }
-  60% { transform: scale(1.2) rotate(10deg); }
-  100% { transform: scale(1) rotate(0deg); opacity: 1; }
-}
-.wizard-speech {
-  background: linear-gradient(135deg, #312e81, #1e1b4b);
-  border: 2px solid rgba(139,92,246,0.4);
-  border-radius: 20px;
-  padding: 24px 20px;
-  margin-top: 16px;
-  position: relative;
-  box-shadow: 0 0 40px var(--accent-glow);
-}
-.wizard-speech::before {
-  content: '';
-  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid rgba(139,92,246,0.4);
-}
-.wizard-name {
-  font-family: 'Fredoka One', cursive;
-  font-size: 14px; color: var(--wizard-purple);
-  margin-bottom: 6px; letter-spacing: 1px;
-}
-.wizard-msg {
-  font-size: 20px; font-weight: 800;
-  line-height: 1.4;
-  color: #fff;
-}
-.wizard-sub {
-  font-size: 14px; color: var(--wizard-purple);
-  font-weight: 700; margin-top: 8px;
-}
-.stars-earned {
-  margin-top: 18px;
-  display: flex; justify-content: center; gap: 6px;
-}
-.star-reward {
-  font-size: 36px;
-  animation: starPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-.reward-dismiss {
-  margin-top: 20px;
-  background: linear-gradient(135deg, var(--gold), #f59e0b);
-  border: none; border-radius: 14px;
-  padding: 14px 32px;
-  font-family: 'Nunito', sans-serif;
-  font-size: 16px; font-weight: 800;
-  color: #1e1b4b;
-  cursor: pointer;
-  box-shadow: 0 4px 20px var(--gold-glow);
-  transition: all 0.15s;
-}
-.reward-dismiss:hover { transform: scale(1.03); }
+.reward-overlay { position:fixed; top:0; left:0; width:100%; height:100%; z-index:1000; display:flex; align-items:center; justify-content:center; background:rgba(10,14,26,0.92); backdrop-filter:blur(8px); animation:fadeIn 0.4s ease; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.reward-box { text-align:center; padding:20px; max-width:420px; width:90%; animation:rewardPop 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes rewardPop { from{transform:scale(0.5) translateY(40px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
+.wizard-big { font-size:100px; animation:wizEntrance 1s ease; filter:drop-shadow(0 0 40px var(--accent-glow)); }
+@keyframes wizEntrance { 0%{transform:scale(0) rotate(-180deg);opacity:0} 60%{transform:scale(1.2) rotate(10deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
+.wizard-speech { background:linear-gradient(135deg,#312e81,#1e1b4b); border:2px solid rgba(139,92,246,0.4); border-radius:20px; padding:24px 20px; margin-top:16px; position:relative; box-shadow:0 0 40px var(--accent-glow); }
+.wizard-speech::before { content:''; position:absolute; top:-10px; left:50%; transform:translateX(-50%); border-left:10px solid transparent; border-right:10px solid transparent; border-bottom:10px solid rgba(139,92,246,0.4); }
+.wizard-name { font-family:'Fredoka One',cursive; font-size:14px; color:var(--wizard-purple); margin-bottom:6px; letter-spacing:1px; }
+.wizard-msg { font-size:20px; font-weight:800; line-height:1.4; color:#fff; }
+.wizard-sub { font-size:14px; color:var(--wizard-purple); font-weight:700; margin-top:8px; }
+.stars-earned { margin-top:18px; display:flex; justify-content:center; gap:6px; }
+.star-reward { font-size:36px; animation:starPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+@keyframes starPop { from{transform:scale(0) rotate(-30deg)} to{transform:scale(1) rotate(0)} }
+.reward-dismiss { margin-top:20px; background:linear-gradient(135deg,var(--gold),#f59e0b); border:none; border-radius:14px; padding:14px 32px; font-family:'Nunito',sans-serif; font-size:16px; font-weight:800; color:#1e1b4b; cursor:pointer; box-shadow:0 4px 20px var(--gold-glow); transition:all 0.15s; }
+.reward-dismiss:hover { transform:scale(1.03); }
 
-/* ─── Particle Burst ─── */
-.particle {
-  position: fixed; pointer-events: none;
-  z-index: 1001;
-  border-radius: 50%;
-  animation: particleFly var(--dur) ease-out forwards;
-}
-@keyframes particleFly {
-  0% { transform: translate(0,0) scale(1); opacity: 1; }
-  100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
-}
-
-/* ─── Confetti ─── */
-.confetti {
-  position: fixed; pointer-events: none; z-index: 1002;
-  width: 8px; height: 14px;
-  animation: confettiFall var(--dur) ease-in forwards;
-}
-@keyframes confettiFall {
-  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(100vh) rotate(var(--rot)); opacity: 0; }
-}
+/* ─── Particles & Confetti ─── */
+.particle { position:fixed; pointer-events:none; z-index:1001; border-radius:50%; animation:particleFly var(--dur) ease-out forwards; }
+@keyframes particleFly { 0%{transform:translate(0,0) scale(1);opacity:1} 100%{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0} }
+.confetti { position:fixed; pointer-events:none; z-index:1002; width:8px; height:14px; animation:confettiFall var(--dur) ease-in forwards; }
+@keyframes confettiFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(var(--rot));opacity:0} }
 
 /* ─── Score Summary ─── */
-.score-summary {
-  margin: 0 24px;
-  text-align: center;
-  border-radius: 18px;
-  padding: 26px;
-  border: 2px solid;
-}
-.score-summary.perfect {
-  background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(34,197,94,0.03));
-  border-color: rgba(34,197,94,0.25);
-}
-.score-summary.good {
-  background: linear-gradient(135deg, rgba(251,191,36,0.1), rgba(251,191,36,0.03));
-  border-color: rgba(251,191,36,0.25);
-}
-.score-summary.tryagain {
-  background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(139,92,246,0.03));
-  border-color: rgba(139,92,246,0.25);
-}
-.score-emoji { font-size: 48px; margin-bottom: 6px; }
-.score-text {
-  font-family: 'Fredoka One', cursive;
-  font-size: 22px;
-}
-.score-sub { font-size: 13px; color: var(--text-dim); font-weight: 600; margin-top: 4px; }
+.score-summary { margin:0 24px; text-align:center; border-radius:18px; padding:26px; border:2px solid; }
+.score-summary.perfect { background:linear-gradient(135deg,rgba(34,197,94,0.1),rgba(34,197,94,0.03)); border-color:rgba(34,197,94,0.25); }
+.score-summary.good { background:linear-gradient(135deg,rgba(251,191,36,0.1),rgba(251,191,36,0.03)); border-color:rgba(251,191,36,0.25); }
+.score-summary.tryagain { background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(139,92,246,0.03)); border-color:rgba(139,92,246,0.25); }
+.score-emoji { font-size:48px; margin-bottom:6px; }
+.score-text { font-family:'Fredoka One',cursive; font-size:22px; }
+.score-sub { font-size:13px; color:var(--text-dim); font-weight:600; margin-top:4px; }
 
-/* ─── Streak Fire animation ─── */
-@keyframes firePulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+@keyframes firePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+.fire-anim { display:inline-block; animation:firePulse 1s ease-in-out infinite; }
+
+/* ─── Merlix Tip Bubble ─── */
+.merlix-tip {
+  margin:14px 24px 0; padding:16px 18px; border-radius:16px;
+  background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(139,92,246,0.04));
+  border:1px solid rgba(139,92,246,0.2);
+  display:flex; gap:12px; align-items:flex-start;
 }
-.fire-anim { display: inline-block; animation: firePulse 1s ease-in-out infinite; }
+.merlix-tip-avatar { font-size:36px; flex-shrink:0; animation:wizFloat 3s ease-in-out infinite; }
+.merlix-tip-text { font-size:14px; font-weight:600; color:var(--wizard-purple); line-height:1.5; }
+.merlix-tip-text strong { color:#fff; }
 </style>
 </head>
 <body>
-
-<!-- Starfield -->
 <div class="starfield" id="starfield"></div>
-
 <div class="app" id="app"></div>
 
 <script>
-// ─── DATA ───────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════════════════════
 
 const DAYS = [
   { date:"2026-03-07", title:"Der kleine Igel", emoji:"🦔",
@@ -480,516 +293,466 @@ const DAYS = [
   { date:"2026-03-14", title:"Die Planeten", emoji:"🪐",
     text:"Unsere Erde ist ein Planet. Sie kreist in einem großen Bogen um die Sonne. Für eine Runde braucht sie genau ein Jahr. Aber die Erde ist nicht allein auf ihrer Reise. Es gibt noch sieben andere Planeten, die ebenfalls um die Sonne kreisen. Merkur ist der kleinste Planet und am nächsten an der Sonne. Dort ist es tagsüber sehr heiß und nachts eiskalt. Venus ist der zweite Planet. Sie leuchtet besonders hell am Himmel und wird deshalb auch Abendstern genannt. Nach der Erde kommt Mars. Er sieht rot aus, weil sein Boden viel rostiges Eisen enthält. Manche Forscher träumen davon, eines Tages zum Mars zu reisen. Jupiter ist der fünfte Planet und der größte von allen. Er ist so riesig, dass mehr als tausend Erden in ihn hineinpassen würden! Jupiter hat einen großen roten Fleck. Das ist ein Sturm, der schon seit Hunderten von Jahren tobt. Saturn ist berühmt für seine wunderschönen Ringe. Die Ringe bestehen aus Milliarden kleiner Eis- und Gesteinsbrocken. Uranus und Neptun sind die beiden äußersten Planeten. Sie sind sehr weit weg und eisig kalt. Neptun ist so weit von der Sonne entfernt, dass er für eine einzige Runde um die Sonne hundertfünfundsechzig Jahre braucht. Alle acht Planeten zusammen bilden unser Sonnensystem.",
     quiz:[{q:"Warum sieht der Mars rot aus?",o:["Weil er heiß ist","Wegen rostigem Eisen im Boden","Weil die Sonne ihn rot anstrahlt"],c:1},{q:"Woraus bestehen die Ringe des Saturn?",o:["Aus Wolken","Aus Eis und Gestein","Aus Gas"],c:1},{q:"Wie viele Erden würden in den Jupiter passen?",o:["Zehn","Hundert","Mehr als tausend"],c:2}]},
-  { date:"2026-03-15", title:"Der Schmetterling", emoji:"🦋",
-    text:"Ein Schmetterling war nicht immer ein Schmetterling. Seine Verwandlung ist eines der größten Wunder der Natur. Alles beginnt mit einem winzigen Ei. Das Ei ist so klein wie ein Stecknadelkopf. Die Schmetterlings-Mama klebt es an die Unterseite eines Blattes. Nach ein paar Tagen schlüpft eine kleine Raupe aus dem Ei. Die Raupe hat nur eine Aufgabe: fressen, fressen, fressen! Sie frisst Blätter und wird jeden Tag dicker und größer. Manche Raupen fressen so viel, dass sie in zwei Wochen ihr Gewicht um das Tausendfache steigern. Die Raupe häutet sich dabei mehrmals, weil ihr die alte Haut zu eng wird. Wenn die Raupe groß genug ist, passiert etwas Erstaunliches. Sie hängt sich an einen Ast und spinnt sich in eine feste Hülle ein. Man nennt das eine Puppe oder einen Kokon. Von außen sieht es aus, als würde nichts passieren. Aber drinnen geschieht ein Wunder. Der ganze Körper der Raupe löst sich auf und baut sich völlig neu zusammen. Es entstehen Flügel, lange dünne Beine und ein Saugrüssel. Nach ungefähr zwei Wochen ist die Verwandlung fertig. Die Hülle bricht auf und ein wunderschöner Schmetterling kriecht heraus. Seine Flügel sind anfangs noch nass und zerknittert. Er muss sie erst in der Sonne trocknen lassen. Dann breitet er seine bunten Flügel aus und fliegt zum ersten Mal davon.",
-    quiz:[{q:"Wie schwer kann eine Raupe im Vergleich zu ihrem Anfangsgewicht werden?",o:["Doppelt so schwer","Zehnmal so schwer","Tausendmal so schwer"],c:2},{q:"Was passiert im Kokon mit dem Körper der Raupe?",o:["Sie schläft nur","Der Körper löst sich auf und baut sich neu auf","Die Flügel wachsen einfach dran"],c:1},{q:"Warum kann der Schmetterling nach dem Schlüpfen nicht sofort fliegen?",o:["Er hat Hunger","Seine Flügel sind noch nass","Er hat Angst"],c:1}]},
-  { date:"2026-03-16", title:"Der Bäcker", emoji:"🍞",
-    text:"Herr Meier ist Bäcker. Das ist sein Traumberuf. Er steht jeden Morgen schon um drei Uhr nachts auf, wenn die meisten Menschen noch tief schlafen. In der Backstube ist es warm und es riecht nach Mehl. Zuerst wiegt Herr Meier alle Zutaten genau ab: Mehl, Wasser, Hefe und Salz. Die Hefe ist besonders wichtig. Sie ist ein winziger Pilz, der den Teig aufgehen lässt. Ohne Hefe wäre das Brot flach und hart. Herr Meier knetet den Teig mit seinen starken Händen. Manchmal hilft auch eine große Knetmaschine. Dann muss der Teig ruhen. Die Hefe arbeitet jetzt und macht kleine Gasbläschen. Davon wird der Teig immer größer. Das dauert ungefähr eine Stunde. Danach formt Herr Meier den Teig zu Broten, Brötchen und Brezeln. Er kann sogar kleine Tiere aus Teig formen. Die Kinder lieben das! Dann kommen die Brote in den großen Ofen. Dort ist es zweihundertfünfzig Grad heiß. Im Ofen werden die Brote knusprig und golden braun. Das ganze Haus duftet jetzt herrlich. Wenn die Kinder am Morgen zur Schule gehen, liegt das frische Brot schon in der Auslage. Herr Meier lächelt, wenn er sieht, wie sich die Leute über das warme Brot freuen. Das ist der beste Teil seines Tages.",
-    quiz:[{q:"Warum ist Hefe so wichtig für das Brot?",o:["Sie macht es süß","Sie lässt den Teig aufgehen","Sie macht es braun"],c:1},{q:"Wie heiß ist es ungefähr im Backofen?",o:["Hundert Grad","Zweihundertfünfzig Grad","Fünfhundert Grad"],c:1},{q:"Wann steht der Bäcker morgens auf?",o:["Um sechs Uhr","Um drei Uhr nachts","Um Mitternacht"],c:1}]},
-  { date:"2026-03-17", title:"Die Eichhörnchen", emoji:"🐿️",
-    text:"Im Wald leben viele Eichhörnchen. Sie haben buschige Schwänze und können unglaublich gut klettern. Ihr Schwanz ist dabei sehr wichtig. Er hilft ihnen, das Gleichgewicht zu halten, wenn sie von Ast zu Ast springen. Außerdem benutzen sie ihn wie eine warme Decke im Winter. Mit ihren scharfen, gebogenen Krallen halten sie sich an der Baumrinde fest. Sie können sogar kopfüber den Baumstamm hinunterklettern. Das können die meisten anderen Tiere nicht. Eichhörnchen haben auch sehr gute Augen. Sie können Gefahren schon von weit weg erkennen. Im Herbst beginnt die wichtigste Arbeit: Eichhörnchen sammeln fleißig Nüsse, Eicheln und Bucheckern. Die verstecken sie an vielen verschiedenen Stellen im Boden. Manche Eichhörnchen legen bis zu tausend Verstecke an! Im Winter, wenn es kalt ist und kein Futter mehr wächst, graben sie die Nüsse wieder aus. Dabei hilft ihnen ihr guter Geruchssinn. Selbst unter einer Schicht Schnee können sie die Nüsse riechen. Aber manchmal vergessen sie trotzdem, wo sie etwas versteckt haben. Aus diesen vergessenen Nüssen wachsen dann im Frühling neue Bäume! So helfen die Eichhörnchen, ohne es zu wissen, dem Wald beim Wachsen. In Deutschland gibt es rote und braune Eichhörnchen. Beide Farben gehören zur gleichen Art.",
-    quiz:[{q:"Wofür benutzt das Eichhörnchen seinen Schwanz?",o:["Nur zum Schönaussehen","Zum Gleichgewichthalten und als Decke","Zum Graben"],c:1},{q:"Wie viele Verstecke kann ein Eichhörnchen anlegen?",o:["Ungefähr zehn","Bis zu hundert","Bis zu tausend"],c:2},{q:"Wie finden Eichhörnchen ihre Nüsse unter dem Schnee?",o:["Sie erinnern sich an jeden Platz","Mit ihrem Geruchssinn","Sie sehen die Nüsse durch den Schnee"],c:1}]},
-  { date:"2026-03-18", title:"Der Körper", emoji:"❤️",
-    text:"Unser Körper ist ein wahres Wunderwerk. Alles arbeitet zusammen, damit wir leben, spielen und lernen können. Das Herz ist dabei der wichtigste Muskel. Es pumpt das Blut durch den ganzen Körper. Jeden Tag schlägt das Herz ungefähr hunderttausend Mal. Dabei pumpt es so viel Blut, dass man damit ein ganzes Schwimmbecken füllen könnte. Das Blut transportiert Sauerstoff und Nährstoffe zu allen Teilen des Körpers. Die Lunge hilft uns beim Atmen. Wir atmen frische Luft mit Sauerstoff ein. Den Sauerstoff braucht unser Körper, um zu funktionieren. Die verbrauchte Luft atmen wir dann wieder aus. Pro Tag atmen wir ungefähr zwanzigtausend Mal ein und aus. Unsere Knochen geben dem Körper sein Gerüst und seinen Halt. Ein Erwachsener hat zweihundertsechs Knochen. Babys haben sogar über dreihundert! Manche Knochen wachsen im Lauf der Zeit zusammen. Der kleinste Knochen sitzt im Ohr und ist nur so groß wie ein Reiskorn. Die Muskeln helfen uns, uns zu bewegen. Wenn wir rennen, springen, schreiben oder sogar lächeln, arbeiten unsere Muskeln. Im ganzen Körper gibt es über sechshundert Muskeln. Und ganz oben sitzt das Gehirn. Es ist die Steuerzentrale von allem. Es verarbeitet alles, was wir sehen, hören, riechen und fühlen. Ohne unser Gehirn könnten wir nicht denken, nicht träumen und uns an nichts erinnern.",
-    quiz:[{q:"Wie oft schlägt das Herz ungefähr am Tag?",o:["Tausend Mal","Hunderttausend Mal","Eine Million Mal"],c:1},{q:"Warum haben Babys mehr Knochen als Erwachsene?",o:["Weil sie schneller wachsen","Weil manche Knochen zusammenwachsen","Weil sie kleiner sind"],c:1},{q:"Wo sitzt der kleinste Knochen des Körpers?",o:["Im Fuß","In der Hand","Im Ohr"],c:2}]},
-  { date:"2026-03-19", title:"Der Bauernhof", emoji:"🐄",
-    text:"Auf dem Bauernhof von Familie Huber gibt es viele verschiedene Tiere. Die zehn Kühe stehen tagsüber auf der grünen Wiese und fressen frisches Gras. Jeden Morgen und jeden Abend werden sie gemolken. Aus ihrer Milch macht man dann Butter, Käse und Joghurt. Eine Kuh gibt am Tag ungefähr fünfundzwanzig Liter Milch. Das sind fünfundzwanzig volle Milchflaschen! Die Hühner laufen frei auf dem Hof herum und picken nach Körnern und Würmern. Jeden Tag legen sie frische Eier. Der Hahn Karli kräht früh am Morgen laut. Er passt auf seine Hühner auf und warnt sie vor Gefahren. Die Schweine wälzen sich gerne im Schlamm. Das sieht lustig aus, hat aber einen guten Grund: Schweine können nämlich nicht schwitzen wie wir Menschen. Der kühle Schlamm hilft ihnen, sich an heißen Tagen abzukühlen. Außerdem schützt der Schlamm ihre Haut vor Sonnenbrand. Schweine sind übrigens sehr kluge Tiere. Sie können sogar kleine Kunststücke lernen. Bauer Huber steht jeden Tag um fünf Uhr morgens auf. Er füttert die Tiere, melkt die Kühe, sammelt die Eier ein und mistet die Ställe aus. Auf dem Feld baut er Weizen, Kartoffeln und Karotten an. Im Sommer erntet er das Getreide. Aus dem Weizen wird dann Mehl gemacht, und aus Mehl wird Brot gebacken. Ohne Bauern hätten wir kein Essen auf dem Tisch.",
-    quiz:[{q:"Wie viel Milch gibt eine Kuh ungefähr am Tag?",o:["Fünf Liter","Fünfundzwanzig Liter","Hundert Liter"],c:1},{q:"Warum wälzen sich Schweine im Schlamm?",o:["Weil sie schmutzig sein wollen","Um sich abzukühlen und die Haut zu schützen","Weil es ihnen Spaß macht"],c:1},{q:"Warum sind Schweine besondere Tiere?",o:["Sie können fliegen","Sie sind sehr klug","Sie brauchen kein Futter"],c:1}]},
-  { date:"2026-03-20", title:"Die Farben der Blätter", emoji:"🍁",
-    text:"Im Sommer sind die Blätter an den Bäumen saftig grün. Aber woher kommt die grüne Farbe eigentlich? Die grüne Farbe kommt von einem Stoff, der Chlorophyll heißt. Dieses Chlorophyll ist wie eine kleine Fabrik im Blatt. Es fängt das Sonnenlicht ein und hilft dem Baum, daraus Nahrung zu machen. Zusammen mit Wasser aus den Wurzeln und einem Gas aus der Luft stellt der Baum sich selbst Zucker her. Davon lebt er. Im Herbst passiert dann etwas Spannendes. Die Tage werden kürzer und es wird kühler. Der Baum merkt: Der Winter kommt! Jetzt braucht er das Chlorophyll nicht mehr, weil die Sonne nicht mehr stark genug scheint. Er zieht die wertvollen Stoffe aus den Blättern zurück in den Stamm und die Wurzeln. Dort bewahrt er sie sicher auf für den nächsten Frühling. Wenn das grüne Chlorophyll langsam verschwindet, werden andere Farben sichtbar, die die ganze Zeit im Blatt versteckt waren: warmes Gelb, leuchtendes Orange und feuriges Rot. Diese Farben waren immer schon da, aber das starke Grün hat sie überdeckt. Zum Schluss trocknen die Blätter aus und fallen vom Baum. Auf dem Boden werden sie langsam von kleinen Tierchen und Pilzen zersetzt. Daraus entsteht gute Erde, die dem Baum im nächsten Jahr wieder als Nahrung dient. So schließt sich der Kreislauf.",
-    quiz:[{q:"Was macht das Chlorophyll im Blatt?",o:["Es macht das Blatt weich","Es hilft dem Baum, aus Sonnenlicht Nahrung zu machen","Es schützt vor Regen"],c:1},{q:"Warum werden die Blätter im Herbst bunt?",o:["Weil sie angemalt werden","Weil das grüne Chlorophyll verschwindet und andere Farben sichtbar werden","Weil es kalt ist"],c:1},{q:"Was passiert mit den Blättern auf dem Boden?",o:["Sie verschwinden einfach","Sie werden zu Erde zersetzt","Sie fliegen weg"],c:1}]},
-  { date:"2026-03-21", title:"Post für Leo", emoji:"✉️",
-    text:"Heute hat Leo einen Brief im Briefkasten gefunden. Sein Name steht in großen, schönen Buchstaben auf dem Umschlag. Der Brief ist von seiner Oma, die in einem kleinen Dorf wohnt, weit weg in den Bergen. Leo freut sich riesig, denn Oma schreibt nur selten Briefe. Er nimmt den Brief mit ins Haus und setzt sich an den Küchentisch. Vorsichtig öffnet er den Umschlag. Darin liegt ein Blatt Papier mit Omas schöner, geschwungener Handschrift. Oma erzählt, dass in ihrem Garten schon der Frühling eingezogen ist. Die ersten Krokusse zeigen ihre lila und gelben Köpfe. Die Schneeglöckchen sind auch schon da. Am alten Apfelbaum sitzen zwei Amseln und singen den ganzen Tag. Oma schreibt, dass sie neue Tomatenpflanzen gesetzt hat und hofft, dass es dieses Jahr ganz viele rote Tomaten gibt. Dem Brief liegt auch ein Foto bei. Darauf sieht man Omas Hund Bello. Er sitzt mitten im Garten zwischen den Blumen und hat ein lustiges Gesicht. Seine Zunge hängt heraus und er sieht aus, als würde er grinsen. Leo muss lachen, als er das Foto sieht. Er hängt es an seine Pinnwand über dem Schreibtisch. Dann holt Leo seine Buntstifte und ein großes Blatt Papier. Er will Oma zurückschreiben. Er malt ein Bild von sich und Bello und schreibt darunter: Liebe Oma, ich besuche dich bald! Leo steckt den Brief in einen Umschlag und Papa hilft ihm, eine Briefmarke drauf zu kleben.",
-    quiz:[{q:"Wo wohnt Leos Oma?",o:["In der Stadt","In einem kleinen Dorf in den Bergen","Am Meer"],c:1},{q:"Was macht Leo mit dem Foto von Bello?",o:["Er wirft es weg","Er hängt es an seine Pinnwand","Er gibt es seinem Freund"],c:1},{q:"Was schreibt Leo unter sein Bild?",o:["Danke für den Brief","Liebe Oma, ich besuche dich bald!","Hallo Bello"],c:1}]},
-  { date:"2026-03-22", title:"Wie entsteht ein Gewitter?", emoji:"⛈️",
-    text:"An heißen Sommertagen kann es zu Gewittern kommen. Aber wie entsteht so ein Gewitter eigentlich? Alles beginnt mit warmer Luft. Wenn die Sonne den Boden erhitzt, steigt die warme Luft schnell nach oben. Oben in der Höhe wird sie kalt. Aus dem Wasserdampf in der warmen Luft entstehen große, dunkle Wolken. Diese Gewitterwolken können riesig werden. Manche sind über zehn Kilometer hoch, das ist höher als die höchsten Berge der Welt! In den Wolken herrscht ein wildes Durcheinander. Kleine Eisteilchen und Wassertropfen bewegen sich schnell auf und ab. Dabei stoßen sie immer wieder zusammen. Durch diese Zusammenstöße entsteht elektrische Ladung. Oben in der Wolke sammelt sich positive Ladung, unten negative. Wenn der Unterschied zwischen oben und unten stark genug ist, gibt es einen gewaltigen Funken: den Blitz! Ein Blitz ist unvorstellbar heiß. Er ist fünfmal heißer als die Oberfläche der Sonne! Der Blitz erhitzt die Luft um ihn herum so stark und so schnell, dass die Luft sich explosionsartig ausdehnt. Das erzeugt den lauten Knall, den wir als Donner hören. Man sieht den Blitz immer vor dem Donner. Das liegt daran, dass Licht viel schneller ist als Schall. Wenn du die Sekunden zwischen Blitz und Donner zählst und durch drei teilst, weißt du ungefähr, wie viele Kilometer das Gewitter entfernt ist.",
-    quiz:[{q:"Wie heiß ist ein Blitz ungefähr?",o:["So heiß wie kochendes Wasser","Fünfmal heißer als die Oberfläche der Sonne","Hundert Grad"],c:1},{q:"Wie kann man herausfinden, wie weit ein Gewitter weg ist?",o:["Man misst die Lautstärke des Donners","Man zählt die Sekunden zwischen Blitz und Donner und teilt durch drei","Man schaut wie hell der Blitz ist"],c:1},{q:"Wodurch entsteht die elektrische Ladung in den Wolken?",o:["Durch den Wind","Durch zusammenstoßende Eisteilchen und Wassertropfen","Durch die Sonne"],c:1}]},
-  { date:"2026-03-23", title:"Die Ameisen", emoji:"🐜",
-    text:"Ameisen sind winzig klein, aber unglaublich stark. Eine einzige Ameise kann das Fünfzigfache ihres eigenen Gewichts tragen! Stell dir vor, du könntest ein ganzes Auto hochheben. So stark wäre ein Mensch, wenn er so kräftig wäre wie eine Ameise. Ameisen leben in riesigen Gruppen zusammen. Manche Ameisenkolonien haben mehrere Millionen Bewohner. Ihre Wohnung unter der Erde heißt Ameisenbau oder Ameisenhügel. Von außen sieht man nur einen kleinen Hügel aus Erde und Tannennadeln. Aber darunter gibt es ein riesiges System aus Gängen und Kammern. Es gibt Kammern zum Schlafen, Kammern für die Eier, Kammern für die Vorräte und sogar Kammern für den Müll. Jede Ameise hat eine feste Aufgabe. Die Arbeiterinnen suchen draußen nach Futter. Die Soldaten beschützen den Bau mit ihren großen Kiefern. Ammen kümmern sich um die Eier und die Larven. Die Ameisenkönigin ist die wichtigste Ameise. Sie legt die Eier und kann über zwanzig Jahre alt werden. Ameisen sprechen nicht mit Wörtern, aber sie können sich trotzdem verständigen. Sie benutzen dafür Duftstoffe, die man Pheromone nennt. Wenn eine Ameise einen leckeren Brotkrümel findet, legt sie auf dem Rückweg eine Duftspur. Alle anderen Ameisen folgen dann dieser Spur und finden den Weg zum Futter. Deshalb sieht man Ameisen oft in langen Reihen hintereinander laufen.",
-    quiz:[{q:"Wie stark wäre ein Mensch, wenn er so kräftig wie eine Ameise wäre?",o:["Er könnte einen Stein heben","Er könnte ein Auto hochheben","Er könnte einen Berg versetzen"],c:1},{q:"Wie alt kann eine Ameisenkönigin werden?",o:["Ein Jahr","Über zwanzig Jahre","Hundert Jahre"],c:1},{q:"Warum laufen Ameisen oft in einer Reihe hintereinander?",o:["Weil sie sich gerne anstellen","Weil sie einer Duftspur folgen","Weil sie sonst den Weg verlieren"],c:1}]},
-  { date:"2026-03-24", title:"Das Auge", emoji:"👁️",
-    text:"Unsere Augen sind erstaunliche Organe. Mit ihnen können wir Farben sehen, Gesichter erkennen und sogar lesen. Aber wie funktioniert das eigentlich? Das Licht kommt zuerst durch die Hornhaut. Das ist die durchsichtige Schicht ganz vorne. Dann geht es durch die Pupille ins Auge. Die Pupille ist der schwarze Punkt in der Mitte des Auges. Um die Pupille herum ist die Iris. Das ist der bunte Teil, der bei jedem Menschen eine andere Farbe hat: braun, blau, grün oder grau. Die Iris kann sich zusammenziehen und weiten. Bei Dunkelheit wird die Pupille groß, damit mehr Licht ins Auge kommt. Bei Helligkeit wird sie ganz klein, damit nicht zu viel Licht hereinkommt. Hinter der Pupille liegt die Linse. Sie funktioniert so ähnlich wie die Linse einer Kamera. Sie bündelt das Licht und wirft ein scharfes Bild auf die Netzhaut ganz hinten im Auge. Auf der Netzhaut sitzen Millionen von winzigen Sinneszellen. Manche können Farben erkennen, andere sind für das Sehen bei wenig Licht zuständig. Wusstest du, dass das Bild auf der Netzhaut auf dem Kopf steht? Alles, was wir sehen, kommt dort verkehrt herum an! Aber unser Gehirn ist so schlau, dass es das Bild automatisch wieder richtig herum dreht. Das passiert so schnell, dass wir es gar nicht merken. Unsere Augen können sich übrigens auch sehr schnell bewegen. Sie machen über hunderttausend Bewegungen am Tag!",
-    quiz:[{q:"Was ist die Iris?",o:["Der schwarze Punkt","Der bunte Teil des Auges","Die Augenbraue"],c:1},{q:"Warum wird die Pupille bei Dunkelheit größer?",o:["Damit mehr Licht hineinkommt","Weil sie müde ist","Damit sie besser aussieht"],c:0},{q:"Was passiert mit dem Bild auf der Netzhaut?",o:["Es ist perfekt","Es steht auf dem Kopf","Es ist verschwommen"],c:1}]},
-  { date:"2026-03-25", title:"Der Wald bei Nacht", emoji:"🌙",
-    text:"Wenn die Sonne untergeht und es dunkel wird, denken viele Menschen, der Wald schläft ein. Aber das Gegenteil ist der Fall! Nachts wachen ganz besondere Tiere auf. Die Eule sitzt hoch oben auf einem Ast. Mit ihren riesigen Augen kann sie auch bei ganz wenig Licht noch hervorragend sehen. Ihre Augen sind so groß, dass sie nicht mehr in der Augenhöhle bewegt werden können. Dafür kann die Eule ihren Kopf fast komplett herumdrehen, fast dreihundert Grad weit. Ihre Ohren sind ihr Geheimnis: Sie kann eine Maus unter einer dicken Schneeschicht hören! Wenn die Eule fliegt, macht sie fast kein Geräusch. Ihre besonderen Federn schlucken den Schall. So kann sie Mäuse überraschen. Der Dachs kommt bei Einbruch der Dunkelheit aus seinem Bau, der Dachsburg heißt. Dort unten gibt es viele Räume und Gänge. Manche Dachsbauten sind schon über hundert Jahre alt und werden von Generation zu Generation weitergegeben. Der Dachs sucht nach Würmern, Schnecken und Beeren. Fledermäuse flattern zwischen den Bäumen hindurch. Sie sind die einzigen Säugetiere, die wirklich fliegen können. Fledermäuse sehen mit den Ohren. Das klingt verrückt, stimmt aber! Sie senden hohe Töne aus und hören, wo das Echo zurückprallt. So wissen sie genau, wo Bäume, Häuser oder leckere Motten sind. Das nennt man Echoortung. Am Waldboden leuchten manchmal Glühwürmchen wie kleine Laternen. Es sind eigentlich Käfer, die mit einem besonderen chemischen Trick leuchten können.",
-    quiz:[{q:"Warum kann die Eule ihren Kopf so weit drehen?",o:["Weil ihr Hals sehr lang ist","Weil ihre Augen sich nicht bewegen können","Weil sie neugierig ist"],c:1},{q:"Was bedeutet Echoortung bei Fledermäusen?",o:["Sie rufen andere Fledermäuse","Sie senden Töne aus und hören das Echo zurückprallen","Sie benutzen ihre Augen"],c:1},{q:"Wie alt können Dachsbauten werden?",o:["Ein paar Wochen","Über hundert Jahre","Genau zehn Jahre"],c:1}]},
-  { date:"2026-03-26", title:"Warum ist der Himmel blau?", emoji:"🔵",
-    text:"Hast du dich schon einmal gefragt, warum der Himmel blau ist und nicht grün oder rot? Die Antwort hat mit dem Sonnenlicht zu tun. Das Sonnenlicht sieht für uns weiß aus. Aber in Wirklichkeit besteht es aus vielen verschiedenen Farben gemischt: Rot, Orange, Gelb, Grün, Blau und Violett. Man kann das sehen, wenn Sonnenlicht durch ein Prisma fällt oder wenn ein Regenbogen entsteht. Jede Farbe hat eine andere Wellenlänge. Rotes Licht hat lange Wellen, blaues Licht hat kurze Wellen. Wenn das Sonnenlicht in unsere Atmosphäre eintritt, also in die Luft um die Erde herum, trifft es auf winzig kleine Teilchen. Das sind Stickstoff- und Sauerstoff-Moleküle. Die blauen Lichtstrahlen mit ihren kurzen Wellen werden von diesen kleinen Teilchen besonders stark in alle Richtungen gestreut. Das bedeutet, egal wohin du am Himmel schaust, von überall kommt blaues Licht zu deinen Augen. Deshalb sieht der ganze Himmel blau aus. Am Morgen und am Abend steht die Sonne tief am Horizont. Dann muss das Licht einen viel längeren Weg durch die Atmosphäre nehmen. Auf diesem langen Weg wird das blaue Licht so stark gestreut, dass es bei uns gar nicht mehr ankommt. Nur noch die langen roten und orangenen Lichtwellen schaffen es bis zu unseren Augen. Darum sehen wir morgens und abends diese wunderschönen roten und orangenen Sonnenauf- und Sonnenuntergänge. Im Weltraum gibt es übrigens keine Luft und keine kleinen Teilchen. Deshalb ist der Himmel dort komplett schwarz, sogar wenn die Sonne scheint.",
-    quiz:[{q:"Welche Lichtstrahlen werden besonders stark gestreut?",o:["Rote mit langen Wellen","Blaue mit kurzen Wellen","Gelbe mit mittleren Wellen"],c:1},{q:"Warum ist der Himmel im Weltraum schwarz?",o:["Weil es dort keine Sonne gibt","Weil es dort keine Luft und keine Teilchen gibt","Weil es dort kalt ist"],c:1},{q:"Was passiert mit dem Licht am Abend?",o:["Es wird stärker","Nur rote und orange Wellen kommen noch an","Es gibt kein Licht mehr"],c:1}]},
-  { date:"2026-03-27", title:"Der Zahnarzt", emoji:"🦷",
-    text:"Heute hat Leo einen Termin beim Zahnarzt. Auf dem Weg dorthin hat er ein bisschen Angst. Sein Herz klopft schnell. Aber Papa sagt, es wird nicht schlimm. In der Praxis riecht es nach Minze. An den Wänden hängen bunte Bilder von Tieren. Im Wartezimmer gibt es eine Spielecke mit Bauklötzen. Dann wird Leo aufgerufen. Die Zahnärztin heißt Frau Doktor Weiß. Sie hat ein freundliches Lächeln und trägt einen weißen Kittel. Ihr Behandlungsstuhl ist cool: Er kann hoch und runter fahren und sich sogar nach hinten kippen. Leo findet das lustig. Frau Doktor Weiß erklärt Leo alles, was sie macht, bevor sie es tut. Zuerst schaut sie mit einem kleinen, runden Spiegel in Leos Mund. Dann benutzt sie eine kleine Sonde, um jeden Zahn vorsichtig abzutasten. Sie zählt die Zähne und prüft, ob alles gesund ist. Alles sieht gut aus, kein Loch! Leo ist erleichtert. Dann putzt eine Assistentin Leos Zähne mit einer elektrischen Bürste und einer besonderen Zahnpasta, die nach Erdbeere schmeckt. Frau Doktor Weiß erklärt Leo, wie man richtig Zähne putzt: zweimal am Tag, morgens und abends, jeweils drei Minuten lang. Oben, unten, vorne, hinten und die Seiten. Am besten mit kleinen, kreisenden Bewegungen. Zum Schluss bekommt Leo einen Aufkleber mit einem Drachen drauf und einen kleinen Zahnspiegel für zu Hause. Der Besuch war gar nicht schlimm! Leo freut sich sogar schon ein bisschen auf den nächsten Termin in sechs Monaten.",
-    quiz:[{q:"Wie putzt man die Zähne am besten?",o:["Mit schnellen geraden Bewegungen","Mit kleinen kreisenden Bewegungen","Man muss nur kurz schrubben"],c:1},{q:"Was benutzt die Zahnärztin, um in den Mund zu schauen?",o:["Eine Taschenlampe","Einen kleinen runden Spiegel","Ein Vergrößerungsglas"],c:1},{q:"Wann soll Leo wieder zum Zahnarzt kommen?",o:["Nächste Woche","In sechs Monaten","Erst nächstes Jahr"],c:1}]},
-  { date:"2026-03-28", title:"Wasser sparen", emoji:"💦",
-    text:"Wasser ist eines der wichtigsten Dinge auf unserer Erde. Ohne Wasser könnten keine Menschen, Tiere oder Pflanzen leben. Obwohl es auf der Erde sehr viel Wasser gibt, ist das meiste davon Salzwasser in den Meeren. Salzwasser können wir nicht trinken. Nur ein ganz kleiner Teil des Wassers auf der Erde ist Süßwasser, das wir trinken können. Und nicht überall auf der Welt haben die Menschen genug davon. In manchen Ländern müssen Kinder jeden Tag weite Strecken zu einem Brunnen laufen, um Wasser für die Familie zu holen. Deshalb ist es wichtig, dass wir Wasser sparen. Das ist gar nicht so schwer! Beim Zähneputzen kann man den Wasserhahn einfach zudrehen, statt das Wasser die ganze Zeit laufen zu lassen. Allein dadurch spart man mehrere Liter pro Tag. Duschen verbraucht viel weniger Wasser als Baden. Ein Vollbad braucht ungefähr hundertfünfzig Liter. Eine kurze Dusche nur etwa vierzig Liter. Das ist ein großer Unterschied! Im Garten kann man Regenwasser in einer Tonne sammeln und damit die Blumen und Gemüsepflanzen gießen. Auch ein tropfender Wasserhahn verschwendet erstaunlich viel Wasser. Ein einziger tropfender Hahn kann in einem Jahr mehrere tausend Liter Wasser vergeuden. Das ist so viel wie fünfzig volle Badewannen! Wenn jeder Mensch ein bisschen Wasser spart, macht das zusammen einen großen Unterschied für unseren Planeten.",
-    quiz:[{q:"Warum können wir das meiste Wasser auf der Erde nicht trinken?",o:["Weil es zu kalt ist","Weil es Salzwasser ist","Weil es zu tief liegt"],c:1},{q:"Wie viel Wasser braucht man ungefähr für ein Vollbad?",o:["Zehn Liter","Vierzig Liter","Hundertfünfzig Liter"],c:2},{q:"Wie viel Wasser kann ein tropfender Hahn im Jahr vergeuden?",o:["Zehn Liter","Hundert Liter","Mehrere tausend Liter"],c:2}]},
-  { date:"2026-03-29", title:"Die Schnecke", emoji:"🐌",
-    text:"Die Schnecke ist ein besonderes Tier. Sie trägt ihr Haus immer auf dem Rücken mit sich herum. In dieses Haus zieht sie sich zurück, wenn sie sich bedroht fühlt oder wenn es draußen zu trocken wird. Das Schneckenhaus besteht aus Kalk und wächst mit der Schnecke mit. Wenn die Schnecke größer wird, wird auch ihr Haus größer. Man kann die Rillen am Haus zählen, fast wie Jahresringe bei einem Baum. Schnecken bewegen sich sehr langsam vorwärts. Unter ihrem Körper ist ein großer, muskulöser Fuß. Dieser Fuß macht wellenartige Bewegungen und schiebt die Schnecke vorwärts. Dabei erzeugt der Fuß eine Schleimschicht. Auf diesem Schleim kann die Schnecke wunderbar gleiten, sogar über scharfe Kanten wie Rasierklingen, ohne sich zu verletzen! Der Schleim schützt ihren weichen Körper. Schnecken haben vier Fühler am Kopf. Die zwei langen Fühler oben tragen an ihren Spitzen die Augen. Mit diesen Augen kann die Schnecke hell und dunkel unterscheiden. Die zwei kürzeren Fühler unten benutzt sie zum Riechen und Tasten. Wenn man einen Fühler berührt, zieht die Schnecke ihn sofort ein. Schnecken fressen am liebsten frische Blätter, Salat und weiches Gemüse. Im Garten sind sie deshalb nicht immer gern gesehen. Manche Schnecken können bis zu fünfzehn Jahre alt werden. Im Winter graben sie sich in die Erde ein und verschließen ihr Haus mit einem Deckel aus getrocknetem Schleim. So überstehen sie die kalte Jahreszeit.",
-    quiz:[{q:"Warum kann die Schnecke über scharfe Kanten gleiten?",o:["Weil sie ein hartes Haus hat","Weil die Schleimschicht ihren Körper schützt","Weil sie sehr leicht ist"],c:1},{q:"Was ist an den Spitzen der langen Fühler?",o:["Die Nase","Die Ohren","Die Augen"],c:2},{q:"Wie übersteht die Schnecke den Winter?",o:["Sie fliegt in den Süden","Sie gräbt sich ein und verschließt ihr Haus","Sie baut ein neues Haus"],c:1}]},
-  { date:"2026-03-30", title:"Tag und Nacht", emoji:"🌍",
-    text:"Warum gibt es eigentlich Tag und Nacht? Das hat mit unserer Erde zu tun. Die Erde dreht sich nämlich ständig um sich selbst, wie ein langsamer Kreisel. Für eine vollständige Drehung braucht sie genau vierundzwanzig Stunden, also einen Tag. Die Seite der Erde, die gerade zur Sonne zeigt, hat Tag. Dort ist es hell und warm. Die andere Seite, die von der Sonne weg zeigt, hat Nacht. Dort ist es dunkel. Weil sich die Erde immer weiter dreht, wechseln sich Tag und Nacht ständig ab. Das ist auch der Grund, warum die Sonne am Morgen im Osten aufgeht und am Abend im Westen untergeht. In Wirklichkeit bewegt sich die Sonne gar nicht. Es ist die Erde, die sich dreht! Wenn bei uns in Deutschland Nacht ist und wir im Bett liegen, haben Kinder auf der anderen Seite der Erde gerade Tag. In Australien zum Beispiel gehen die Kinder dann gerade zur Schule oder spielen auf dem Spielplatz. Und wenn bei uns die Sonne aufgeht, gehen die Kinder in Australien ins Bett. Das ist doch erstaunlich! Aber es gibt noch etwas Spannendes: Im Sommer sind die Tage bei uns viel länger als im Winter. Im Juni wird es schon um fünf Uhr morgens hell und erst um zehn Uhr abends dunkel. Im Dezember dagegen wird es erst um acht Uhr hell und schon um vier Uhr nachmittags wieder dunkel. Das liegt daran, dass die Erde ein bisschen schief steht, während sie um die Sonne kreist. Im Sommer ist unsere Seite der Erde mehr zur Sonne geneigt, und im Winter weniger.",
-    quiz:[{q:"Wie lange braucht die Erde für eine Drehung um sich selbst?",o:["Zwölf Stunden","Vierundzwanzig Stunden","Eine Woche"],c:1},{q:"Was machen Kinder in Australien, wenn bei uns Nacht ist?",o:["Sie schlafen auch","Sie gehen zur Schule oder spielen","Sie schauen Sterne"],c:1},{q:"Warum sind die Tage im Sommer länger als im Winter?",o:["Weil die Sonne im Sommer größer ist","Weil die Erde schief steht","Weil die Erde sich im Sommer schneller dreht"],c:1}]},
-  { date:"2026-03-31", title:"Leos Monat", emoji:"⭐",
-    text:"Heute ist der letzte Tag im März. Leo sitzt an seinem Schreibtisch und denkt an den ganzen Monat zurück. Er hat so unglaublich viel gelernt! Er weiß jetzt, warum der Himmel blau ist und wie ein wunderschöner Regenbogen entsteht. Er hat über viele verschiedene Tiere gelesen: über den stacheligen Igel, den springenden Frosch, die fleißigen Bienen und die starken Ameisen. Er hat erfahren, wie der menschliche Körper funktioniert und warum Blätter im Herbst ihre Farbe ändern. Er kennt jetzt alle acht Planeten unseres Sonnensystems und weiß, wie der Wasserkreislauf funktioniert. Er hat gelernt, wie Gewitter entstehen und warum Fledermäuse mit den Ohren sehen können. Leo blättert durch sein Lesetagebuch und staunt, wie viele Seiten er schon gelesen hat. Am Anfang des Monats hat er bei manchen Wörtern noch gestockt. Jetzt liest er viel flüssiger und sicherer. Manche Wörter, die er vorher schwierig fand, kann er jetzt ohne Probleme lesen. Papa hat gesagt, er ist sehr stolz auf Leo. Mama hat gesagt, sie merkt, wie viel besser Leo liest. Das macht Leo glücklich. Er hat auch gemerkt, dass Lesen richtig Spaß machen kann, wenn man neugierig ist und jeden Tag ein bisschen übt. Zauberer Merlix hat ihm dabei geholfen und ihn jeden Tag angefeuert. Leo ist stolz auf sich selbst. Er freut sich schon auf den nächsten Monat und auf neue spannende Texte und Abenteuer!",
-    quiz:[{q:"Was hat Leo im März am meisten geholfen beim Lernen?",o:["Viel fernsehen","Jeden Tag ein bisschen üben und neugierig sein","Nur am Wochenende lesen"],c:1},{q:"Was hat sich bei Leo über den Monat verändert?",o:["Er liest jetzt viel flüssiger und sicherer","Er mag kein Lesen mehr","Nichts hat sich verändert"],c:0},{q:"Worüber hat Leo im März NICHT gelesen?",o:["Planeten und Sonnensystem","Dinosaurier und Vulkane","Ameisen und Bienen"],c:1}]}
+  { date:"2026-03-15", title:"Der Schmetterling", emoji:"🦋", text:"Ein Schmetterling war nicht immer ein Schmetterling. Seine Verwandlung ist eines der größten Wunder der Natur. Alles beginnt mit einem winzigen Ei. Das Ei ist so klein wie ein Stecknadelkopf. Die Schmetterlings-Mama klebt es an die Unterseite eines Blattes. Nach ein paar Tagen schlüpft eine kleine Raupe aus dem Ei. Die Raupe hat nur eine Aufgabe: fressen, fressen, fressen! Sie frisst Blätter und wird jeden Tag dicker und größer. Manche Raupen fressen so viel, dass sie in zwei Wochen ihr Gewicht um das Tausendfache steigern. Die Raupe häutet sich dabei mehrmals, weil ihr die alte Haut zu eng wird. Wenn die Raupe groß genug ist, passiert etwas Erstaunliches. Sie hängt sich an einen Ast und spinnt sich in eine feste Hülle ein. Man nennt das eine Puppe oder einen Kokon. Von außen sieht es aus, als würde nichts passieren. Aber drinnen geschieht ein Wunder. Der ganze Körper der Raupe löst sich auf und baut sich völlig neu zusammen. Es entstehen Flügel, lange dünne Beine und ein Saugrüssel. Nach ungefähr zwei Wochen ist die Verwandlung fertig. Die Hülle bricht auf und ein wunderschöner Schmetterling kriecht heraus. Seine Flügel sind anfangs noch nass und zerknittert. Er muss sie erst in der Sonne trocknen lassen. Dann breitet er seine bunten Flügel aus und fliegt zum ersten Mal davon.", quiz:[{q:"Wie schwer kann eine Raupe im Vergleich zu ihrem Anfangsgewicht werden?",o:["Doppelt so schwer","Zehnmal so schwer","Tausendmal so schwer"],c:2},{q:"Was passiert im Kokon mit dem Körper der Raupe?",o:["Sie schläft nur","Der Körper löst sich auf und baut sich neu auf","Die Flügel wachsen einfach dran"],c:1},{q:"Warum kann der Schmetterling nach dem Schlüpfen nicht sofort fliegen?",o:["Er hat Hunger","Seine Flügel sind noch nass","Er hat Angst"],c:1}]},
+  { date:"2026-03-16", title:"Der Bäcker", emoji:"🍞", text:"Herr Meier ist Bäcker. Das ist sein Traumberuf. Er steht jeden Morgen schon um drei Uhr nachts auf, wenn die meisten Menschen noch tief schlafen. In der Backstube ist es warm und es riecht nach Mehl. Zuerst wiegt Herr Meier alle Zutaten genau ab: Mehl, Wasser, Hefe und Salz. Die Hefe ist besonders wichtig. Sie ist ein winziger Pilz, der den Teig aufgehen lässt. Ohne Hefe wäre das Brot flach und hart. Herr Meier knetet den Teig mit seinen starken Händen. Manchmal hilft auch eine große Knetmaschine. Dann muss der Teig ruhen. Die Hefe arbeitet jetzt und macht kleine Gasbläschen. Davon wird der Teig immer größer. Das dauert ungefähr eine Stunde. Danach formt Herr Meier den Teig zu Broten, Brötchen und Brezeln. Er kann sogar kleine Tiere aus Teig formen. Die Kinder lieben das! Dann kommen die Brote in den großen Ofen. Dort ist es zweihundertfünfzig Grad heiß. Im Ofen werden die Brote knusprig und golden braun. Das ganze Haus duftet jetzt herrlich. Wenn die Kinder am Morgen zur Schule gehen, liegt das frische Brot schon in der Auslage. Herr Meier lächelt, wenn er sieht, wie sich die Leute über das warme Brot freuen. Das ist der beste Teil seines Tages.", quiz:[{q:"Warum ist Hefe so wichtig für das Brot?",o:["Sie macht es süß","Sie lässt den Teig aufgehen","Sie macht es braun"],c:1},{q:"Wie heiß ist es ungefähr im Backofen?",o:["Hundert Grad","Zweihundertfünfzig Grad","Fünfhundert Grad"],c:1},{q:"Wann steht der Bäcker morgens auf?",o:["Um sechs Uhr","Um drei Uhr nachts","Um Mitternacht"],c:1}]},
+  { date:"2026-03-17", title:"Die Eichhörnchen", emoji:"🐿️", text:"Im Wald leben viele Eichhörnchen. Sie haben buschige Schwänze und können unglaublich gut klettern. Ihr Schwanz ist dabei sehr wichtig. Er hilft ihnen, das Gleichgewicht zu halten, wenn sie von Ast zu Ast springen. Außerdem benutzen sie ihn wie eine warme Decke im Winter. Mit ihren scharfen, gebogenen Krallen halten sie sich an der Baumrinde fest. Sie können sogar kopfüber den Baumstamm hinunterklettern. Das können die meisten anderen Tiere nicht. Eichhörnchen haben auch sehr gute Augen. Sie können Gefahren schon von weit weg erkennen. Im Herbst beginnt die wichtigste Arbeit: Eichhörnchen sammeln fleißig Nüsse, Eicheln und Bucheckern. Die verstecken sie an vielen verschiedenen Stellen im Boden. Manche Eichhörnchen legen bis zu tausend Verstecke an! Im Winter, wenn es kalt ist und kein Futter mehr wächst, graben sie die Nüsse wieder aus. Dabei hilft ihnen ihr guter Geruchssinn. Selbst unter einer Schicht Schnee können sie die Nüsse riechen. Aber manchmal vergessen sie trotzdem, wo sie etwas versteckt haben. Aus diesen vergessenen Nüssen wachsen dann im Frühling neue Bäume! So helfen die Eichhörnchen, ohne es zu wissen, dem Wald beim Wachsen. In Deutschland gibt es rote und braune Eichhörnchen. Beide Farben gehören zur gleichen Art.", quiz:[{q:"Wofür benutzt das Eichhörnchen seinen Schwanz?",o:["Nur zum Schönaussehen","Zum Gleichgewichthalten und als Decke","Zum Graben"],c:1},{q:"Wie viele Verstecke kann ein Eichhörnchen anlegen?",o:["Ungefähr zehn","Bis zu hundert","Bis zu tausend"],c:2},{q:"Wie finden Eichhörnchen ihre Nüsse unter dem Schnee?",o:["Sie erinnern sich an jeden Platz","Mit ihrem Geruchssinn","Sie sehen die Nüsse durch den Schnee"],c:1}]},
+  { date:"2026-03-18", title:"Der Körper", emoji:"❤️", text:"Unser Körper ist ein wahres Wunderwerk. Alles arbeitet zusammen, damit wir leben, spielen und lernen können. Das Herz ist dabei der wichtigste Muskel. Es pumpt das Blut durch den ganzen Körper. Jeden Tag schlägt das Herz ungefähr hunderttausend Mal. Dabei pumpt es so viel Blut, dass man damit ein ganzes Schwimmbecken füllen könnte. Das Blut transportiert Sauerstoff und Nährstoffe zu allen Teilen des Körpers. Die Lunge hilft uns beim Atmen. Wir atmen frische Luft mit Sauerstoff ein. Den Sauerstoff braucht unser Körper, um zu funktionieren. Die verbrauchte Luft atmen wir dann wieder aus. Pro Tag atmen wir ungefähr zwanzigtausend Mal ein und aus. Unsere Knochen geben dem Körper sein Gerüst und seinen Halt. Ein Erwachsener hat zweihundertsechs Knochen. Babys haben sogar über dreihundert! Manche Knochen wachsen im Lauf der Zeit zusammen. Der kleinste Knochen sitzt im Ohr und ist nur so groß wie ein Reiskorn. Die Muskeln helfen uns, uns zu bewegen. Wenn wir rennen, springen, schreiben oder sogar lächeln, arbeiten unsere Muskeln. Im ganzen Körper gibt es über sechshundert Muskeln. Und ganz oben sitzt das Gehirn. Es ist die Steuerzentrale von allem. Es verarbeitet alles, was wir sehen, hören, riechen und fühlen. Ohne unser Gehirn könnten wir nicht denken, nicht träumen und uns an nichts erinnern.", quiz:[{q:"Wie oft schlägt das Herz ungefähr am Tag?",o:["Tausend Mal","Hunderttausend Mal","Eine Million Mal"],c:1},{q:"Warum haben Babys mehr Knochen als Erwachsene?",o:["Weil sie schneller wachsen","Weil manche Knochen zusammenwachsen","Weil sie kleiner sind"],c:1},{q:"Wo sitzt der kleinste Knochen des Körpers?",o:["Im Fuß","In der Hand","Im Ohr"],c:2}]},
+  { date:"2026-03-19", title:"Der Bauernhof", emoji:"🐄", text:"Auf dem Bauernhof von Familie Huber gibt es viele verschiedene Tiere. Die zehn Kühe stehen tagsüber auf der grünen Wiese und fressen frisches Gras. Jeden Morgen und jeden Abend werden sie gemolken. Aus ihrer Milch macht man dann Butter, Käse und Joghurt. Eine Kuh gibt am Tag ungefähr fünfundzwanzig Liter Milch. Das sind fünfundzwanzig volle Milchflaschen! Die Hühner laufen frei auf dem Hof herum und picken nach Körnern und Würmern. Jeden Tag legen sie frische Eier. Der Hahn Karli kräht früh am Morgen laut. Er passt auf seine Hühner auf und warnt sie vor Gefahren. Die Schweine wälzen sich gerne im Schlamm. Das sieht lustig aus, hat aber einen guten Grund: Schweine können nämlich nicht schwitzen wie wir Menschen. Der kühle Schlamm hilft ihnen, sich an heißen Tagen abzukühlen. Außerdem schützt der Schlamm ihre Haut vor Sonnenbrand. Schweine sind übrigens sehr kluge Tiere. Sie können sogar kleine Kunststücke lernen. Bauer Huber steht jeden Tag um fünf Uhr morgens auf. Er füttert die Tiere, melkt die Kühe, sammelt die Eier ein und mistet die Ställe aus. Auf dem Feld baut er Weizen, Kartoffeln und Karotten an. Im Sommer erntet er das Getreide. Aus dem Weizen wird dann Mehl gemacht, und aus Mehl wird Brot gebacken. Ohne Bauern hätten wir kein Essen auf dem Tisch.", quiz:[{q:"Wie viel Milch gibt eine Kuh ungefähr am Tag?",o:["Fünf Liter","Fünfundzwanzig Liter","Hundert Liter"],c:1},{q:"Warum wälzen sich Schweine im Schlamm?",o:["Weil sie schmutzig sein wollen","Um sich abzukühlen und die Haut zu schützen","Weil es ihnen Spaß macht"],c:1},{q:"Warum sind Schweine besondere Tiere?",o:["Sie können fliegen","Sie sind sehr klug","Sie brauchen kein Futter"],c:1}]},
+  { date:"2026-03-20", title:"Die Farben der Blätter", emoji:"🍁", text:"Im Sommer sind die Blätter an den Bäumen saftig grün. Aber woher kommt die grüne Farbe eigentlich? Die grüne Farbe kommt von einem Stoff, der Chlorophyll heißt. Dieses Chlorophyll ist wie eine kleine Fabrik im Blatt. Es fängt das Sonnenlicht ein und hilft dem Baum, daraus Nahrung zu machen. Zusammen mit Wasser aus den Wurzeln und einem Gas aus der Luft stellt der Baum sich selbst Zucker her. Davon lebt er. Im Herbst passiert dann etwas Spannendes. Die Tage werden kürzer und es wird kühler. Der Baum merkt: Der Winter kommt! Jetzt braucht er das Chlorophyll nicht mehr, weil die Sonne nicht mehr stark genug scheint. Er zieht die wertvollen Stoffe aus den Blättern zurück in den Stamm und die Wurzeln. Dort bewahrt er sie sicher auf für den nächsten Frühling. Wenn das grüne Chlorophyll langsam verschwindet, werden andere Farben sichtbar, die die ganze Zeit im Blatt versteckt waren: warmes Gelb, leuchtendes Orange und feuriges Rot. Diese Farben waren immer schon da, aber das starke Grün hat sie überdeckt. Zum Schluss trocknen die Blätter aus und fallen vom Baum. Auf dem Boden werden sie langsam von kleinen Tierchen und Pilzen zersetzt. Daraus entsteht gute Erde, die dem Baum im nächsten Jahr wieder als Nahrung dient. So schließt sich der Kreislauf.", quiz:[{q:"Was macht das Chlorophyll im Blatt?",o:["Es macht das Blatt weich","Es hilft dem Baum, aus Sonnenlicht Nahrung zu machen","Es schützt vor Regen"],c:1},{q:"Warum werden die Blätter im Herbst bunt?",o:["Weil sie angemalt werden","Weil das grüne Chlorophyll verschwindet und andere Farben sichtbar werden","Weil es kalt ist"],c:1},{q:"Was passiert mit den Blättern auf dem Boden?",o:["Sie verschwinden einfach","Sie werden zu Erde zersetzt","Sie fliegen weg"],c:1}]},
+  { date:"2026-03-21", title:"Post für Leo", emoji:"✉️", text:"Heute hat Leo einen Brief im Briefkasten gefunden. Sein Name steht in großen, schönen Buchstaben auf dem Umschlag. Der Brief ist von seiner Oma, die in einem kleinen Dorf wohnt, weit weg in den Bergen. Leo freut sich riesig, denn Oma schreibt nur selten Briefe. Er nimmt den Brief mit ins Haus und setzt sich an den Küchentisch. Vorsichtig öffnet er den Umschlag. Darin liegt ein Blatt Papier mit Omas schöner, geschwungener Handschrift. Oma erzählt, dass in ihrem Garten schon der Frühling eingezogen ist. Die ersten Krokusse zeigen ihre lila und gelben Köpfe. Die Schneeglöckchen sind auch schon da. Am alten Apfelbaum sitzen zwei Amseln und singen den ganzen Tag. Oma schreibt, dass sie neue Tomatenpflanzen gesetzt hat und hofft, dass es dieses Jahr ganz viele rote Tomaten gibt. Dem Brief liegt auch ein Foto bei. Darauf sieht man Omas Hund Bello. Er sitzt mitten im Garten zwischen den Blumen und hat ein lustiges Gesicht. Seine Zunge hängt heraus und er sieht aus, als würde er grinsen. Leo muss lachen, als er das Foto sieht. Er hängt es an seine Pinnwand über dem Schreibtisch. Dann holt Leo seine Buntstifte und ein großes Blatt Papier. Er will Oma zurückschreiben. Er malt ein Bild von sich und Bello und schreibt darunter: Liebe Oma, ich besuche dich bald! Leo steckt den Brief in einen Umschlag und Papa hilft ihm, eine Briefmarke drauf zu kleben.", quiz:[{q:"Wo wohnt Leos Oma?",o:["In der Stadt","In einem kleinen Dorf in den Bergen","Am Meer"],c:1},{q:"Was macht Leo mit dem Foto von Bello?",o:["Er wirft es weg","Er hängt es an seine Pinnwand","Er gibt es seinem Freund"],c:1},{q:"Was schreibt Leo unter sein Bild?",o:["Danke für den Brief","Liebe Oma, ich besuche dich bald!","Hallo Bello"],c:1}]},
+  { date:"2026-03-22", title:"Wie entsteht ein Gewitter?", emoji:"⛈️", text:"An heißen Sommertagen kann es zu Gewittern kommen. Aber wie entsteht so ein Gewitter eigentlich? Alles beginnt mit warmer Luft. Wenn die Sonne den Boden erhitzt, steigt die warme Luft schnell nach oben. Oben in der Höhe wird sie kalt. Aus dem Wasserdampf in der warmen Luft entstehen große, dunkle Wolken. Diese Gewitterwolken können riesig werden. Manche sind über zehn Kilometer hoch, das ist höher als die höchsten Berge der Welt! In den Wolken herrscht ein wildes Durcheinander. Kleine Eisteilchen und Wassertropfen bewegen sich schnell auf und ab. Dabei stoßen sie immer wieder zusammen. Durch diese Zusammenstöße entsteht elektrische Ladung. Oben in der Wolke sammelt sich positive Ladung, unten negative. Wenn der Unterschied zwischen oben und unten stark genug ist, gibt es einen gewaltigen Funken: den Blitz! Ein Blitz ist unvorstellbar heiß. Er ist fünfmal heißer als die Oberfläche der Sonne! Der Blitz erhitzt die Luft um ihn herum so stark und so schnell, dass die Luft sich explosionsartig ausdehnt. Das erzeugt den lauten Knall, den wir als Donner hören. Man sieht den Blitz immer vor dem Donner. Das liegt daran, dass Licht viel schneller ist als Schall. Wenn du die Sekunden zwischen Blitz und Donner zählst und durch drei teilst, weißt du ungefähr, wie viele Kilometer das Gewitter entfernt ist.", quiz:[{q:"Wie heiß ist ein Blitz ungefähr?",o:["So heiß wie kochendes Wasser","Fünfmal heißer als die Oberfläche der Sonne","Hundert Grad"],c:1},{q:"Wie kann man herausfinden, wie weit ein Gewitter weg ist?",o:["Man misst die Lautstärke des Donners","Man zählt die Sekunden zwischen Blitz und Donner und teilt durch drei","Man schaut wie hell der Blitz ist"],c:1},{q:"Wodurch entsteht die elektrische Ladung in den Wolken?",o:["Durch den Wind","Durch zusammenstoßende Eisteilchen und Wassertropfen","Durch die Sonne"],c:1}]},
+  { date:"2026-03-23", title:"Die Ameisen", emoji:"🐜", text:"Ameisen sind winzig klein, aber unglaublich stark. Eine einzige Ameise kann das Fünfzigfache ihres eigenen Gewichts tragen! Stell dir vor, du könntest ein ganzes Auto hochheben. So stark wäre ein Mensch, wenn er so kräftig wäre wie eine Ameise. Ameisen leben in riesigen Gruppen zusammen. Manche Ameisenkolonien haben mehrere Millionen Bewohner. Ihre Wohnung unter der Erde heißt Ameisenbau oder Ameisenhügel. Von außen sieht man nur einen kleinen Hügel aus Erde und Tannennadeln. Aber darunter gibt es ein riesiges System aus Gängen und Kammern. Es gibt Kammern zum Schlafen, Kammern für die Eier, Kammern für die Vorräte und sogar Kammern für den Müll. Jede Ameise hat eine feste Aufgabe. Die Arbeiterinnen suchen draußen nach Futter. Die Soldaten beschützen den Bau mit ihren großen Kiefern. Ammen kümmern sich um die Eier und die Larven. Die Ameisenkönigin ist die wichtigste Ameise. Sie legt die Eier und kann über zwanzig Jahre alt werden. Ameisen sprechen nicht mit Wörtern, aber sie können sich trotzdem verständigen. Sie benutzen dafür Duftstoffe, die man Pheromone nennt. Wenn eine Ameise einen leckeren Brotkrümel findet, legt sie auf dem Rückweg eine Duftspur. Alle anderen Ameisen folgen dann dieser Spur und finden den Weg zum Futter. Deshalb sieht man Ameisen oft in langen Reihen hintereinander laufen.", quiz:[{q:"Wie stark wäre ein Mensch, wenn er so kräftig wie eine Ameise wäre?",o:["Er könnte einen Stein heben","Er könnte ein Auto hochheben","Er könnte einen Berg versetzen"],c:1},{q:"Wie alt kann eine Ameisenkönigin werden?",o:["Ein Jahr","Über zwanzig Jahre","Hundert Jahre"],c:1},{q:"Warum laufen Ameisen oft in einer Reihe hintereinander?",o:["Weil sie sich gerne anstellen","Weil sie einer Duftspur folgen","Weil sie sonst den Weg verlieren"],c:1}]},
+  { date:"2026-03-24", title:"Das Auge", emoji:"👁️", text:"Unsere Augen sind erstaunliche Organe. Mit ihnen können wir Farben sehen, Gesichter erkennen und sogar lesen. Aber wie funktioniert das eigentlich? Das Licht kommt zuerst durch die Hornhaut. Das ist die durchsichtige Schicht ganz vorne. Dann geht es durch die Pupille ins Auge. Die Pupille ist der schwarze Punkt in der Mitte des Auges. Um die Pupille herum ist die Iris. Das ist der bunte Teil, der bei jedem Menschen eine andere Farbe hat: braun, blau, grün oder grau. Die Iris kann sich zusammenziehen und weiten. Bei Dunkelheit wird die Pupille groß, damit mehr Licht ins Auge kommt. Bei Helligkeit wird sie ganz klein, damit nicht zu viel Licht hereinkommt. Hinter der Pupille liegt die Linse. Sie funktioniert so ähnlich wie die Linse einer Kamera. Sie bündelt das Licht und wirft ein scharfes Bild auf die Netzhaut ganz hinten im Auge. Auf der Netzhaut sitzen Millionen von winzigen Sinneszellen. Manche können Farben erkennen, andere sind für das Sehen bei wenig Licht zuständig. Wusstest du, dass das Bild auf der Netzhaut auf dem Kopf steht? Alles, was wir sehen, kommt dort verkehrt herum an! Aber unser Gehirn ist so schlau, dass es das Bild automatisch wieder richtig herum dreht. Das passiert so schnell, dass wir es gar nicht merken. Unsere Augen können sich übrigens auch sehr schnell bewegen. Sie machen über hunderttausend Bewegungen am Tag!", quiz:[{q:"Was ist die Iris?",o:["Der schwarze Punkt","Der bunte Teil des Auges","Die Augenbraue"],c:1},{q:"Warum wird die Pupille bei Dunkelheit größer?",o:["Damit mehr Licht hineinkommt","Weil sie müde ist","Damit sie besser aussieht"],c:0},{q:"Was passiert mit dem Bild auf der Netzhaut?",o:["Es ist perfekt","Es steht auf dem Kopf","Es ist verschwommen"],c:1}]},
+  { date:"2026-03-25", title:"Der Wald bei Nacht", emoji:"🌙", text:"Wenn die Sonne untergeht und es dunkel wird, denken viele Menschen, der Wald schläft ein. Aber das Gegenteil ist der Fall! Nachts wachen ganz besondere Tiere auf. Die Eule sitzt hoch oben auf einem Ast. Mit ihren riesigen Augen kann sie auch bei ganz wenig Licht noch hervorragend sehen. Ihre Augen sind so groß, dass sie nicht mehr in der Augenhöhle bewegt werden können. Dafür kann die Eule ihren Kopf fast komplett herumdrehen, fast dreihundert Grad weit. Ihre Ohren sind ihr Geheimnis: Sie kann eine Maus unter einer dicken Schneeschicht hören! Wenn die Eule fliegt, macht sie fast kein Geräusch. Ihre besonderen Federn schlucken den Schall. So kann sie Mäuse überraschen. Der Dachs kommt bei Einbruch der Dunkelheit aus seinem Bau, der Dachsburg heißt. Dort unten gibt es viele Räume und Gänge. Manche Dachsbauten sind schon über hundert Jahre alt und werden von Generation zu Generation weitergegeben. Der Dachs sucht nach Würmern, Schnecken und Beeren. Fledermäuse flattern zwischen den Bäumen hindurch. Sie sind die einzigen Säugetiere, die wirklich fliegen können. Fledermäuse sehen mit den Ohren. Das klingt verrückt, stimmt aber! Sie senden hohe Töne aus und hören, wo das Echo zurückprallt. So wissen sie genau, wo Bäume, Häuser oder leckere Motten sind. Das nennt man Echoortung. Am Waldboden leuchten manchmal Glühwürmchen wie kleine Laternen. Es sind eigentlich Käfer, die mit einem besonderen chemischen Trick leuchten können.", quiz:[{q:"Warum kann die Eule ihren Kopf so weit drehen?",o:["Weil ihr Hals sehr lang ist","Weil ihre Augen sich nicht bewegen können","Weil sie neugierig ist"],c:1},{q:"Was bedeutet Echoortung bei Fledermäusen?",o:["Sie rufen andere Fledermäuse","Sie senden Töne aus und hören das Echo zurückprallen","Sie benutzen ihre Augen"],c:1},{q:"Wie alt können Dachsbauten werden?",o:["Ein paar Wochen","Über hundert Jahre","Genau zehn Jahre"],c:1}]},
+  { date:"2026-03-26", title:"Warum ist der Himmel blau?", emoji:"🔵", text:"Hast du dich schon einmal gefragt, warum der Himmel blau ist und nicht grün oder rot? Die Antwort hat mit dem Sonnenlicht zu tun. Das Sonnenlicht sieht für uns weiß aus. Aber in Wirklichkeit besteht es aus vielen verschiedenen Farben gemischt: Rot, Orange, Gelb, Grün, Blau und Violett. Man kann das sehen, wenn Sonnenlicht durch ein Prisma fällt oder wenn ein Regenbogen entsteht. Jede Farbe hat eine andere Wellenlänge. Rotes Licht hat lange Wellen, blaues Licht hat kurze Wellen. Wenn das Sonnenlicht in unsere Atmosphäre eintritt, also in die Luft um die Erde herum, trifft es auf winzig kleine Teilchen. Das sind Stickstoff- und Sauerstoff-Moleküle. Die blauen Lichtstrahlen mit ihren kurzen Wellen werden von diesen kleinen Teilchen besonders stark in alle Richtungen gestreut. Das bedeutet, egal wohin du am Himmel schaust, von überall kommt blaues Licht zu deinen Augen. Deshalb sieht der ganze Himmel blau aus. Am Morgen und am Abend steht die Sonne tief am Horizont. Dann muss das Licht einen viel längeren Weg durch die Atmosphäre nehmen. Auf diesem langen Weg wird das blaue Licht so stark gestreut, dass es bei uns gar nicht mehr ankommt. Nur noch die langen roten und orangenen Lichtwellen schaffen es bis zu unseren Augen. Darum sehen wir morgens und abends diese wunderschönen roten und orangenen Sonnenauf- und Sonnenuntergänge. Im Weltraum gibt es übrigens keine Luft und keine kleinen Teilchen. Deshalb ist der Himmel dort komplett schwarz, sogar wenn die Sonne scheint.", quiz:[{q:"Welche Lichtstrahlen werden besonders stark gestreut?",o:["Rote mit langen Wellen","Blaue mit kurzen Wellen","Gelbe mit mittleren Wellen"],c:1},{q:"Warum ist der Himmel im Weltraum schwarz?",o:["Weil es dort keine Sonne gibt","Weil es dort keine Luft und keine Teilchen gibt","Weil es dort kalt ist"],c:1},{q:"Was passiert mit dem Licht am Abend?",o:["Es wird stärker","Nur rote und orange Wellen kommen noch an","Es gibt kein Licht mehr"],c:1}]},
+  { date:"2026-03-27", title:"Der Zahnarzt", emoji:"🦷", text:"Heute hat Leo einen Termin beim Zahnarzt. Auf dem Weg dorthin hat er ein bisschen Angst. Sein Herz klopft schnell. Aber Papa sagt, es wird nicht schlimm. In der Praxis riecht es nach Minze. An den Wänden hängen bunte Bilder von Tieren. Im Wartezimmer gibt es eine Spielecke mit Bauklötzen. Dann wird Leo aufgerufen. Die Zahnärztin heißt Frau Doktor Weiß. Sie hat ein freundliches Lächeln und trägt einen weißen Kittel. Ihr Behandlungsstuhl ist cool: Er kann hoch und runter fahren und sich sogar nach hinten kippen. Leo findet das lustig. Frau Doktor Weiß erklärt Leo alles, was sie macht, bevor sie es tut. Zuerst schaut sie mit einem kleinen, runden Spiegel in Leos Mund. Dann benutzt sie eine kleine Sonde, um jeden Zahn vorsichtig abzutasten. Sie zählt die Zähne und prüft, ob alles gesund ist. Alles sieht gut aus, kein Loch! Leo ist erleichtert. Dann putzt eine Assistentin Leos Zähne mit einer elektrischen Bürste und einer besonderen Zahnpasta, die nach Erdbeere schmeckt. Frau Doktor Weiß erklärt Leo, wie man richtig Zähne putzt: zweimal am Tag, morgens und abends, jeweils drei Minuten lang. Oben, unten, vorne, hinten und die Seiten. Am besten mit kleinen, kreisenden Bewegungen. Zum Schluss bekommt Leo einen Aufkleber mit einem Drachen drauf und einen kleinen Zahnspiegel für zu Hause. Der Besuch war gar nicht schlimm! Leo freut sich sogar schon ein bisschen auf den nächsten Termin in sechs Monaten.", quiz:[{q:"Wie putzt man die Zähne am besten?",o:["Mit schnellen geraden Bewegungen","Mit kleinen kreisenden Bewegungen","Man muss nur kurz schrubben"],c:1},{q:"Was benutzt die Zahnärztin, um in den Mund zu schauen?",o:["Eine Taschenlampe","Einen kleinen runden Spiegel","Ein Vergrößerungsglas"],c:1},{q:"Wann soll Leo wieder zum Zahnarzt kommen?",o:["Nächste Woche","In sechs Monaten","Erst nächstes Jahr"],c:1}]},
+  { date:"2026-03-28", title:"Wasser sparen", emoji:"💦", text:"Wasser ist eines der wichtigsten Dinge auf unserer Erde. Ohne Wasser könnten keine Menschen, Tiere oder Pflanzen leben. Obwohl es auf der Erde sehr viel Wasser gibt, ist das meiste davon Salzwasser in den Meeren. Salzwasser können wir nicht trinken. Nur ein ganz kleiner Teil des Wassers auf der Erde ist Süßwasser, das wir trinken können. Und nicht überall auf der Welt haben die Menschen genug davon. In manchen Ländern müssen Kinder jeden Tag weite Strecken zu einem Brunnen laufen, um Wasser für die Familie zu holen. Deshalb ist es wichtig, dass wir Wasser sparen. Das ist gar nicht so schwer! Beim Zähneputzen kann man den Wasserhahn einfach zudrehen, statt das Wasser die ganze Zeit laufen zu lassen. Allein dadurch spart man mehrere Liter pro Tag. Duschen verbraucht viel weniger Wasser als Baden. Ein Vollbad braucht ungefähr hundertfünfzig Liter. Eine kurze Dusche nur etwa vierzig Liter. Das ist ein großer Unterschied! Im Garten kann man Regenwasser in einer Tonne sammeln und damit die Blumen und Gemüsepflanzen gießen. Auch ein tropfender Wasserhahn verschwendet erstaunlich viel Wasser. Ein einziger tropfender Hahn kann in einem Jahr mehrere tausend Liter Wasser vergeuden. Das ist so viel wie fünfzig volle Badewannen! Wenn jeder Mensch ein bisschen Wasser spart, macht das zusammen einen großen Unterschied für unseren Planeten.", quiz:[{q:"Warum können wir das meiste Wasser auf der Erde nicht trinken?",o:["Weil es zu kalt ist","Weil es Salzwasser ist","Weil es zu tief liegt"],c:1},{q:"Wie viel Wasser braucht man ungefähr für ein Vollbad?",o:["Zehn Liter","Vierzig Liter","Hundertfünfzig Liter"],c:2},{q:"Wie viel Wasser kann ein tropfender Hahn im Jahr vergeuden?",o:["Zehn Liter","Hundert Liter","Mehrere tausend Liter"],c:2}]},
+  { date:"2026-03-29", title:"Die Schnecke", emoji:"🐌", text:"Die Schnecke ist ein besonderes Tier. Sie trägt ihr Haus immer auf dem Rücken mit sich herum. In dieses Haus zieht sie sich zurück, wenn sie sich bedroht fühlt oder wenn es draußen zu trocken wird. Das Schneckenhaus besteht aus Kalk und wächst mit der Schnecke mit. Wenn die Schnecke größer wird, wird auch ihr Haus größer. Man kann die Rillen am Haus zählen, fast wie Jahresringe bei einem Baum. Schnecken bewegen sich sehr langsam vorwärts. Unter ihrem Körper ist ein großer, muskulöser Fuß. Dieser Fuß macht wellenartige Bewegungen und schiebt die Schnecke vorwärts. Dabei erzeugt der Fuß eine Schleimschicht. Auf diesem Schleim kann die Schnecke wunderbar gleiten, sogar über scharfe Kanten wie Rasierklingen, ohne sich zu verletzen! Der Schleim schützt ihren weichen Körper. Schnecken haben vier Fühler am Kopf. Die zwei langen Fühler oben tragen an ihren Spitzen die Augen. Mit diesen Augen kann die Schnecke hell und dunkel unterscheiden. Die zwei kürzeren Fühler unten benutzt sie zum Riechen und Tasten. Wenn man einen Fühler berührt, zieht die Schnecke ihn sofort ein. Schnecken fressen am liebsten frische Blätter, Salat und weiches Gemüse. Im Garten sind sie deshalb nicht immer gern gesehen. Manche Schnecken können bis zu fünfzehn Jahre alt werden. Im Winter graben sie sich in die Erde ein und verschließen ihr Haus mit einem Deckel aus getrocknetem Schleim. So überstehen sie die kalte Jahreszeit.", quiz:[{q:"Warum kann die Schnecke über scharfe Kanten gleiten?",o:["Weil sie ein hartes Haus hat","Weil die Schleimschicht ihren Körper schützt","Weil sie sehr leicht ist"],c:1},{q:"Was ist an den Spitzen der langen Fühler?",o:["Die Nase","Die Ohren","Die Augen"],c:2},{q:"Wie übersteht die Schnecke den Winter?",o:["Sie fliegt in den Süden","Sie gräbt sich ein und verschließt ihr Haus","Sie baut ein neues Haus"],c:1}]},
+  { date:"2026-03-30", title:"Tag und Nacht", emoji:"🌍", text:"Warum gibt es eigentlich Tag und Nacht? Das hat mit unserer Erde zu tun. Die Erde dreht sich nämlich ständig um sich selbst, wie ein langsamer Kreisel. Für eine vollständige Drehung braucht sie genau vierundzwanzig Stunden, also einen Tag. Die Seite der Erde, die gerade zur Sonne zeigt, hat Tag. Dort ist es hell und warm. Die andere Seite, die von der Sonne weg zeigt, hat Nacht. Dort ist es dunkel. Weil sich die Erde immer weiter dreht, wechseln sich Tag und Nacht ständig ab. Das ist auch der Grund, warum die Sonne am Morgen im Osten aufgeht und am Abend im Westen untergeht. In Wirklichkeit bewegt sich die Sonne gar nicht. Es ist die Erde, die sich dreht! Wenn bei uns in Deutschland Nacht ist und wir im Bett liegen, haben Kinder auf der anderen Seite der Erde gerade Tag. In Australien zum Beispiel gehen die Kinder dann gerade zur Schule oder spielen auf dem Spielplatz. Und wenn bei uns die Sonne aufgeht, gehen die Kinder in Australien ins Bett. Das ist doch erstaunlich! Aber es gibt noch etwas Spannendes: Im Sommer sind die Tage bei uns viel länger als im Winter. Im Juni wird es schon um fünf Uhr morgens hell und erst um zehn Uhr abends dunkel. Im Dezember dagegen wird es erst um acht Uhr hell und schon um vier Uhr nachmittags wieder dunkel. Das liegt daran, dass die Erde ein bisschen schief steht, während sie um die Sonne kreist. Im Sommer ist unsere Seite der Erde mehr zur Sonne geneigt, und im Winter weniger.", quiz:[{q:"Wie lange braucht die Erde für eine Drehung um sich selbst?",o:["Zwölf Stunden","Vierundzwanzig Stunden","Eine Woche"],c:1},{q:"Was machen Kinder in Australien, wenn bei uns Nacht ist?",o:["Sie schlafen auch","Sie gehen zur Schule oder spielen","Sie schauen Sterne"],c:1},{q:"Warum sind die Tage im Sommer länger als im Winter?",o:["Weil die Sonne im Sommer größer ist","Weil die Erde schief steht","Weil die Erde sich im Sommer schneller dreht"],c:1}]},
+  { date:"2026-03-31", title:"Leos Monat", emoji:"⭐", text:"Heute ist der letzte Tag im März. Leo sitzt an seinem Schreibtisch und denkt an den ganzen Monat zurück. Er hat so unglaublich viel gelernt! Er weiß jetzt, warum der Himmel blau ist und wie ein wunderschöner Regenbogen entsteht. Er hat über viele verschiedene Tiere gelesen: über den stacheligen Igel, den springenden Frosch, die fleißigen Bienen und die starken Ameisen. Er hat erfahren, wie der menschliche Körper funktioniert und warum Blätter im Herbst ihre Farbe ändern. Er kennt jetzt alle acht Planeten unseres Sonnensystems und weiß, wie der Wasserkreislauf funktioniert. Er hat gelernt, wie Gewitter entstehen und warum Fledermäuse mit den Ohren sehen können. Leo blättert durch sein Lesetagebuch und staunt, wie viele Seiten er schon gelesen hat. Am Anfang des Monats hat er bei manchen Wörtern noch gestockt. Jetzt liest er viel flüssiger und sicherer. Manche Wörter, die er vorher schwierig fand, kann er jetzt ohne Probleme lesen. Papa hat gesagt, er ist sehr stolz auf Leo. Mama hat gesagt, sie merkt, wie viel besser Leo liest. Das macht Leo glücklich. Er hat auch gemerkt, dass Lesen richtig Spaß machen kann, wenn man neugierig ist und jeden Tag ein bisschen übt. Zauberer Merlix hat ihm dabei geholfen und ihn jeden Tag angefeuert. Leo ist stolz auf sich selbst. Er freut sich schon auf den nächsten Monat und auf neue spannende Texte und Abenteuer!", quiz:[{q:"Was hat Leo im März am meisten geholfen beim Lernen?",o:["Viel fernsehen","Jeden Tag ein bisschen üben und neugierig sein","Nur am Wochenende lesen"],c:1},{q:"Was hat sich bei Leo über den Monat verändert?",o:["Er liest jetzt viel flüssiger und sicherer","Er mag kein Lesen mehr","Nichts hat sich verändert"],c:0},{q:"Worüber hat Leo im März NICHT gelesen?",o:["Planeten und Sonnensystem","Dinosaurier und Vulkane","Ameisen und Bienen"],c:1}]}
 ];
 
-const WIZARD_MSGS_PERFECT = [
-  "FANTASTISCH, Leo! Alle drei richtig! Du bist ein wahrer Lese-Meister!",
-  "WUNDERBAR! Drei von drei! Meine Zauberkraft wächst durch dein Wissen!",
-  "UNGLAUBLICH! Perfekt! Du liest ja besser als manche Zauberer!",
-  "MAGISCH! Alles richtig! Du hast die Weisheit eines Drachen!",
-  "SPEKTAKULÄR! Drei Sterne! Dein Wissen leuchtet heller als mein Zauberstab!",
-  "BRILLANT, Leo! Du hast alle Antworten gewusst! Ich bin beeindruckt!",
-  "ERSTKLASSIG! Perfekte Punktzahl! Du bist auf dem Weg zum Lese-Zauberer!",
-  "HERVORRAGEND! Drei richtige Antworten! Sogar meine Eule staunt!",
+// ─── English Lessons (from zero, playful, with explanations) ────────────
+const ENG_LESSONS = [
+  { id:1, title:"Begrüßung", emoji:"👋", theme:"Hallo sagen",
+    words:[
+      {en:"Hello",de:"Hallo",phonetic:"He-lo",example:"Hello, my name is Leo!",img:"👋"},
+      {en:"Good morning",de:"Guten Morgen",phonetic:"Gud mor-ning",example:"Good morning, Papa!",img:"🌅"},
+      {en:"Goodbye",de:"Tschüss",phonetic:"Gud-bai",example:"Goodbye, see you tomorrow!",img:"👋"},
+    ],
+    quiz:[{q:"Was heißt 'Hello' auf Deutsch?",o:["Tschüss","Hallo","Danke"],c:1},{q:"Wie sagt man 'Guten Morgen'?",o:["Good night","Good morning","Good evening"],c:1},{q:"Was bedeutet 'Goodbye'?",o:["Hallo","Bitte","Tschüss"],c:2}]},
+  { id:2, title:"Farben", emoji:"🎨", theme:"Colours – Farben",
+    words:[
+      {en:"Red",de:"Rot",phonetic:"Red",example:"The apple is red.",img:"🔴"},
+      {en:"Blue",de:"Blau",phonetic:"Bluu",example:"The sky is blue.",img:"🔵"},
+      {en:"Green",de:"Grün",phonetic:"Griin",example:"The tree is green.",img:"🟢"},
+      {en:"Yellow",de:"Gelb",phonetic:"Jel-lo",example:"The sun is yellow.",img:"🟡"},
+    ],
+    quiz:[{q:"Was heißt 'Blue'?",o:["Rot","Grün","Blau"],c:2},{q:"Wie sagt man 'Gelb' auf Englisch?",o:["Yellow","Green","Red"],c:0},{q:"'The tree is green' – Was ist grün?",o:["Die Sonne","Der Baum","Der Apfel"],c:1}]},
+  { id:3, title:"Zahlen 1-5", emoji:"🔢", theme:"Numbers – Zahlen",
+    words:[
+      {en:"One",de:"Eins",phonetic:"Wan",example:"I have one nose.",img:"1️⃣"},
+      {en:"Two",de:"Zwei",phonetic:"Tuu",example:"I have two eyes.",img:"2️⃣"},
+      {en:"Three",de:"Drei",phonetic:"Thrii",example:"Three birds in the tree.",img:"3️⃣"},
+      {en:"Four",de:"Vier",phonetic:"Foor",example:"A dog has four legs.",img:"4️⃣"},
+      {en:"Five",de:"Fünf",phonetic:"Faiv",example:"I have five fingers.",img:"5️⃣"},
+    ],
+    quiz:[{q:"Was heißt 'Three'?",o:["Zwei","Drei","Fünf"],c:1},{q:"Wie sagt man 'Fünf' auf Englisch?",o:["Four","Five","Three"],c:1},{q:"'I have two eyes' – Wie viele Augen?",o:["Eins","Zwei","Drei"],c:1}]},
+  { id:4, title:"Tiere", emoji:"🐶", theme:"Animals – Tiere",
+    words:[
+      {en:"Dog",de:"Hund",phonetic:"Dog",example:"The dog is big.",img:"🐕"},
+      {en:"Cat",de:"Katze",phonetic:"Kät",example:"The cat is small.",img:"🐈"},
+      {en:"Bird",de:"Vogel",phonetic:"Börd",example:"The bird can fly.",img:"🐦"},
+      {en:"Fish",de:"Fisch",phonetic:"Fisch",example:"The fish swims in water.",img:"🐟"},
+    ],
+    quiz:[{q:"Was heißt 'Cat'?",o:["Hund","Vogel","Katze"],c:2},{q:"Wie sagt man 'Vogel' auf Englisch?",o:["Fish","Bird","Dog"],c:1},{q:"'The dog is big' – Wie ist der Hund?",o:["Klein","Schnell","Groß"],c:2}]},
+  { id:5, title:"Familie", emoji:"👨‍👩‍👦", theme:"Family – Familie",
+    words:[
+      {en:"Mum",de:"Mama",phonetic:"Mam",example:"My mum is nice.",img:"👩"},
+      {en:"Dad",de:"Papa",phonetic:"Däd",example:"My dad is strong.",img:"👨"},
+      {en:"Brother",de:"Bruder",phonetic:"Bra-ther",example:"My brother plays with me.",img:"👦"},
+      {en:"Sister",de:"Schwester",phonetic:"Sis-ter",example:"My sister reads a book.",img:"👧"},
+    ],
+    quiz:[{q:"Was heißt 'Dad'?",o:["Mama","Bruder","Papa"],c:2},{q:"Wie sagt man 'Schwester'?",o:["Brother","Mum","Sister"],c:2},{q:"'My mum is nice' – Wie ist Mama?",o:["Stark","Nett","Groß"],c:1}]},
+  { id:6, title:"Essen", emoji:"🍎", theme:"Food – Essen",
+    words:[
+      {en:"Apple",de:"Apfel",phonetic:"Äp-pel",example:"I eat an apple.",img:"🍎"},
+      {en:"Bread",de:"Brot",phonetic:"Bred",example:"Bread with butter is yummy.",img:"🍞"},
+      {en:"Water",de:"Wasser",phonetic:"Woo-ter",example:"I drink water.",img:"💧"},
+      {en:"Milk",de:"Milch",phonetic:"Milk",example:"The milk is white.",img:"🥛"},
+    ],
+    quiz:[{q:"Was heißt 'Bread'?",o:["Wasser","Brot","Milch"],c:1},{q:"Wie sagt man 'Apfel'?",o:["Apple","Water","Milk"],c:0},{q:"'I drink water' – Was trinke ich?",o:["Milch","Saft","Wasser"],c:2}]},
+  { id:7, title:"Zahlen 6-10", emoji:"🔟", theme:"Numbers – Zahlen",
+    words:[
+      {en:"Six",de:"Sechs",phonetic:"Siks",example:"Six legs on an insect.",img:"6️⃣"},
+      {en:"Seven",de:"Sieben",phonetic:"Se-wen",example:"Seven days in a week.",img:"7️⃣"},
+      {en:"Eight",de:"Acht",phonetic:"Eit",example:"An octopus has eight arms.",img:"8️⃣"},
+      {en:"Nine",de:"Neun",phonetic:"Nain",example:"Nine players on the field.",img:"9️⃣"},
+      {en:"Ten",de:"Zehn",phonetic:"Ten",example:"I have ten fingers.",img:"🔟"},
+    ],
+    quiz:[{q:"Was heißt 'Eight'?",o:["Sechs","Acht","Zehn"],c:1},{q:"Wie sagt man 'Sieben'?",o:["Six","Seven","Nine"],c:1},{q:"'Seven days in a week' – Wie viele Tage hat eine Woche?",o:["Fünf","Sechs","Sieben"],c:2}]},
+  { id:8, title:"Mein Körper", emoji:"🤸", theme:"My body – Mein Körper",
+    words:[
+      {en:"Head",de:"Kopf",phonetic:"Hed",example:"I wear a hat on my head.",img:"🗣️"},
+      {en:"Hand",de:"Hand",phonetic:"Händ",example:"I wave my hand.",img:"✋"},
+      {en:"Foot",de:"Fuß",phonetic:"Fut",example:"I kick the ball with my foot.",img:"🦶"},
+      {en:"Eye",de:"Auge",phonetic:"Ai",example:"I see with my eye.",img:"👁️"},
+    ],
+    quiz:[{q:"Was heißt 'Hand'?",o:["Fuß","Kopf","Hand"],c:2},{q:"Wie sagt man 'Auge'?",o:["Head","Eye","Foot"],c:1},{q:"'I kick the ball with my foot' – Womit kicke ich den Ball?",o:["Hand","Kopf","Fuß"],c:2}]},
 ];
 
-const WIZARD_MSGS_GOOD = [
-  "SUPER GEMACHT, Leo! Zwei richtig – das ist toll! Beim nächsten Mal schaffst du alle drei!",
-  "KLASSE, Leo! Fast alles richtig! Du wirst jeden Tag ein bisschen besser!",
-  "PRIMA! Zwei Sterne für dich! Du bist auf einem guten Weg, junger Zauberlehrling!",
-  "GUT GEMACHT! Zwei richtige Antworten! Übung macht den Meister – und den Zauberer!",
-];
+// ─── Wizard messages ────────────────────────────────────────────────────
+const WIZ_PERFECT=["FANTASTISCH, Leo! Alle richtig! Du bist ein wahrer Lese-Meister!","WUNDERBAR! Meine Zauberkraft wächst durch dein Wissen!","UNGLAUBLICH! Perfekt! Du liest ja besser als manche Zauberer!","MAGISCH! Alles richtig! Du hast die Weisheit eines Drachen!","SPEKTAKULÄR! Dein Wissen leuchtet heller als mein Zauberstab!","BRILLANT, Leo! Ich bin beeindruckt!","ERSTKLASSIG! Du bist auf dem Weg zum Lese-Zauberer!","HERVORRAGEND! Sogar meine Eule staunt!"];
+const WIZ_GOOD=["SUPER GEMACHT, Leo! Fast alles richtig! Beim nächsten Mal schaffst du alle!","KLASSE, Leo! Du wirst jeden Tag ein bisschen besser!","PRIMA! Du bist auf einem guten Weg, junger Zauberlehrling!","GUT GEMACHT! Übung macht den Meister – und den Zauberer!"];
+const WIZ_TRY=["HEY LEO! Nicht aufgeben! Jeder Zauberer hat mal klein angefangen!","KOPF HOCH, Leo! Du schaffst das!","WEITER SO, Leo! Morgen wird es noch besser!","Auch ein Zauberer lernt jeden Tag dazu! Du bist auf dem richtigen Weg!"];
+const WIZ_MATH=["ABRAKADABRA! Mathe-Magie! Du rechnest wie ein Zauberer!","HOKUSPOKUS! Die Zahlen gehorchen dir, Leo!","ZAUBERHAFT! Dein Kopf rechnet schneller als mein Zauberstab!","DONNERWETTER! Du bist ein richtiger Zahlen-Magier!"];
+const WIZ_ENG=["AMAZING! Das war erstklassiges Englisch, Leo!","WONDERFUL! Du sprichst schon wie ein kleiner Zauberer aus England!","BRILLIANT! Merlix ist stolz auf dich! Weiter so mit Englisch!","MAGIC! Du lernst Englisch schneller als ich Zaubersprüche!"];
+const WIZ_WALK_SPELLS=["✨ Abrakadabra!","⚡ Hokuspokus!","🌟 Simsalabim!","💫 Zauberei!","🔮 Alakazam!","⭐ Merlix-Magie!"];
+const LEVELS=[{min:0,name:"Lese-Anfänger",icon:"📖",desc:"Jede Reise beginnt mit dem ersten Schritt!"},{min:5,name:"Bücher-Entdecker",icon:"🔍",desc:"Du entdeckst die Welt der Wörter!"},{min:10,name:"Wort-Zauberer",icon:"✨",desc:"Die Wörter gehorchen dir schon!"},{min:15,name:"Wissens-Ritter",icon:"⚔️",desc:"Mit Wissen bewaffnet in jedes Abenteuer!"},{min:20,name:"Lese-Champion",icon:"🏆",desc:"Ein wahrer Meister des Lesens!"},{min:25,name:"Lese-Legende",icon:"👑",desc:"Leo, die lebende Legende!"}];
 
-const WIZARD_MSGS_TRY = [
-  "HEY LEO! Nicht aufgeben! Jeder Zauberer hat mal klein angefangen. Lies den Text morgen nochmal!",
-  "KOPF HOCH, Leo! Rom wurde auch nicht an einem Tag erbaut. Du schaffst das!",
-  "WEITER SO, Leo! Übung macht den Meister! Morgen wird es noch besser!",
-  "Auch ein Zauberer lernt jeden Tag dazu! Du bist auf dem richtigen Weg, Leo!",
-];
+// ═══════════════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════════════
+let progress={};
+try{progress=JSON.parse(localStorage.getItem('leo-lernportal-v2')||'{}');}catch(e){}
+function save(){try{localStorage.setItem('leo-lernportal-v2',JSON.stringify(progress));}catch(e){}}
 
-const LEVEL_NAMES = [
-  { min: 0, name: "Lese-Anfänger", icon: "📖", desc: "Jede Reise beginnt mit dem ersten Schritt!" },
-  { min: 5, name: "Bücher-Entdecker", icon: "🔍", desc: "Du entdeckst die Welt der Wörter!" },
-  { min: 10, name: "Wort-Zauberer", icon: "✨", desc: "Die Wörter gehorchen dir schon!" },
-  { min: 15, name: "Wissens-Ritter", icon: "⚔️", desc: "Mit Wissen bewaffnet in jedes Abenteuer!" },
-  { min: 20, name: "Lese-Champion", icon: "🏆", desc: "Ein wahrer Meister des Lesens!" },
-  { min: 25, name: "Lese-Legende", icon: "👑", desc: "Leo, die lebende Legende!" },
-];
+let activeTab='read'; // read | math | eng
+let currentView='calendar';
+let selectedDay=null;
+let quizAnswers={};
+let quizSubmitted=false;
+let showReward=false;
+let rewardData=null;
 
-// ─── State ──────────────────────────────────────────────────────────────
+// Math state
+let mathProblems=[];
+let mathCurrent=0;
+let mathScore=0;
+let mathAnswered=false;
+let mathUserAnswer='';
 
-let progress = {};
-try { progress = JSON.parse(localStorage.getItem('leo-lernportal') || '{}'); } catch(e) {}
-function save() { try { localStorage.setItem('leo-lernportal', JSON.stringify(progress)); } catch(e){} }
+// English state
+let engLesson=null;
+let engStep=0; // 0=learn words, 1+=quiz
+let engQuizAnswers={};
+let engQuizSubmitted=false;
 
-let currentView = 'calendar';
-let selectedDay = null;
-let quizAnswers = {};
-let quizSubmitted = false;
-let showReward = false;
-let rewardData = null;
+function getToday(){return new Date().toISOString().slice(0,10);}
+function getDayLabel(d){const dt=new Date(d+'T12:00:00');const wd=["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];return wd[dt.getDay()]+', '+dt.getDate()+'. März';}
+function getCompleted(){return DAYS.filter(d=>progress[d.date]?.quizDone).length;}
+function getTotalStars(){return DAYS.reduce((s,d)=>s+(progress[d.date]?.score||0),0)+(progress.mathStars||0)+(progress.engStars||0);}
+function getLevel(){const c=getCompleted();let l=LEVELS[0];for(const lv of LEVELS){if(c>=lv.min)l=lv;}return l;}
+function getStreak(){const today=getToday();let s=0;for(let i=DAYS.length-1;i>=0;i--){if(DAYS[i].date>today)continue;if(progress[DAYS[i].date]?.quizDone)s++;else break;}return s;}
+function pickRandom(a){return a[Math.floor(Math.random()*a.length)];}
+function formatText(t){const s=t.match(/[^.!?]+[.!?]+/g)||[t];let p=[];let c=[];for(let i=0;i<s.length;i++){c.push(s[i].trim());if(c.length>=3||i===s.length-1){p.push(c.join(' '));c=[];}}return p.map(x=>`<p style="margin:0 0 16px 0">${x}</p>`).join('');}
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+// ─── Effects ────────────────────────────────────────────────────────────
+function spawnParticles(n,colors){for(let i=0;i<n;i++){const el=document.createElement('div');el.className='particle';const sz=4+Math.random()*8;const a=Math.random()*Math.PI*2;const d=80+Math.random()*200;el.style.cssText=`width:${sz}px;height:${sz}px;background:${pickRandom(colors)};left:50%;top:50%;--tx:${Math.cos(a)*d}px;--ty:${Math.sin(a)*d}px;--dur:${0.6+Math.random()*0.8}s;box-shadow:0 0 ${sz*2}px ${pickRandom(colors)};`;document.body.appendChild(el);setTimeout(()=>el.remove(),1500);}}
+function spawnConfetti(n){const c=['#fbbf24','#7c3aed','#34d399','#f87171','#60a5fa','#f472b6','#fb923c'];for(let i=0;i<n;i++){const el=document.createElement('div');el.className='confetti';el.style.cssText=`left:${Math.random()*100}%;top:-20px;background:${pickRandom(c)};--dur:${1.5+Math.random()*2}s;--rot:${360+Math.random()*720}deg;animation-delay:${Math.random()*0.8}s;border-radius:${Math.random()>0.5?'50%':'2px'};width:${6+Math.random()*6}px;height:${10+Math.random()*8}px;`;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);}}
+function spawnStarBurst(){const em=['⭐','✨','🌟','💫'];for(let i=0;i<12;i++){const el=document.createElement('div');el.className='particle';const a=Math.random()*Math.PI*2;const d=60+Math.random()*160;el.style.cssText=`left:50%;top:45%;font-size:${16+Math.random()*20}px;background:transparent;--tx:${Math.cos(a)*d}px;--ty:${Math.sin(a)*d}px;--dur:${0.8+Math.random()*0.6}s;`;el.textContent=pickRandom(em);document.body.appendChild(el);setTimeout(()=>el.remove(),2000);}}
 
-function getDayLabel(d) {
-  const dt = new Date(d+'T12:00:00');
-  const wd = ["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];
-  return wd[dt.getDay()] + ', ' + dt.getDate() + '. März';
+// ─── Merlix Walking ─────────────────────────────────────────────────────
+let merlixTimeout=null;
+function merlixWalk(){
+  if(document.querySelector('.merlix-walker'))return;
+  const w=document.createElement('div');
+  w.className='merlix-walker';
+  w.textContent='🧙‍♂️';
+  w.style.animation='wizWalk 6s linear forwards';
+  document.body.appendChild(w);
+  // Spell at midpoint
+  setTimeout(()=>{
+    const spell=document.createElement('div');
+    spell.className='merlix-spell';
+    spell.textContent=pickRandom(WIZ_WALK_SPELLS);
+    spell.style.left='calc(50% - 60px)';
+    spell.style.bottom='90px';
+    document.body.appendChild(spell);
+    spawnParticles(15,['#fbbf24','#a78bfa','#34d399','#60a5fa']);
+    setTimeout(()=>spell.remove(),2000);
+  },2800);
+  setTimeout(()=>w.remove(),6200);
+  // Random next walk
+  scheduleMerlixWalk();
+}
+function scheduleMerlixWalk(){
+  if(merlixTimeout)clearTimeout(merlixTimeout);
+  merlixTimeout=setTimeout(merlixWalk,25000+Math.random()*35000);
 }
 
-function getCompleted() { return DAYS.filter(d => progress[d.date]?.quizDone).length; }
-function getTotalStars() { return DAYS.reduce((s,d) => s + (progress[d.date]?.score || 0), 0); }
-
-function getLevel() {
-  const c = getCompleted();
-  let lvl = LEVEL_NAMES[0];
-  for (const l of LEVEL_NAMES) { if (c >= l.min) lvl = l; }
-  return lvl;
-}
-
-function getStreak() {
-  const today = getToday();
-  let streak = 0;
-  for (let i = DAYS.length - 1; i >= 0; i--) {
-    if (DAYS[i].date > today) continue;
-    if (progress[DAYS[i].date]?.quizDone) streak++;
-    else break;
-  }
-  return streak;
-}
-
-function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-// ─── Particle Effects ───────────────────────────────────────────────────
-
-function spawnParticles(count, colors) {
-  for (let i = 0; i < count; i++) {
-    const el = document.createElement('div');
-    el.className = 'particle';
-    const size = 4 + Math.random() * 8;
-    const angle = Math.random() * Math.PI * 2;
-    const dist = 80 + Math.random() * 200;
-    el.style.cssText = `
-      width:${size}px; height:${size}px;
-      background:${pickRandom(colors)};
-      left:50%; top:50%;
-      --tx:${Math.cos(angle)*dist}px;
-      --ty:${Math.sin(angle)*dist}px;
-      --dur:${0.6 + Math.random()*0.8}s;
-      box-shadow: 0 0 ${size*2}px ${pickRandom(colors)};
-    `;
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 1500);
-  }
-}
-
-function spawnConfetti(count) {
-  const colors = ['#fbbf24','#7c3aed','#34d399','#f87171','#60a5fa','#f472b6','#fb923c'];
-  for (let i = 0; i < count; i++) {
-    const el = document.createElement('div');
-    el.className = 'confetti';
-    el.style.cssText = `
-      left:${Math.random()*100}%;
-      top:-20px;
-      background:${pickRandom(colors)};
-      --dur:${1.5 + Math.random()*2}s;
-      --rot:${360 + Math.random()*720}deg;
-      animation-delay:${Math.random()*0.8}s;
-      border-radius:${Math.random()>0.5?'50%':'2px'};
-      width:${6+Math.random()*6}px;
-      height:${10+Math.random()*8}px;
-    `;
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 4000);
-  }
-}
-
-function spawnStarBurst() {
-  const emojis = ['⭐','✨','🌟','💫'];
-  for (let i = 0; i < 12; i++) {
-    const el = document.createElement('div');
-    el.className = 'particle';
-    const angle = Math.random() * Math.PI * 2;
-    const dist = 60 + Math.random() * 160;
-    el.style.cssText = `
-      left:50%; top:45%;
-      font-size:${16+Math.random()*20}px;
-      background:transparent;
-      --tx:${Math.cos(angle)*dist}px;
-      --ty:${Math.sin(angle)*dist}px;
-      --dur:${0.8+Math.random()*0.6}s;
-    `;
-    el.textContent = pickRandom(emojis);
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 2000);
-  }
-}
-
-// ─── Text Formatting ────────────────────────────────────────────────────
-
-function formatText(text) {
-  // Split text into sentences and group into paragraphs of ~3 sentences
-  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-  let paragraphs = [];
-  let current = [];
-  for (let i = 0; i < sentences.length; i++) {
-    current.push(sentences[i].trim());
-    if (current.length >= 3 || i === sentences.length - 1) {
-      paragraphs.push(current.join(' '));
-      current = [];
+// ─── Math Generation ────────────────────────────────────────────────────
+function generateMathProblems(){
+  const problems=[];
+  for(let i=0;i<8;i++){
+    const type=Math.random();
+    let a,b,op,answer;
+    if(type<0.35){// addition
+      a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*(100-a))+1;
+      op='+';answer=a+b;
+    }else if(type<0.7){// subtraction
+      a=Math.floor(Math.random()*80)+20;b=Math.floor(Math.random()*a)+1;
+      op='−';answer=a-b;
+    }else{// multiplication (small)
+      a=Math.floor(Math.random()*9)+2;b=Math.floor(Math.random()*9)+2;
+      op='×';answer=a*b;
     }
+    problems.push({a,b,op,answer,text:`${a} ${op} ${b} = ?`});
   }
-  return paragraphs.map(p => `<p style="margin:0 0 16px 0;text-indent:0">${p}</p>`).join('');
+  return problems;
 }
 
-// ─── Render ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════════════════
+function render(){
+  const app=document.getElementById('app');
+  const today=getToday();
 
-function render() {
-  const app = document.getElementById('app');
-  const today = getToday();
+  if(showReward&&rewardData){renderReward();return;}
 
-  if (showReward && rewardData) {
-    renderReward();
-    return;
-  }
+  // ─── HOME / CALENDAR ─────────────────────────────────────────────────
+  if(currentView==='calendar'){
+    const completed=getCompleted();const streak=getStreak();const totalStars=getTotalStars();const level=getLevel();
 
-  if (currentView === 'calendar') {
-    const completed = getCompleted();
-    const streak = getStreak();
-    const totalStars = getTotalStars();
-    const level = getLevel();
-    const pct = Math.round((completed / DAYS.length) * 100);
+    let tabContent='';
 
-    app.innerHTML = `
+    if(activeTab==='read'){
+      const pct=Math.round((completed/DAYS.length)*100);
+      tabContent=`
+        <div class="progress-wrap">
+          <div class="progress-bar"><div class="progress-fill purple" style="width:${pct}%"></div></div>
+          <div class="progress-text">${pct}% der Lesetexte geschafft</div>
+        </div>
+        <div class="section-title">März 2026</div>
+        <div class="day-list">
+          ${DAYS.map((day,i)=>{
+            const done=progress[day.date]?.quizDone;const isToday=day.date===today;
+            const score=progress[day.date]?.score||0;
+            const cls=done&&isToday?'done today':done?'done':isToday?'today':'';
+            return `<button class="day-btn ${cls}" onclick="startDay('${day.date}')">
+              <div class="day-emoji">${done?'✅':day.emoji}</div>
+              <div class="day-info">
+                <div class="day-date">${getDayLabel(day.date)}${isToday?'<span class="day-badge-today">Heute</span>':''}</div>
+                <div class="day-title">${day.title}</div>
+              </div>
+              ${done?`<div class="day-score">${score}/3 ⭐</div>`:'<div class="day-arrow">›</div>'}
+            </button>`;
+          }).join('')}
+        </div>`;
+    } else if(activeTab==='math'){
+      const mathDone=progress.mathCompleted||0;
+      const mathPct=Math.min(100,Math.round(mathDone/20*100));
+      tabContent=`
+        <div class="progress-wrap">
+          <div class="progress-bar"><div class="progress-fill bluefill" style="width:${mathPct}%"></div></div>
+          <div class="progress-text">${mathDone} Runden geschafft – ${progress.mathStars||0} Sterne gesammelt</div>
+        </div>
+        <div class="merlix-tip">
+          <div class="merlix-tip-avatar">🧙‍♂️</div>
+          <div class="merlix-tip-text"><strong>Merlix sagt:</strong> "Mathe ist wie Zaubern mit Zahlen! Übe jeden Tag Plus, Minus und das kleine Einmaleins. Du schaffst das!"</div>
+        </div>
+        <div style="padding:24px 24px 0">
+          <button class="main-btn blue-btn" onclick="startMath()" style="width:100%">
+            🔢 Neue Mathe-Runde starten!
+          </button>
+          <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-dim);font-weight:600">8 Aufgaben: Plus, Minus & Einmaleins</div>
+        </div>`;
+    } else if(activeTab==='eng'){
+      const engDone=progress.engDone||{};
+      const engCount=Object.keys(engDone).length;
+      const engPct=Math.round(engCount/ENG_LESSONS.length*100);
+      tabContent=`
+        <div class="progress-wrap">
+          <div class="progress-bar"><div class="progress-fill orangefill" style="width:${engPct}%"></div></div>
+          <div class="progress-text">${engCount} von ${ENG_LESSONS.length} Lektionen geschafft</div>
+        </div>
+        <div class="merlix-tip">
+          <div class="merlix-tip-avatar">🧙‍♂️</div>
+          <div class="merlix-tip-text"><strong>Merlix sagt:</strong> "Englisch ist die Sprache der Zauberer weltweit! Wir lernen es Schritt für Schritt – kein Stress, nur Spaß!"</div>
+        </div>
+        <div class="section-title orange-title">Englisch-Lektionen</div>
+        <div class="day-list">
+          ${ENG_LESSONS.map(les=>{
+            const done=engDone[les.id];
+            return `<button class="day-btn ${done?'done':''}" onclick="startEng(${les.id})">
+              <div class="day-emoji">${done?'✅':les.emoji}</div>
+              <div class="day-info">
+                <div class="day-date">Lektion ${les.id}</div>
+                <div class="day-title">${les.title} – ${les.theme}</div>
+              </div>
+              ${done?'<div class="day-score">✅</div>':'<div class="day-arrow" style="color:var(--orange)">›</div>'}
+            </button>`;
+          }).join('')}
+        </div>`;
+    }
+
+    app.innerHTML=`
       <div class="header">
-        <div class="wizard-mini">🧙‍♂️</div>
+        <div class="wizard-mini" onclick="merlixWalk()">🧙‍♂️</div>
         <div class="header-title">Leos Lernportal</div>
         <div class="header-sub">Zauberer Merlix begleitet dich! ✨</div>
         <div class="stats">
-          <div class="stat-card">
-            <div class="stat-num" style="color:var(--gold)">${totalStars}</div>
-            <div class="stat-label">Sterne ⭐</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num" style="color:var(--green)">${streak > 0 ? streak + '<span class="fire-anim">🔥</span>' : '0'}</div>
-            <div class="stat-label">Tage-Serie</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num" style="color:#60a5fa">${completed}/${DAYS.length}</div>
-            <div class="stat-label">Geschafft</div>
-          </div>
+          <div class="stat-card"><div class="stat-num" style="color:var(--gold)">${totalStars}</div><div class="stat-label">Sterne ⭐</div></div>
+          <div class="stat-card"><div class="stat-num" style="color:var(--green)">${streak>0?streak+'<span class="fire-anim">🔥</span>':'0'}</div><div class="stat-label">Lese-Serie</div></div>
+          <div class="stat-card"><div class="stat-num" style="color:#60a5fa">${level.icon}</div><div class="stat-label">${level.name}</div></div>
         </div>
       </div>
-
-      <div class="progress-wrap">
-        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-        <div class="progress-text">${pct}% geschafft – weiter so, Leo!</div>
+      <div class="tabs">
+        <button class="tab-btn ${activeTab==='read'?'active-read':''}" onclick="switchTab('read')"><span class="tab-emoji">📖</span>Lesen</button>
+        <button class="tab-btn ${activeTab==='math'?'active-math':''}" onclick="switchTab('math')"><span class="tab-emoji">🔢</span>Mathe</button>
+        <button class="tab-btn ${activeTab==='eng'?'active-eng':''}" onclick="switchTab('eng')"><span class="tab-emoji">🇬🇧</span>Englisch</button>
       </div>
-
-      <div class="level-badge">
-        <div class="level-icon">${level.icon}</div>
-        <div class="level-info">
-          <div class="level-title">Level: ${level.name}</div>
-          <div class="level-desc">${level.desc}</div>
-        </div>
-      </div>
-
-      <div class="section-title">März 2026</div>
-      <div class="day-list">
-        ${DAYS.map((day, i) => {
-          const done = progress[day.date]?.quizDone;
-          const isToday = day.date === today;
-          const score = progress[day.date]?.score || 0;
-          const total = 3;
-          const cls = done && isToday ? 'done today' : done ? 'done' : isToday ? 'today' : '';
-          return `
-            <button class="day-btn ${cls}" onclick="startDay('${day.date}')">
-              <div class="day-emoji">${done ? '✅' : day.emoji}</div>
-              <div class="day-info">
-                <div class="day-date">${getDayLabel(day.date)}${isToday ? '<span class="day-badge-today">Heute</span>' : ''}</div>
-                <div class="day-title">${day.title}</div>
-              </div>
-              ${done ? `<div class="day-score">${score}/${total} ⭐</div>` : '<div class="day-arrow">›</div>'}
-            </button>
-          `;
-        }).join('')}
-      </div>
+      ${tabContent}
     `;
 
-  } else if (currentView === 'reading') {
-    const day = DAYS.find(d => d.date === selectedDay);
-    const di = DAYS.indexOf(day);
-    app.innerHTML = `
-      <div class="topbar">
-        <button class="back-btn" onclick="goBack()">← Zurück</button>
-        <div class="step-info">Schritt 1/2: Lesen 📖</div>
-      </div>
-      <div style="padding:0 24px">
-        <div class="reading-hero">${day.emoji}</div>
-        <div class="reading-title">${day.title}</div>
-        <div class="reading-date">${getDayLabel(day.date)}</div>
-      </div>
+  // ─── READING VIEW ─────────────────────────────────────────────────────
+  } else if(currentView==='reading'){
+    const day=DAYS.find(d=>d.date===selectedDay);
+    app.innerHTML=`
+      <div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button><div class="step-info">Schritt 1/2: Lesen 📖</div></div>
+      <div style="padding:0 24px"><div class="reading-hero">${day.emoji}</div><div class="reading-title">${day.title}</div><div class="reading-date">${getDayLabel(day.date)}</div></div>
       <div class="text-card">${formatText(day.text)}</div>
-      <div class="tip-card">
-        <span>💡</span>
-        <p>Lies den Text langsam und laut vor. Wenn ein Wort schwer ist, buchstabiere es erst und lies es dann nochmal.</p>
-      </div>
-      <button class="main-btn" onclick="goToQuiz()">
-        Fertig gelesen! Weiter zum Quiz 🧠
-      </button>
-    `;
+      <div class="tip-card"><span>💡</span><p>Lies den Text langsam und laut vor. Wenn ein Wort schwer ist, buchstabiere es erst und lies es dann nochmal.</p></div>
+      <button class="main-btn purple-btn" onclick="goToQuiz()">Fertig gelesen! Weiter zum Quiz 🧠</button>`;
 
-  } else if (currentView === 'quiz') {
-    const day = DAYS.find(d => d.date === selectedDay);
-    const allAnswered = day.quiz.every((_, i) => quizAnswers[i] !== undefined);
+  // ─── QUIZ VIEW ────────────────────────────────────────────────────────
+  } else if(currentView==='quiz'){
+    const day=DAYS.find(d=>d.date===selectedDay);
+    const allAnswered=day.quiz.every((_,i)=>quizAnswers[i]!==undefined);
+    let qHTML=day.quiz.map((q,qi)=>{
+      const ans=quizAnswers[qi]!==undefined;const isC=quizSubmitted&&quizAnswers[qi]===q.c;const isW=quizSubmitted&&ans&&quizAnswers[qi]!==q.c;
+      return `<div class="question-card ${quizSubmitted?(isC?'correct':isW?'wrong':''):''}">
+        <div class="question-text">${qi+1}. ${q.q}</div>
+        ${q.o.map((opt,oi)=>{const sel=quizAnswers[qi]===oi;const sC=quizSubmitted&&oi===q.c;const sW=quizSubmitted&&sel&&oi!==q.c;
+          return `<button class="option-btn ${sC?'show-correct':sW?'show-wrong':sel?'selected':''}" ${quizSubmitted?'disabled':''} onclick="selectAnswer(${qi},${oi})">${sC?'✅ ':sW?'❌ ':''}${opt}</button>`;}).join('')}
+      </div>`;}).join('');
+    let bottom='';
+    if(!quizSubmitted){bottom=`<div style="padding:0 24px"><button class="main-btn purple-btn" ${allAnswered?'':'disabled'} onclick="submitQuiz()">${allAnswered?'Antworten prüfen! ✨':'Beantworte alle Fragen...'}</button></div>`;
+    }else{const cor=day.quiz.filter((q,i)=>quizAnswers[i]===q.c).length;const cls=cor===3?'perfect':cor>=2?'good':'tryagain';const col=cor===3?'var(--green)':cor>=2?'var(--gold)':'var(--wizard-purple)';
+      bottom=`<div class="score-summary ${cls}"><div class="score-emoji">${cor===3?'🎉':cor>=2?'👍':'💪'}</div><div class="score-text" style="color:${col}">${cor} von 3 richtig!</div></div>
+        <div style="padding:0 24px;text-align:center;margin-top:14px"><button class="main-btn purple-btn" onclick="goBack()">Zurück zum Kalender 📅</button></div>`;}
+    app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="currentView='reading';render()">← Text nochmal lesen</button><div class="step-info">Schritt 2/2: Quiz 🧠</div></div>
+      <div style="padding:0 24px 6px"><div class="quiz-title">🧠 Quiz: ${day.title}</div></div>${qHTML}${bottom}`;
 
-    let quizHTML = day.quiz.map((q, qi) => {
-      const answered = quizAnswers[qi] !== undefined;
-      const isCorrect = quizSubmitted && quizAnswers[qi] === q.c;
-      const isWrong = quizSubmitted && answered && quizAnswers[qi] !== q.c;
-      const cardCls = quizSubmitted ? (isCorrect ? 'correct' : isWrong ? 'wrong' : '') : '';
-
-      return `
-        <div class="question-card ${cardCls}">
-          <div class="question-text">${qi+1}. ${q.q}</div>
-          ${q.o.map((opt, oi) => {
-            const sel = quizAnswers[qi] === oi;
-            const showC = quizSubmitted && oi === q.c;
-            const showW = quizSubmitted && sel && oi !== q.c;
-            const cls = showC ? 'show-correct' : showW ? 'show-wrong' : sel ? 'selected' : '';
-            return `<button class="option-btn ${cls}" ${quizSubmitted?'disabled':''} onclick="selectAnswer(${qi},${oi})">${showC?'✅ ':showW?'❌ ':''}${opt}</button>`;
-          }).join('')}
-        </div>
-      `;
+  // ─── MATH VIEW ────────────────────────────────────────────────────────
+  } else if(currentView==='math'){
+    const p=mathProblems[mathCurrent];
+    const dots=mathProblems.map((_,i)=>{
+      let cls='math-dot';if(i<mathCurrent)cls+=mathProblems[i].wasCorrect?' dot-correct':' dot-wrong';if(i===mathCurrent)cls+=' dot-current';return `<div class="${cls}"></div>`;
     }).join('');
-
-    let bottomHTML = '';
-    if (!quizSubmitted) {
-      bottomHTML = `
-        <div style="padding:0 24px">
-          <button class="main-btn" ${allAnswered?'':'disabled'} onclick="submitQuiz()">
-            ${allAnswered ? 'Antworten prüfen! ✨' : 'Beantworte alle Fragen...'}
-          </button>
+    const isDone=mathCurrent>=mathProblems.length;
+    if(isDone){
+      const stars=mathScore>=7?3:mathScore>=5?2:1;
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button></div>
+        <div style="text-align:center;padding:40px 24px">
+          <div style="font-size:64px;margin-bottom:12px">${stars===3?'🎉':stars===2?'👍':'💪'}</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:28px;color:${stars===3?'var(--green)':stars===2?'var(--gold)':'var(--blue)'}">${mathScore} von ${mathProblems.length} richtig!</div>
+          <div class="stars-earned" style="margin:16px 0">${'⭐'.repeat(stars)}${'<span style="filter:grayscale(1) opacity(0.3)">⭐</span>'.repeat(3-stars)}</div>
+          <button class="main-btn blue-btn" style="width:calc(100% - 48px);margin:16px auto 0" onclick="goBack()">Zurück 📅</button>
+        </div>`;
+    }else{
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button><div class="step-info">Aufgabe ${mathCurrent+1} von ${mathProblems.length}</div></div>
+        <div class="math-score-bar">${dots}</div>
+        <div class="math-area">
+          <div class="math-problem"><div class="math-problem-text">${p.text}</div></div>
+          <div class="math-input-row">
+            <input type="number" class="math-input ${mathAnswered?(parseInt(mathUserAnswer)===p.answer?'correct-input':'wrong-input'):''}" id="mathInput"
+              value="${mathUserAnswer}" ${mathAnswered?'disabled':''} oninput="mathUserAnswer=this.value" onkeydown="if(event.key==='Enter')checkMath()"
+              placeholder="?" autocomplete="off" inputmode="numeric">
+          </div>
+          ${mathAnswered?`<div style="text-align:center;margin-top:16px;font-size:18px;font-weight:800;color:${parseInt(mathUserAnswer)===p.answer?'var(--green)':'var(--red)'}">${parseInt(mathUserAnswer)===p.answer?'✅ Richtig!':'❌ Die Antwort ist '+p.answer}</div>`:''}
+          <button class="main-btn blue-btn" style="margin-top:16px" onclick="${mathAnswered?'nextMath()':'checkMath()'}">${mathAnswered?'Nächste Aufgabe →':'Prüfen!'}</button>
         </div>
-      `;
-    } else {
-      const correct = day.quiz.filter((q,i) => quizAnswers[i] === q.c).length;
-      const cls = correct === 3 ? 'perfect' : correct >= 2 ? 'good' : 'tryagain';
-      const emoji = correct === 3 ? '🎉' : correct >= 2 ? '👍' : '💪';
-      const color = correct === 3 ? 'var(--green)' : correct >= 2 ? 'var(--gold)' : 'var(--wizard-purple)';
-      const msg = correct === 3 ? 'Perfekt! Alle richtig!' : correct >= 2 ? 'Super gemacht!' : 'Gut versucht!';
-      bottomHTML = `
-        <div class="score-summary ${cls}">
-          <div class="score-emoji">${emoji}</div>
-          <div class="score-text" style="color:${color}">${correct} von 3 richtig!</div>
-          <div class="score-sub">${msg}</div>
-        </div>
-        <div style="padding:0 24px; text-align:center; margin-top:14px">
-          <button class="main-btn" onclick="goBack()">
-            Zurück zum Kalender 📅
-          </button>
-        </div>
-      `;
+        <div class="math-streak" style="margin-top:16px">${mathScore} richtig bisher</div>`;
+      if(!mathAnswered)setTimeout(()=>{const inp=document.getElementById('mathInput');if(inp)inp.focus();},100);
     }
 
-    app.innerHTML = `
-      <div class="topbar">
-        <button class="back-btn" onclick="currentView='reading';render()">← Text nochmal lesen</button>
-        <div class="step-info">Schritt 2/2: Quiz 🧠</div>
-      </div>
-      <div style="padding:0 24px 6px">
-        <div class="quiz-title">🧠 Quiz: ${day.title}</div>
-      </div>
-      ${quizHTML}
-      ${bottomHTML}
-    `;
-  }
-}
-
-function renderReward() {
-  const { score, total, day } = rewardData;
-  const msgs = score === 3 ? WIZARD_MSGS_PERFECT : score >= 2 ? WIZARD_MSGS_GOOD : WIZARD_MSGS_TRY;
-  const msg = pickRandom(msgs);
-  const starColor = score === 3 ? '#fbbf24' : score >= 2 ? '#fbbf24' : '#94a3b8';
-
-  // Create overlay
-  let overlay = document.getElementById('reward-overlay');
-  if (!overlay) {
-    overlay = document.createElement('div');
-    overlay.id = 'reward-overlay';
-    overlay.className = 'reward-overlay';
-    document.body.appendChild(overlay);
-  }
-
-  let starsHTML = '';
-  for (let i = 0; i < 3; i++) {
-    const earned = i < score;
-    starsHTML += `<div class="star-reward" style="animation-delay:${0.3 + i*0.2}s; filter:${earned?'none':'grayscale(1) opacity(0.3)'}">⭐</div>`;
-  }
-
-  overlay.innerHTML = `
-    <div class="reward-box">
-      <div class="wizard-big">🧙‍♂️</div>
-      <div class="wizard-speech">
-        <div class="wizard-name">⚡ ZAUBERER MERLIX ⚡</div>
-        <div class="wizard-msg">${msg}</div>
-        <div class="wizard-sub">${score === 3 ? '🌟 Du bekommst 3 goldene Sterne! 🌟' : score >= 2 ? '⭐ ' + score + ' Sterne für dich! Toll!' : '💪 Morgen wird es besser!'}</div>
-      </div>
-      <div class="stars-earned">${starsHTML}</div>
-      <button class="reward-dismiss" onclick="dismissReward()">
-        ${score === 3 ? 'YEAH! Weiter! 🚀' : score >= 2 ? 'Super! Weiter! ✨' : 'Okay! Weiter! 💪'}
-      </button>
-    </div>
-  `;
-
-  // Trigger effects
-  setTimeout(() => {
-    if (score === 3) {
-      spawnConfetti(50);
-      spawnStarBurst();
-      setTimeout(() => spawnConfetti(30), 800);
-    } else if (score >= 2) {
-      spawnStarBurst();
-      spawnParticles(20, ['#fbbf24','#a78bfa','#34d399']);
-    } else {
-      spawnParticles(12, ['#a78bfa','#7c3aed','#c4b5fd']);
+  // ─── ENGLISH VIEW ─────────────────────────────────────────────────────
+  } else if(currentView==='eng'){
+    const les=engLesson;
+    if(engStep===0){
+      // Learn words
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button><div class="step-info">Lektion ${les.id}: ${les.title}</div></div>
+        <div style="text-align:center;padding:0 24px 8px"><div style="font-family:'Fredoka One',cursive;font-size:24px;color:var(--orange)">🧙‍♂️ Neue Wörter lernen!</div>
+        <div style="font-size:13px;color:var(--text-dim);font-weight:600;margin-top:4px">Merlix erklärt dir heute: ${les.theme}</div></div>
+        ${les.words.map(w=>`
+          <div class="eng-card" style="margin-bottom:12px">
+            <div class="eng-illustration">${w.img}</div>
+            <div class="eng-word">${w.en}</div>
+            <div class="eng-phonetic">Sprich: "${w.phonetic}"</div>
+            <div class="eng-meaning">= ${w.de}</div>
+            <div class="eng-example">"${w.example}"</div>
+          </div>`).join('')}
+        <div class="merlix-tip" style="margin-bottom:12px">
+          <div class="merlix-tip-avatar">🧙‍♂️</div>
+          <div class="merlix-tip-text"><strong>Merlix-Tipp:</strong> Sprich jedes Wort dreimal laut aus! So merkt sich dein Kopf die Wörter viel besser. Ready? Los geht's!</div>
+        </div>
+        <button class="main-btn orange-btn" onclick="engStep=1;render();window.scrollTo(0,0)">Ich hab die Wörter geübt! Weiter zum Quiz 🧠</button>`;
+    }else{
+      // Quiz
+      const allAns=les.quiz.every((_,i)=>engQuizAnswers[i]!==undefined);
+      let qH=les.quiz.map((q,qi)=>{
+        const ans=engQuizAnswers[qi]!==undefined;const isC=engQuizSubmitted&&engQuizAnswers[qi]===q.c;const isW=engQuizSubmitted&&ans&&engQuizAnswers[qi]!==q.c;
+        return `<div class="question-card ${engQuizSubmitted?(isC?'correct':isW?'wrong':''):''}">
+          <div class="question-text">${qi+1}. ${q.q}</div>
+          ${q.o.map((opt,oi)=>{const sel=engQuizAnswers[qi]===oi;const sC=engQuizSubmitted&&oi===q.c;const sW=engQuizSubmitted&&sel&&oi!==q.c;
+            return `<button class="option-btn ${sC?'show-correct':sW?'show-wrong':sel?'selected':''}" ${engQuizSubmitted?'disabled':''} onclick="engSelectAnswer(${qi},${oi})">${sC?'✅ ':sW?'❌ ':''}${opt}</button>`;}).join('')}
+        </div>`;}).join('');
+      let bot='';
+      if(!engQuizSubmitted){bot=`<div style="padding:0 24px"><button class="main-btn orange-btn" ${allAns?'':'disabled'} onclick="submitEngQuiz()">${allAns?'Antworten prüfen! ✨':'Beantworte alle Fragen...'}</button></div>`;}
+      else{const cor=les.quiz.filter((q,i)=>engQuizAnswers[i]===q.c).length;
+        bot=`<div class="score-summary ${cor===3?'perfect':cor>=2?'good':'tryagain'}"><div class="score-emoji">${cor===3?'🎉':cor>=2?'👍':'💪'}</div><div class="score-text" style="color:${cor===3?'var(--green)':cor>=2?'var(--gold)':'var(--orange)'}">${cor} von 3 richtig!</div></div>
+          <div style="padding:0 24px;text-align:center;margin-top:14px"><button class="main-btn orange-btn" onclick="goBack()">Zurück 📅</button></div>`;}
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="engStep=0;render()">← Wörter nochmal ansehen</button><div class="step-info">Quiz: ${les.title}</div></div>
+        <div style="padding:0 24px 6px"><div class="quiz-title" style="color:var(--orange)">🇬🇧 Quiz: ${les.title}</div></div>${qH}${bot}`;
     }
-  }, 400);
-}
-
-// ─── Actions ────────────────────────────────────────────────────────────
-
-window.startDay = function(dateStr) {
-  selectedDay = dateStr;
-  currentView = 'reading';
-  quizAnswers = {};
-  quizSubmitted = false;
-  render();
-  window.scrollTo(0,0);
-};
-
-window.goBack = function() {
-  currentView = 'calendar';
-  selectedDay = null;
-  render();
-  window.scrollTo(0,0);
-};
-
-window.goToQuiz = function() {
-  currentView = 'quiz';
-  quizAnswers = {};
-  quizSubmitted = false;
-  render();
-  window.scrollTo(0,0);
-};
-
-window.selectAnswer = function(qi, oi) {
-  if (quizSubmitted) return;
-  quizAnswers[qi] = oi;
-  render();
-};
-
-window.submitQuiz = function() {
-  const day = DAYS.find(d => d.date === selectedDay);
-  if (!day) return;
-  quizSubmitted = true;
-  const correct = day.quiz.filter((q,i) => quizAnswers[i] === q.c).length;
-
-  progress[selectedDay] = { quizDone: true, score: correct, total: 3 };
-  save();
-
-  // Show wizard reward
-  showReward = true;
-  rewardData = { score: correct, total: 3, day };
-  renderReward();
-  render(); // render background too
-};
-
-window.dismissReward = function() {
-  showReward = false;
-  rewardData = null;
-  const overlay = document.getElementById('reward-overlay');
-  if (overlay) overlay.remove();
-  currentView = 'calendar';
-  selectedDay = null;
-  render();
-  window.scrollTo(0,0);
-};
-
-// ─── Starfield ──────────────────────────────────────────────────────────
-
-function createStars() {
-  const sf = document.getElementById('starfield');
-  for (let i = 0; i < 60; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    s.style.cssText = `
-      left:${Math.random()*100}%;
-      top:${Math.random()*100}%;
-      --dur:${2+Math.random()*4}s;
-      animation-delay:${Math.random()*3}s;
-      width:${1+Math.random()*2}px;
-      height:${1+Math.random()*2}px;
-      opacity:${0.2+Math.random()*0.5};
-    `;
-    sf.appendChild(s);
   }
 }
 
-// ─── Init ───────────────────────────────────────────────────────────────
+function renderReward(){
+  const{score,total,type}=rewardData;
+  const msgs=type==='math'?WIZ_MATH:type==='eng'?WIZ_ENG:score===total?WIZ_PERFECT:score>=total-1?WIZ_GOOD:WIZ_TRY;
+  const msg=pickRandom(msgs);
+  let ov=document.getElementById('reward-overlay');
+  if(!ov){ov=document.createElement('div');ov.id='reward-overlay';ov.className='reward-overlay';document.body.appendChild(ov);}
+  const stars=type==='math'?(score>=7?3:score>=5?2:1):(score===total?3:score>=total-1?2:1);
+  let stH='';for(let i=0;i<3;i++){stH+=`<div class="star-reward" style="animation-delay:${0.3+i*0.2}s;filter:${i<stars?'none':'grayscale(1) opacity(0.3)'}">⭐</div>`;}
+  ov.innerHTML=`<div class="reward-box"><div class="wizard-big">🧙‍♂️</div><div class="wizard-speech"><div class="wizard-name">⚡ ZAUBERER MERLIX ⚡</div><div class="wizard-msg">${msg}</div><div class="wizard-sub">${stars===3?'🌟 Drei goldene Sterne! 🌟':stars===2?'⭐ '+stars+' Sterne!':'💪 Weiter üben!'}</div></div><div class="stars-earned">${stH}</div><button class="reward-dismiss" onclick="dismissReward()">${stars===3?'YEAH! Weiter! 🚀':'Weiter! ✨'}</button></div>`;
+  setTimeout(()=>{if(stars===3){spawnConfetti(50);spawnStarBurst();setTimeout(()=>spawnConfetti(30),800);}else if(stars>=2){spawnStarBurst();spawnParticles(20,['#fbbf24','#a78bfa','#34d399']);}else{spawnParticles(12,['#a78bfa','#7c3aed','#c4b5fd']);}},400);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════════════════════════════════════
+window.switchTab=function(t){activeTab=t;render();};
+window.startDay=function(d){selectedDay=d;currentView='reading';quizAnswers={};quizSubmitted=false;render();window.scrollTo(0,0);};
+window.goBack=function(){currentView='calendar';selectedDay=null;engLesson=null;render();window.scrollTo(0,0);};
+window.goToQuiz=function(){currentView='quiz';quizAnswers={};quizSubmitted=false;render();window.scrollTo(0,0);};
+window.selectAnswer=function(qi,oi){if(quizSubmitted)return;quizAnswers[qi]=oi;render();};
+window.submitQuiz=function(){
+  const day=DAYS.find(d=>d.date===selectedDay);if(!day)return;quizSubmitted=true;
+  const cor=day.quiz.filter((q,i)=>quizAnswers[i]===q.c).length;
+  progress[selectedDay]={quizDone:true,score:cor,total:3};save();
+  showReward=true;rewardData={score:cor,total:3,type:'read'};renderReward();render();
+};
+window.dismissReward=function(){showReward=false;rewardData=null;const ov=document.getElementById('reward-overlay');if(ov)ov.remove();currentView='calendar';selectedDay=null;engLesson=null;render();window.scrollTo(0,0);};
+
+// Math
+window.startMath=function(){mathProblems=generateMathProblems();mathCurrent=0;mathScore=0;mathAnswered=false;mathUserAnswer='';currentView='math';render();};
+window.checkMath=function(){
+  if(mathAnswered||!mathUserAnswer)return;mathAnswered=true;
+  const p=mathProblems[mathCurrent];const correct=parseInt(mathUserAnswer)===p.answer;
+  p.wasCorrect=correct;if(correct)mathScore++;render();
+};
+window.nextMath=function(){
+  mathCurrent++;mathAnswered=false;mathUserAnswer='';
+  if(mathCurrent>=mathProblems.length){
+    const stars=mathScore>=7?3:mathScore>=5?2:1;
+    progress.mathCompleted=(progress.mathCompleted||0)+1;progress.mathStars=(progress.mathStars||0)+stars;save();
+    showReward=true;rewardData={score:mathScore,total:mathProblems.length,type:'math'};renderReward();
+  }
+  render();
+};
+
+// English
+window.startEng=function(id){engLesson=ENG_LESSONS.find(l=>l.id===id);engStep=0;engQuizAnswers={};engQuizSubmitted=false;currentView='eng';render();window.scrollTo(0,0);};
+window.engSelectAnswer=function(qi,oi){if(engQuizSubmitted)return;engQuizAnswers[qi]=oi;render();};
+window.submitEngQuiz=function(){
+  engQuizSubmitted=true;const les=engLesson;
+  const cor=les.quiz.filter((q,i)=>engQuizAnswers[i]===q.c).length;
+  if(!progress.engDone)progress.engDone={};progress.engDone[les.id]=true;
+  progress.engStars=(progress.engStars||0)+(cor===3?3:cor>=2?2:1);save();
+  showReward=true;rewardData={score:cor,total:3,type:'eng'};renderReward();render();
+};
+
+// ─── Stars & Init ───────────────────────────────────────────────────────
+function createStars(){const sf=document.getElementById('starfield');for(let i=0;i<60;i++){const s=document.createElement('div');s.className='star';s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*4}s;animation-delay:${Math.random()*3}s;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;opacity:${0.2+Math.random()*0.5};`;sf.appendChild(s);}}
 createStars();
 render();
+scheduleMerlixWalk();
+// First walk after 8 seconds
+setTimeout(merlixWalk,8000);
 </script>
 </body>
 </html>
