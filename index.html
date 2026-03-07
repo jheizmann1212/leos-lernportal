@@ -35,6 +35,48 @@ body {
 .starfield { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
 .star { position:absolute; width:2px; height:2px; background:#fff; border-radius:50%; animation:twinkle var(--dur) ease-in-out infinite; }
 @keyframes twinkle { 0%,100%{opacity:0.2} 50%{opacity:0.8} }
+
+/* ─── Castle Background ─── */
+.castle-bg {
+  position:fixed; bottom:0; right:0; width:420px; height:auto;
+  pointer-events:none; z-index:0; opacity:0.12;
+  filter:drop-shadow(0 0 30px rgba(139,92,246,0.3));
+}
+/* Dragon background left */
+.dragon-bg {
+  position:fixed; bottom:0; left:-20px; width:380px; height:auto;
+  pointer-events:none; z-index:0; opacity:0.1;
+  filter:drop-shadow(0 0 30px rgba(139,92,246,0.3));
+  transform:scaleX(-1);
+}
+.dragon-glow {
+  position:fixed; bottom:-50px; left:-50px;
+  width:450px; height:450px;
+  background:radial-gradient(circle, rgba(124,58,237,0.06) 0%, rgba(124,58,237,0.02) 40%, transparent 70%);
+  pointer-events:none; z-index:0;
+}
+/* Subtle glow behind castle */
+.castle-glow {
+  position:fixed; bottom:-50px; right:-50px;
+  width:500px; height:500px;
+  background:radial-gradient(circle, rgba(139,92,246,0.08) 0%, rgba(139,92,246,0.03) 40%, transparent 70%);
+  pointer-events:none; z-index:0;
+}
+/* Moon */
+.moon {
+  position:fixed; top:60px; right:80px;
+  width:70px; height:70px;
+  background:radial-gradient(circle at 35% 35%, #fef3c7, #fbbf24, #f59e0b);
+  border-radius:50%;
+  box-shadow: 0 0 40px rgba(251,191,36,0.3), 0 0 80px rgba(251,191,36,0.1);
+  pointer-events:none; z-index:0;
+  opacity:0.6;
+  animation: moonGlow 5s ease-in-out infinite;
+}
+@keyframes moonGlow {
+  0%,100% { opacity:0.5; box-shadow: 0 0 40px rgba(251,191,36,0.2), 0 0 80px rgba(251,191,36,0.08); }
+  50% { opacity:0.7; box-shadow: 0 0 50px rgba(251,191,36,0.35), 0 0 100px rgba(251,191,36,0.15); }
+}
 .app { position:relative; z-index:1; max-width:780px; margin:0 auto; padding-bottom:40px; }
 
 /* ─── Header ─── */
@@ -65,6 +107,7 @@ body {
 .tab-btn.active-read { background:rgba(139,92,246,0.15); border-color:var(--accent); color:var(--wizard-purple); }
 .tab-btn.active-math { background:rgba(96,165,250,0.15); border-color:var(--blue); color:var(--blue); }
 .tab-btn.active-eng { background:rgba(251,146,60,0.15); border-color:var(--orange); color:var(--orange); }
+.tab-btn.active-wissen { background:rgba(34,197,94,0.15); border-color:var(--green); color:var(--green); }
 .tab-btn:hover:not(.active-read):not(.active-math):not(.active-eng) { border-color:rgba(255,255,255,0.15); }
 .tab-emoji { font-size:22px; display:block; margin-bottom:4px; }
 
@@ -75,6 +118,7 @@ body {
 .progress-fill.purple { background:linear-gradient(90deg,#7c3aed,#a78bfa,#c4b5fd,#a78bfa,#7c3aed); background-size:300% 100%; animation:pShimmer 3s ease infinite; }
 .progress-fill.bluefill { background:linear-gradient(90deg,#3b82f6,#60a5fa,#93c5fd,#60a5fa,#3b82f6); background-size:300% 100%; animation:pShimmer 3s ease infinite; }
 .progress-fill.orangefill { background:linear-gradient(90deg,#f97316,#fb923c,#fdba74,#fb923c,#f97316); background-size:300% 100%; animation:pShimmer 3s ease infinite; }
+.progress-fill.greenfill { background:linear-gradient(90deg,#16a34a,#34d399,#6ee7b7,#34d399,#16a34a); background-size:300% 100%; animation:pShimmer 3s ease infinite; }
 @keyframes pShimmer { 0%{background-position:300% 0} 100%{background-position:0% 0} }
 .progress-text { font-size:12px; color:var(--text-dim); font-weight:700; margin-top:5px; }
 
@@ -91,6 +135,10 @@ body {
 .section-title { font-family:'Fredoka One',cursive; font-size:19px; color:var(--wizard-purple); margin:18px 24px 10px; }
 .section-title.blue-title { color:var(--blue); }
 .section-title.orange-title { color:var(--orange); }
+.section-title.green-title { color:var(--green); }
+.level-badge.orange-badge { background:linear-gradient(135deg,rgba(251,146,60,0.1),rgba(251,146,60,0.03)); border:1px solid rgba(251,146,60,0.2); }
+.level-badge.green-badge { background:linear-gradient(135deg,rgba(34,197,94,0.1),rgba(34,197,94,0.03)); border:1px solid rgba(34,197,94,0.2); }
+.main-btn.green-btn { background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; box-shadow:0 4px 20px var(--green-glow); }
 .day-list { padding:0 24px; display:flex; flex-direction:column; gap:8px; }
 .day-btn {
   display:flex; align-items:center; gap:12px; background:var(--bg-card);
@@ -181,34 +229,111 @@ body {
 
 /* ─── Merlix Walking ─── */
 .merlix-walker {
-  position:fixed; bottom:20px; z-index:999; font-size:60px;
+  position:fixed; z-index:999; font-size:60px;
   pointer-events:none; filter:drop-shadow(0 0 20px var(--accent-glow));
   transition:none;
 }
-@keyframes wizWalk {
-  0% { left:-80px; transform:scaleX(1) translateY(0); }
-  10% { transform:scaleX(1) translateY(-10px); }
+/* Bottom walk left to right */
+@keyframes wizWalkBottom {
+  0% { left:-80px; bottom:20px; top:auto; transform:scaleX(1) translateY(0); }
+  10% { transform:scaleX(1) translateY(-12px); }
   20% { transform:scaleX(1) translateY(0); }
-  30% { transform:scaleX(1) translateY(-10px); }
+  30% { transform:scaleX(1) translateY(-12px); }
   40% { transform:scaleX(1) translateY(0); }
   48% { left:calc(50% - 30px); transform:scaleX(1) translateY(0); }
-  52% { left:calc(50% - 30px); transform:scaleX(1) translateY(-20px) rotate(10deg); }
-  56% { left:calc(50% - 30px); transform:scaleX(1) translateY(0) rotate(-5deg); }
+  52% { left:calc(50% - 30px); transform:scaleX(1) translateY(-25px) rotate(15deg); }
+  56% { left:calc(50% - 30px); transform:scaleX(1) translateY(0) rotate(-8deg); }
   60% { left:calc(50% - 30px); transform:scaleX(1) translateY(0); }
-  70% { transform:scaleX(1) translateY(-10px); }
+  70% { transform:scaleX(1) translateY(-12px); }
   80% { transform:scaleX(1) translateY(0); }
-  90% { transform:scaleX(1) translateY(-10px); }
-  100% { left:calc(100% + 80px); transform:scaleX(1) translateY(0); }
+  90% { transform:scaleX(1) translateY(-12px); }
+  100% { left:calc(100% + 80px); bottom:20px; transform:scaleX(1) translateY(0); }
+}
+/* Top swoosh right to left */
+@keyframes wizWalkTop {
+  0% { right:-80px; top:60px; bottom:auto; left:auto; transform:scaleX(-1) translateY(0); }
+  15% { transform:scaleX(-1) translateY(15px); }
+  30% { transform:scaleX(-1) translateY(-15px); }
+  45% { right:calc(50% - 30px); transform:scaleX(-1) translateY(0) rotate(-10deg); }
+  50% { right:calc(50% - 30px); transform:scaleX(-1) translateY(-30px) rotate(20deg) scale(1.3); }
+  55% { right:calc(50% - 30px); transform:scaleX(-1) translateY(0) rotate(-5deg) scale(1); }
+  70% { transform:scaleX(-1) translateY(10px); }
+  85% { transform:scaleX(-1) translateY(-10px); }
+  100% { right:calc(100% + 80px); top:60px; transform:scaleX(-1) translateY(0); }
+}
+/* Diagonal: top-left to bottom-right */
+@keyframes wizWalkDiag {
+  0% { left:-80px; top:-80px; bottom:auto; transform:rotate(-20deg) scale(0.8); }
+  20% { transform:rotate(5deg) scale(1); }
+  40% { transform:rotate(-10deg) scale(1.1); }
+  50% { left:calc(50% - 30px); top:calc(50% - 30px); transform:rotate(15deg) scale(1.4); }
+  60% { transform:rotate(-5deg) scale(1); }
+  80% { transform:rotate(10deg) scale(0.9); }
+  100% { left:calc(100% + 80px); top:calc(100% + 80px); transform:rotate(0deg) scale(0.7); }
+}
+/* Bounce across */
+@keyframes wizBounce {
+  0% { left:-80px; bottom:20px; top:auto; transform:translateY(0); }
+  12% { transform:translateY(-120px) rotate(20deg); }
+  24% { left:20%; transform:translateY(0) rotate(0deg); }
+  36% { transform:translateY(-100px) rotate(-15deg); }
+  48% { left:40%; transform:translateY(0) rotate(5deg); }
+  55% { left:calc(50% - 30px); transform:translateY(-150px) rotate(25deg) scale(1.3); }
+  65% { left:60%; transform:translateY(0) rotate(-10deg) scale(1); }
+  76% { transform:translateY(-80px) rotate(15deg); }
+  88% { left:80%; transform:translateY(0) rotate(0deg); }
+  100% { left:calc(100% + 80px); bottom:20px; transform:translateY(0); }
+}
+/* Zoom through center */
+@keyframes wizZoom {
+  0% { left:-100px; top:calc(50% - 40px); bottom:auto; transform:scale(0.3) rotate(-30deg); opacity:0.5; }
+  30% { transform:scale(0.8) rotate(10deg); opacity:1; }
+  50% { left:calc(50% - 40px); transform:scale(2) rotate(0deg); }
+  70% { transform:scale(0.8) rotate(-10deg); opacity:1; }
+  100% { left:calc(100% + 100px); transform:scale(0.3) rotate(30deg); opacity:0.5; }
+}
+/* Monster chase! Merlix runs from a monster */
+.monster-chaser {
+  position:fixed; z-index:998; font-size:55px;
+  pointer-events:none; filter:drop-shadow(0 0 15px rgba(239,68,68,0.5));
+}
+@keyframes monsterChase {
+  0% { left:-120px; bottom:20px; top:auto; transform:scaleX(1); }
+  100% { left:calc(100% + 120px); bottom:20px; transform:scaleX(1); }
+}
+@keyframes wizRunScared {
+  0% { left:-40px; bottom:20px; top:auto; transform:scaleX(1) translateY(0) rotate(0deg); }
+  10% { transform:scaleX(1) translateY(-15px) rotate(-10deg); }
+  20% { transform:scaleX(1) translateY(0) rotate(5deg); }
+  30% { transform:scaleX(1) translateY(-20px) rotate(-8deg); }
+  40% { transform:scaleX(1) translateY(0) rotate(3deg); }
+  50% { left:calc(50% - 30px); transform:scaleX(1) translateY(-25px) rotate(-15deg); }
+  60% { transform:scaleX(1) translateY(0) rotate(10deg); }
+  70% { transform:scaleX(1) translateY(-15px) rotate(-5deg); }
+  80% { transform:scaleX(1) translateY(0) rotate(3deg); }
+  100% { left:calc(100% + 80px); bottom:20px; transform:scaleX(1) translateY(0); }
+}
+/* Merlix summons a friend */
+.summoned-creature {
+  position:fixed; z-index:998; pointer-events:none;
+  animation:creatureAppear 3s ease forwards;
+}
+@keyframes creatureAppear {
+  0% { transform:scale(0) rotate(-180deg); opacity:0; }
+  30% { transform:scale(1.5) rotate(20deg); opacity:1; }
+  50% { transform:scale(1.2) rotate(-10deg); }
+  70% { transform:scale(1.3) rotate(5deg); }
+  100% { transform:scale(0) rotate(180deg); opacity:0; }
 }
 .merlix-spell {
   position:fixed; z-index:998; font-family:'Fredoka One',cursive;
   font-size:18px; color:var(--gold); pointer-events:none;
   text-shadow:0 0 10px var(--gold-glow);
-  animation:spellFloat 2s ease-out forwards;
+  animation:spellFloat 2.5s ease-out forwards;
 }
 @keyframes spellFloat {
   0% { opacity:1; transform:translateY(0) scale(1); }
-  100% { opacity:0; transform:translateY(-80px) scale(1.3); }
+  100% { opacity:0; transform:translateY(-100px) scale(1.5); }
 }
 
 /* ─── Wizard Reward Overlay ─── */
@@ -261,6 +386,147 @@ body {
 </head>
 <body>
 <div class="starfield" id="starfield"></div>
+<div class="castle-glow"></div>
+<div class="dragon-glow"></div>
+<div class="moon"></div>
+<!-- Dragon on the left -->
+<svg class="dragon-bg" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dragon body -->
+  <ellipse cx="200" cy="340" rx="80" ry="50" fill="#4c1d95"/>
+  <!-- Dragon belly -->
+  <ellipse cx="200" cy="350" rx="55" ry="35" fill="#5b21b6" opacity="0.7"/>
+  <!-- Neck -->
+  <path d="M240 310 Q280 250 260 180 Q250 160 230 170" fill="#4c1d95"/>
+  <path d="M235 310 Q265 255 250 185 Q245 170 230 178" fill="#5b21b6" opacity="0.5"/>
+  <!-- Head -->
+  <ellipse cx="230" cy="160" rx="45" ry="35" fill="#4c1d95"/>
+  <!-- Snout -->
+  <ellipse cx="265" cy="155" rx="25" ry="18" fill="#5b21b6"/>
+  <!-- Jaw -->
+  <path d="M248 168 Q270 180 290 170 Q280 175 260 175 Z" fill="#4c1d95"/>
+  <!-- Eye -->
+  <ellipse cx="240" cy="148" rx="8" ry="9" fill="#1e1b4b"/>
+  <ellipse cx="242" cy="146" rx="4" ry="5" fill="#f59e0b">
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </ellipse>
+  <circle cx="243" cy="144" r="1.5" fill="#fff" opacity="0.8"/>
+  <!-- Nostril -->
+  <circle cx="280" cy="150" r="3" fill="#1e1b4b" opacity="0.6"/>
+  <circle cx="285" cy="152" r="2.5" fill="#1e1b4b" opacity="0.5"/>
+  <!-- Horns -->
+  <path d="M215 132 Q200 100 210 80" stroke="#6d28d9" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M230 128 Q225 95 235 72" stroke="#6d28d9" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <!-- Ear / Frill -->
+  <path d="M210 140 Q190 130 195 150" fill="#7c3aed" opacity="0.6"/>
+  <!-- Neck spikes -->
+  <polygon points="250,200 258,180 266,205" fill="#6d28d9" opacity="0.7"/>
+  <polygon points="255,225 263,205 271,230" fill="#6d28d9" opacity="0.6"/>
+  <polygon points="252,250 260,232 268,255" fill="#6d28d9" opacity="0.5"/>
+  <polygon points="248,275 256,258 264,280" fill="#6d28d9" opacity="0.45"/>
+  <!-- Wings -->
+  <path d="M170 310 Q80 220 60 150 Q90 180 110 170 Q85 230 130 280 Q100 240 95 200 Q115 250 160 300 Z" fill="#5b21b6" opacity="0.5"/>
+  <path d="M170 310 Q60 280 30 220 Q70 260 90 245 Q55 290 130 300 Z" fill="#4c1d95" opacity="0.4"/>
+  <!-- Wing membrane lines -->
+  <path d="M160 305 Q100 240 70 165" stroke="#7c3aed" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <path d="M155 308 Q95 260 60 200" stroke="#7c3aed" stroke-width="1.5" fill="none" opacity="0.25"/>
+  <path d="M150 310 Q90 280 45 235" stroke="#7c3aed" stroke-width="1.5" fill="none" opacity="0.2"/>
+  <!-- Right small wing hint -->
+  <path d="M230 310 Q280 270 300 230 Q275 265 260 270 Q290 290 240 310 Z" fill="#5b21b6" opacity="0.35"/>
+  <!-- Tail -->
+  <path d="M120 340 Q60 360 30 400 Q20 420 40 430 Q50 420 55 410 Q45 430 60 440 Q65 425 70 415" fill="#4c1d95"/>
+  <polygon points="40,430 20,450 60,440 35,460 70,445" fill="#6d28d9" opacity="0.6"/>
+  <!-- Front legs -->
+  <path d="M170 370 Q160 410 150 430 Q148 440 160 440 L175 438 Q172 435 165 435 Q168 420 175 375" fill="#4c1d95"/>
+  <path d="M210 375 Q205 415 200 435 Q198 445 210 445 L225 443 Q222 440 215 440 Q218 425 215 380" fill="#4c1d95"/>
+  <!-- Claws -->
+  <path d="M150 438 L145 445 M155 439 L152 446 M160 440 L158 447" stroke="#6d28d9" stroke-width="2" stroke-linecap="round"/>
+  <path d="M200 443 L196 450 M207 444 L204 451 M213 445 L211 452" stroke="#6d28d9" stroke-width="2" stroke-linecap="round"/>
+  <!-- Hind legs -->
+  <path d="M240 370 Q260 400 255 430 Q253 440 265 438 L275 435" fill="#4c1d95"/>
+  <!-- Fire breath! -->
+  <ellipse cx="305" cy="148" rx="12" ry="8" fill="#f97316" opacity="0.3">
+    <animate attributeName="rx" values="10;18;10" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="318" cy="145" rx="8" ry="5" fill="#fbbf24" opacity="0.25">
+    <animate attributeName="rx" values="6;14;6" dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.15;0.4;0.15" dur="2.5s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="328" cy="143" rx="5" ry="3" fill="#ef4444" opacity="0.2">
+    <animate attributeName="rx" values="4;10;4" dur="1.8s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.1;0.35;0.1" dur="1.8s" repeatCount="indefinite"/>
+  </ellipse>
+  <!-- Sparkles around dragon -->
+  <circle cx="100" cy="180" r="2" fill="#a78bfa" opacity="0.5"><animate attributeName="opacity" values="0.2;0.7;0.2" dur="2.5s" repeatCount="indefinite"/></circle>
+  <circle cx="300" cy="120" r="1.5" fill="#fbbf24" opacity="0.4"><animate attributeName="opacity" values="0.1;0.6;0.1" dur="3s" repeatCount="indefinite"/></circle>
+  <circle cx="60" cy="250" r="2" fill="#c4b5fd" opacity="0.5"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.8s" repeatCount="indefinite"/></circle>
+  <circle cx="250" cy="100" r="1.5" fill="#f59e0b" opacity="0.4"><animate attributeName="opacity" values="0.2;0.7;0.2" dur="2.2s" repeatCount="indefinite"/></circle>
+</svg>
+<svg class="castle-bg" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ground / Hill -->
+  <ellipse cx="200" cy="490" rx="220" ry="40" fill="#1e1b4b"/>
+  <!-- Main castle body -->
+  <rect x="100" y="250" width="200" height="230" rx="4" fill="#312e81"/>
+  <!-- Left tower -->
+  <rect x="60" y="150" width="60" height="330" rx="3" fill="#3730a3"/>
+  <polygon points="60,150 90,80 120,150" fill="#4338ca"/>
+  <!-- Right tower -->
+  <rect x="280" y="150" width="60" height="330" rx="3" fill="#3730a3"/>
+  <polygon points="280,150 310,80 340,150" fill="#4338ca"/>
+  <!-- Center tall tower -->
+  <rect x="165" y="100" width="70" height="150" rx="3" fill="#4338ca"/>
+  <polygon points="160,100 200,20 240,100" fill="#4f46e5"/>
+  <!-- Flag on center tower -->
+  <line x1="200" y1="20" x2="200" y2="-10" stroke="#a78bfa" stroke-width="2"/>
+  <polygon points="200,-10 230,0 200,10" fill="#a78bfa" opacity="0.8"/>
+  <!-- Windows - center tower -->
+  <rect x="183" y="120" width="14" height="20" rx="7" fill="#818cf8" opacity="0.5"/>
+  <rect x="183" y="155" width="14" height="20" rx="7" fill="#818cf8" opacity="0.4"/>
+  <!-- Windows - main body row 1 -->
+  <rect x="130" y="280" width="16" height="22" rx="8" fill="#818cf8" opacity="0.4"/>
+  <rect x="170" y="280" width="16" height="22" rx="8" fill="#c4b5fd" opacity="0.5"/>
+  <rect x="210" y="280" width="16" height="22" rx="8" fill="#818cf8" opacity="0.3"/>
+  <rect x="250" y="280" width="16" height="22" rx="8" fill="#818cf8" opacity="0.45"/>
+  <!-- Windows - main body row 2 -->
+  <rect x="130" y="330" width="16" height="22" rx="8" fill="#818cf8" opacity="0.3"/>
+  <rect x="170" y="330" width="16" height="22" rx="8" fill="#818cf8" opacity="0.5"/>
+  <rect x="210" y="330" width="16" height="22" rx="8" fill="#c4b5fd" opacity="0.4"/>
+  <rect x="250" y="330" width="16" height="22" rx="8" fill="#818cf8" opacity="0.35"/>
+  <!-- Windows - left tower -->
+  <rect x="82" y="180" width="14" height="20" rx="7" fill="#818cf8" opacity="0.4"/>
+  <rect x="82" y="220" width="14" height="20" rx="7" fill="#c4b5fd" opacity="0.5"/>
+  <rect x="82" y="280" width="14" height="20" rx="7" fill="#818cf8" opacity="0.3"/>
+  <rect x="82" y="340" width="14" height="20" rx="7" fill="#818cf8" opacity="0.45"/>
+  <!-- Windows - right tower -->
+  <rect x="302" y="180" width="14" height="20" rx="7" fill="#c4b5fd" opacity="0.5"/>
+  <rect x="302" y="220" width="14" height="20" rx="7" fill="#818cf8" opacity="0.3"/>
+  <rect x="302" y="280" width="14" height="20" rx="7" fill="#818cf8" opacity="0.45"/>
+  <rect x="302" y="340" width="14" height="20" rx="7" fill="#c4b5fd" opacity="0.4"/>
+  <!-- Gate -->
+  <rect x="175" y="400" width="50" height="80" rx="25" fill="#1e1b4b"/>
+  <circle cx="215" cy="440" r="3" fill="#a78bfa" opacity="0.6"/>
+  <!-- Tower tops / crenellations left -->
+  <rect x="55" y="142" width="12" height="16" fill="#4338ca"/>
+  <rect x="73" y="142" width="12" height="16" fill="#4338ca"/>
+  <rect x="108" y="142" width="12" height="16" fill="#4338ca"/>
+  <!-- Tower tops / crenellations right -->
+  <rect x="275" y="142" width="12" height="16" fill="#4338ca"/>
+  <rect x="293" y="142" width="12" height="16" fill="#4338ca"/>
+  <rect x="328" y="142" width="12" height="16" fill="#4338ca"/>
+  <!-- Main wall crenellations -->
+  <rect x="100" y="242" width="14" height="14" fill="#3730a3"/>
+  <rect x="125" y="242" width="14" height="14" fill="#3730a3"/>
+  <rect x="150" y="242" width="14" height="14" fill="#3730a3"/>
+  <rect x="236" y="242" width="14" height="14" fill="#3730a3"/>
+  <rect x="261" y="242" width="14" height="14" fill="#3730a3"/>
+  <rect x="286" y="242" width="14" height="14" fill="#3730a3"/>
+  <!-- Magical sparkles around castle -->
+  <circle cx="90" cy="100" r="2" fill="#c4b5fd" opacity="0.6"><animate attributeName="opacity" values="0.2;0.8;0.2" dur="3s" repeatCount="indefinite"/></circle>
+  <circle cx="310" cy="120" r="2" fill="#a78bfa" opacity="0.5"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="2.5s" repeatCount="indefinite"/></circle>
+  <circle cx="200" cy="50" r="2.5" fill="#fbbf24" opacity="0.6"><animate attributeName="opacity" values="0.2;1;0.2" dur="2s" repeatCount="indefinite"/></circle>
+  <circle cx="150" cy="130" r="1.5" fill="#c4b5fd" opacity="0.4"><animate attributeName="opacity" values="0.1;0.7;0.1" dur="3.5s" repeatCount="indefinite"/></circle>
+  <circle cx="250" cy="90" r="2" fill="#a78bfa" opacity="0.5"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.8s" repeatCount="indefinite"/></circle>
+</svg>
 <div class="app" id="app"></div>
 
 <script>
@@ -381,13 +647,84 @@ const ENG_LESSONS = [
     quiz:[{q:"Was heißt 'Hand'?",o:["Fuß","Kopf","Hand"],c:2},{q:"Wie sagt man 'Auge'?",o:["Head","Eye","Foot"],c:1},{q:"'I kick the ball with my foot' – Womit kicke ich den Ball?",o:["Hand","Kopf","Fuß"],c:2}]},
 ];
 
+// ─── Allgemeinwissen / Sachkunde Quiz Bank ──────────────────────────────
+const WISSEN_EASY=[
+  {q:"Wie viele Beine hat ein Hund?",o:["2","4","6"],c:1,emoji:"🐕"},
+  {q:"Welche Farbe hat eine Banane?",o:["Rot","Gelb","Blau"],c:1,emoji:"🍌"},
+  {q:"Was trinken Babys?",o:["Kaffee","Milch","Saft"],c:1,emoji:"🍼"},
+  {q:"Wie viele Tage hat eine Woche?",o:["5","6","7"],c:2,emoji:"📅"},
+  {q:"Was macht eine Kuh?",o:["Miauen","Muhen","Bellen"],c:1,emoji:"🐄"},
+  {q:"Wo wohnen Fische?",o:["Im Baum","Im Wasser","In der Luft"],c:1,emoji:"🐟"},
+  {q:"Was scheint am Tag am Himmel?",o:["Der Mond","Die Sterne","Die Sonne"],c:2,emoji:"☀️"},
+  {q:"Wie viele Finger hat eine Hand?",o:["4","5","6"],c:1,emoji:"✋"},
+  {q:"Welches Tier kann fliegen?",o:["Hund","Fisch","Vogel"],c:2,emoji:"🐦"},
+  {q:"Was fällt im Herbst von den Bäumen?",o:["Schnee","Blätter","Steine"],c:1,emoji:"🍂"},
+  {q:"Wie heißt das Haus vom Hund?",o:["Stall","Hundehütte","Nest"],c:1,emoji:"🏠"},
+  {q:"Was isst ein Hase gerne?",o:["Karotten","Fleisch","Brot"],c:0,emoji:"🐰"},
+  {q:"Welches Tier legt Eier?",o:["Hund","Katze","Huhn"],c:2,emoji:"🥚"},
+  {q:"Was brauchen Pflanzen zum Wachsen?",o:["Wasser und Licht","Schokolade","Steine"],c:0,emoji:"🌱"},
+  {q:"Was ist kalt und weiß und fällt vom Himmel?",o:["Regen","Schnee","Sand"],c:1,emoji:"❄️"},
+  {q:"Wie viele Ohren hast du?",o:["1","2","3"],c:1,emoji:"👂"},
+  {q:"Welches Tier hat einen langen Rüssel?",o:["Hund","Elefant","Katze"],c:1,emoji:"🐘"},
+  {q:"Was benutzt man zum Schreiben?",o:["Gabel","Stift","Löffel"],c:1,emoji:"✏️"},
+  {q:"Wie heißt der erste Monat im Jahr?",o:["März","Januar","Juni"],c:1,emoji:"📆"},
+  {q:"Was ist größer: eine Maus oder ein Pferd?",o:["Die Maus","Das Pferd","Beide gleich"],c:1,emoji:"🐴"},
+];
+
+const WISSEN_MEDIUM=[
+  {q:"Wie viele Monate hat ein Jahr?",o:["10","12","14"],c:1,emoji:"📅"},
+  {q:"Was ist die Hauptstadt von Deutschland?",o:["München","Hamburg","Berlin"],c:2,emoji:"🇩🇪"},
+  {q:"Wie heißt der längste Fluss in Deutschland?",o:["Elbe","Rhein","Donau"],c:1,emoji:"🌊"},
+  {q:"Woraus besteht Eis?",o:["Aus Sand","Aus gefrorenem Wasser","Aus Luft"],c:1,emoji:"🧊"},
+  {q:"Welcher Planet ist der Erde am nächsten?",o:["Mars","Venus","Jupiter"],c:1,emoji:"🪐"},
+  {q:"Wie viele Kontinente gibt es?",o:["5","7","9"],c:1,emoji:"🌍"},
+  {q:"Was passiert mit Wasser bei 100 Grad?",o:["Es friert","Es kocht","Nichts"],c:1,emoji:"♨️"},
+  {q:"Welches Tier ist das schnellste der Welt?",o:["Löwe","Gepard","Pferd"],c:1,emoji:"🐆"},
+  {q:"Wie viele Zähne hat ein Erwachsener ungefähr?",o:["20","32","44"],c:1,emoji:"🦷"},
+  {q:"Wo geht die Sonne auf?",o:["Im Westen","Im Osten","Im Norden"],c:1,emoji:"🌅"},
+  {q:"Was ist das größte Tier der Welt?",o:["Elefant","Blauwal","Giraffe"],c:1,emoji:"🐋"},
+  {q:"Wie heißt die Jahreszeit nach dem Frühling?",o:["Herbst","Sommer","Winter"],c:1,emoji:"☀️"},
+  {q:"Woraus wird Brot gemacht?",o:["Aus Reis","Aus Mehl","Aus Zucker"],c:1,emoji:"🍞"},
+  {q:"Was macht ein Kompass?",o:["Er misst die Zeit","Er zeigt die Richtung","Er wiegt Dinge"],c:1,emoji:"🧭"},
+  {q:"Wie viele Beine hat eine Spinne?",o:["6","8","10"],c:1,emoji:"🕷️"},
+  {q:"Was braucht ein Feuer zum Brennen?",o:["Wasser","Sauerstoff","Erde"],c:1,emoji:"🔥"},
+  {q:"Welches Organ pumpt das Blut durch den Körper?",o:["Das Gehirn","Das Herz","Die Lunge"],c:1,emoji:"❤️"},
+  {q:"Wie nennt man ein Haus aus Eis?",o:["Iglu","Zelt","Hütte"],c:0,emoji:"🏔️"},
+  {q:"Was frisst ein Eichhörnchen?",o:["Fisch","Nüsse","Gras"],c:1,emoji:"🐿️"},
+  {q:"Wie viele Ecken hat ein Dreieck?",o:["3","4","5"],c:0,emoji:"📐"},
+];
+
+const WISSEN_HARD=[
+  {q:"Wie heißt der höchste Berg der Welt?",o:["Alpen","Kilimandscharo","Mount Everest"],c:2,emoji:"🏔️"},
+  {q:"Welches Gas atmen wir ein?",o:["Stickstoff","Sauerstoff","Kohlendioxid"],c:1,emoji:"💨"},
+  {q:"Wie viele Knochen hat ein erwachsener Mensch ungefähr?",o:["106","206","306"],c:1,emoji:"🦴"},
+  {q:"In welchem Land steht die Freiheitsstatue?",o:["England","Frankreich","USA"],c:2,emoji:"🗽"},
+  {q:"Wie heißt der rote Planet?",o:["Venus","Mars","Jupiter"],c:1,emoji:"🔴"},
+  {q:"Was ist H2O?",o:["Salz","Zucker","Wasser"],c:2,emoji:"💧"},
+  {q:"Welches Tier kann seinen Kopf fast ganz herum drehen?",o:["Katze","Eule","Hund"],c:1,emoji:"🦉"},
+  {q:"Wie viele Bundesländer hat Deutschland?",o:["12","16","20"],c:1,emoji:"🇩🇪"},
+  {q:"Was ist der größte Ozean der Welt?",o:["Atlantik","Indischer Ozean","Pazifik"],c:2,emoji:"🌊"},
+  {q:"Welches Tier hält den längsten Winterschlaf?",o:["Bär","Siebenschläfer","Igel"],c:1,emoji:"😴"},
+  {q:"Wie lange braucht die Erde, um die Sonne zu umkreisen?",o:["Ein Monat","Ein Jahr","Zehn Jahre"],c:1,emoji:"🌍"},
+  {q:"Was ist der härteste natürliche Stoff?",o:["Gold","Eisen","Diamant"],c:2,emoji:"💎"},
+  {q:"Wo leben Pinguine in der Natur?",o:["Nordpol","Südpol / Antarktis","Afrika"],c:1,emoji:"🐧"},
+  {q:"Wie heißt die Schicht um die Erde, die uns vor der Sonne schützt?",o:["Stratosphäre","Ozonschicht","Wolkenschicht"],c:1,emoji:"🛡️"},
+  {q:"Welches Tier kann am längsten ohne Wasser leben?",o:["Elefant","Kamel","Hund"],c:1,emoji:"🐪"},
+  {q:"Was bedeutet das Wort 'Herbivore'?",o:["Fleischfresser","Pflanzenfresser","Allesfresser"],c:1,emoji:"🌿"},
+  {q:"Wie schnell ist das Licht ungefähr?",o:["1.000 km/h","300.000 km pro Sekunde","1.000.000 km/h"],c:1,emoji:"💡"},
+  {q:"Welches Land hat die meisten Einwohner?",o:["USA","Indien","China"],c:2,emoji:"👥"},
+  {q:"Was produzieren Bäume, das wir zum Atmen brauchen?",o:["Kohlendioxid","Sauerstoff","Stickstoff"],c:1,emoji:"🌳"},
+  {q:"Wie nennt man Tiere, die nachts aktiv sind?",o:["Tagaktiv","Nachtaktiv","Winteraktiv"],c:1,emoji:"🌙"},
+];
+
+const WIZ_WISSEN=["SCHLAU! Du weißt ja mehr als manche Zauberer!","BEEINDRUCKEND! Dein Wissen ist magisch!","GENIAL! Merlix ist stolz auf seinen Lehrling!","FANTASTISCH! Du bist ein echtes Wissens-Genie!"];
+
 // ─── Wizard messages ────────────────────────────────────────────────────
 const WIZ_PERFECT=["FANTASTISCH, Leo! Alle richtig! Du bist ein wahrer Lese-Meister!","WUNDERBAR! Meine Zauberkraft wächst durch dein Wissen!","UNGLAUBLICH! Perfekt! Du liest ja besser als manche Zauberer!","MAGISCH! Alles richtig! Du hast die Weisheit eines Drachen!","SPEKTAKULÄR! Dein Wissen leuchtet heller als mein Zauberstab!","BRILLANT, Leo! Ich bin beeindruckt!","ERSTKLASSIG! Du bist auf dem Weg zum Lese-Zauberer!","HERVORRAGEND! Sogar meine Eule staunt!"];
 const WIZ_GOOD=["SUPER GEMACHT, Leo! Fast alles richtig! Beim nächsten Mal schaffst du alle!","KLASSE, Leo! Du wirst jeden Tag ein bisschen besser!","PRIMA! Du bist auf einem guten Weg, junger Zauberlehrling!","GUT GEMACHT! Übung macht den Meister – und den Zauberer!"];
 const WIZ_TRY=["HEY LEO! Nicht aufgeben! Jeder Zauberer hat mal klein angefangen!","KOPF HOCH, Leo! Du schaffst das!","WEITER SO, Leo! Morgen wird es noch besser!","Auch ein Zauberer lernt jeden Tag dazu! Du bist auf dem richtigen Weg!"];
 const WIZ_MATH=["ABRAKADABRA! Mathe-Magie! Du rechnest wie ein Zauberer!","HOKUSPOKUS! Die Zahlen gehorchen dir, Leo!","ZAUBERHAFT! Dein Kopf rechnet schneller als mein Zauberstab!","DONNERWETTER! Du bist ein richtiger Zahlen-Magier!"];
 const WIZ_ENG=["AMAZING! Das war erstklassiges Englisch, Leo!","WONDERFUL! Du sprichst schon wie ein kleiner Zauberer aus England!","BRILLIANT! Merlix ist stolz auf dich! Weiter so mit Englisch!","MAGIC! Du lernst Englisch schneller als ich Zaubersprüche!"];
-const WIZ_WALK_SPELLS=["✨ Abrakadabra!","⚡ Hokuspokus!","🌟 Simsalabim!","💫 Zauberei!","🔮 Alakazam!","⭐ Merlix-Magie!"];
 const LEVELS=[{min:0,name:"Lese-Anfänger",icon:"📖",desc:"Jede Reise beginnt mit dem ersten Schritt!"},{min:5,name:"Bücher-Entdecker",icon:"🔍",desc:"Du entdeckst die Welt der Wörter!"},{min:10,name:"Wort-Zauberer",icon:"✨",desc:"Die Wörter gehorchen dir schon!"},{min:15,name:"Wissens-Ritter",icon:"⚔️",desc:"Mit Wissen bewaffnet in jedes Abenteuer!"},{min:20,name:"Lese-Champion",icon:"🏆",desc:"Ein wahrer Meister des Lesens!"},{min:25,name:"Lese-Legende",icon:"👑",desc:"Leo, die lebende Legende!"}];
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -397,8 +734,16 @@ let progress={};
 try{progress=JSON.parse(localStorage.getItem('leo-lernportal-v2')||'{}');}catch(e){}
 function save(){try{localStorage.setItem('leo-lernportal-v2',JSON.stringify(progress));}catch(e){}}
 
-let activeTab='read'; // read | math | eng
+let activeTab='read'; // read | math | eng | wissen
 let currentView='calendar';
+
+// Wissen state
+let wissenDifficulty=null; // 'easy','medium','hard'
+let wissenQuestions=[];
+let wissenCurrent=0;
+let wissenScore=0;
+let wissenAnswered=false;
+let wissenSelected=null;
 let selectedDay=null;
 let quizAnswers={};
 let quizSubmitted=false;
@@ -432,33 +777,250 @@ function spawnParticles(n,colors){for(let i=0;i<n;i++){const el=document.createE
 function spawnConfetti(n){const c=['#fbbf24','#7c3aed','#34d399','#f87171','#60a5fa','#f472b6','#fb923c'];for(let i=0;i<n;i++){const el=document.createElement('div');el.className='confetti';el.style.cssText=`left:${Math.random()*100}%;top:-20px;background:${pickRandom(c)};--dur:${1.5+Math.random()*2}s;--rot:${360+Math.random()*720}deg;animation-delay:${Math.random()*0.8}s;border-radius:${Math.random()>0.5?'50%':'2px'};width:${6+Math.random()*6}px;height:${10+Math.random()*8}px;`;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);}}
 function spawnStarBurst(){const em=['⭐','✨','🌟','💫'];for(let i=0;i<12;i++){const el=document.createElement('div');el.className='particle';const a=Math.random()*Math.PI*2;const d=60+Math.random()*160;el.style.cssText=`left:50%;top:45%;font-size:${16+Math.random()*20}px;background:transparent;--tx:${Math.cos(a)*d}px;--ty:${Math.sin(a)*d}px;--dur:${0.8+Math.random()*0.6}s;`;el.textContent=pickRandom(em);document.body.appendChild(el);setTimeout(()=>el.remove(),2000);}}
 
-// ─── Merlix Walking ─────────────────────────────────────────────────────
+// ─── Merlix Walking & Crazy Magic ────────────────────────────────────────
 let merlixTimeout=null;
+const MERLIX_CRAZY_SPELLS=[
+  {name:"✨ Abrakadabra!",effect:"particles"},
+  {name:"⚡ Hokuspokus!",effect:"colorshift"},
+  {name:"🌟 Simsalabim!",effect:"explosion"},
+  {name:"💫 Zauberei!",effect:"confetti"},
+  {name:"🔮 Alakazam!",effect:"shake"},
+  {name:"⭐ Merlix-Magie!",effect:"invert"},
+  {name:"🌈 Regenbogen-Zauber!",effect:"rainbow"},
+  {name:"❄️ Eiszauber!",effect:"freeze"},
+  {name:"🔥 Feuerzauber!",effect:"fire"},
+  {name:"🌀 Wirbelwind!",effect:"spin"},
+  {name:"💎 Diamantenregen!",effect:"diamonds"},
+  {name:"🦄 Einhorn-Magie!",effect:"unicorn"},
+];
+
+function merlixCrazyEffect(effect){
+  const body=document.body;
+  const app=document.getElementById('app');
+  switch(effect){
+    case 'colorshift':
+      body.style.transition='background 0.5s';
+      const colors=['#1a0a2e','#0a2e1a','#2e0a1a','#0a1a2e','#2e2e0a'];
+      body.style.background=pickRandom(colors);
+      setTimeout(()=>{body.style.background='';body.style.transition='';},2500);
+      spawnParticles(25,['#ff0','#0ff','#f0f','#0f0']);
+      break;
+    case 'explosion':
+      spawnConfetti(80);
+      spawnStarBurst();
+      spawnParticles(40,['#fbbf24','#ef4444','#f97316','#7c3aed','#06b6d4']);
+      setTimeout(()=>spawnConfetti(40),500);
+      break;
+    case 'confetti':
+      spawnConfetti(100);
+      setTimeout(()=>spawnConfetti(60),400);
+      setTimeout(()=>spawnConfetti(40),800);
+      break;
+    case 'shake':
+      app.style.transition='none';
+      let shakeCount=0;
+      const shakeInterval=setInterval(()=>{
+        const x=(Math.random()-0.5)*16;const y=(Math.random()-0.5)*10;
+        app.style.transform=`translate(${x}px,${y}px)`;
+        shakeCount++;
+        if(shakeCount>20){clearInterval(shakeInterval);app.style.transform='';} 
+      },50);
+      spawnParticles(20,['#f87171','#fbbf24','#a78bfa']);
+      break;
+    case 'invert':
+      body.style.transition='filter 0.3s';
+      body.style.filter='invert(1) hue-rotate(180deg)';
+      setTimeout(()=>{body.style.filter='invert(0.5) hue-rotate(90deg)';},800);
+      setTimeout(()=>{body.style.filter='';body.style.transition='';},2000);
+      spawnParticles(15,['#fff','#000','#888']);
+      break;
+    case 'rainbow':
+      const rainbowEl=document.createElement('div');
+      rainbowEl.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;z-index:997;pointer-events:none;opacity:0.3;background:linear-gradient(45deg,red,orange,yellow,green,blue,indigo,violet,red);background-size:400% 400%;animation:rainbowBg 2s linear forwards;';
+      const style=document.createElement('style');
+      style.textContent='@keyframes rainbowBg{0%{background-position:0% 50%;opacity:0.4}50%{background-position:100% 50%;opacity:0.3}100%{background-position:200% 50%;opacity:0}}';
+      document.head.appendChild(style);
+      document.body.appendChild(rainbowEl);
+      spawnParticles(30,['#ef4444','#f97316','#fbbf24','#22c55e','#3b82f6','#8b5cf6','#ec4899']);
+      setTimeout(()=>{rainbowEl.remove();style.remove();},2500);
+      break;
+    case 'freeze':
+      body.style.transition='filter 0.5s, background 0.5s';
+      body.style.filter='brightness(1.3) saturate(0.3) hue-rotate(200deg)';
+      body.style.background='#0a1a3e';
+      spawnParticles(30,['#a5f3fc','#e0f2fe','#bae6fd','#fff']);
+      // Spawn snowflakes
+      for(let i=0;i<20;i++){
+        const sf=document.createElement('div');
+        sf.className='confetti';
+        sf.textContent='❄️';
+        sf.style.cssText=`left:${Math.random()*100}%;top:-20px;background:transparent;font-size:${12+Math.random()*16}px;--dur:${2+Math.random()*3}s;--rot:${Math.random()*360}deg;animation-delay:${Math.random()*1}s;width:auto;height:auto;`;
+        document.body.appendChild(sf);
+        setTimeout(()=>sf.remove(),5000);
+      }
+      setTimeout(()=>{body.style.filter='';body.style.background='';body.style.transition='';},3000);
+      break;
+    case 'fire':
+      body.style.transition='background 0.5s';
+      body.style.background='linear-gradient(to top, #1a0000, #3d0000, #0a0e1a)';
+      spawnParticles(40,['#ef4444','#f97316','#fbbf24','#dc2626']);
+      // Spawn fire emojis
+      for(let i=0;i<15;i++){
+        const f=document.createElement('div');f.className='confetti';f.textContent=pickRandom(['🔥','🔥','💥','✨']);
+        f.style.cssText=`left:${Math.random()*100}%;top:100%;background:transparent;font-size:${16+Math.random()*20}px;--dur:${1.5+Math.random()*2}s;--rot:${Math.random()*180}deg;width:auto;height:auto;animation:confettiRise var(--dur) ease-out forwards;animation-delay:${Math.random()*0.5}s;`;
+        document.body.appendChild(f);setTimeout(()=>f.remove(),4000);
+      }
+      // Add rise animation
+      if(!document.getElementById('fireStyle')){
+        const fs=document.createElement('style');fs.id='fireStyle';
+        fs.textContent='@keyframes confettiRise{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(-100vh) rotate(var(--rot));opacity:0}}';
+        document.head.appendChild(fs);
+      }
+      setTimeout(()=>{body.style.background='';body.style.transition='';},3000);
+      break;
+    case 'spin':
+      app.style.transition='transform 1s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      app.style.transform='rotate(3deg) scale(0.97)';
+      setTimeout(()=>{app.style.transform='rotate(-2deg) scale(1.01)';},400);
+      setTimeout(()=>{app.style.transform='rotate(1deg)';},800);
+      setTimeout(()=>{app.style.transform='';app.style.transition='';},1200);
+      spawnParticles(20,['#06b6d4','#8b5cf6','#ec4899']);
+      break;
+    case 'diamonds':
+      for(let i=0;i<25;i++){
+        const d=document.createElement('div');d.className='confetti';d.textContent=pickRandom(['💎','💎','✨','🌟','💫']);
+        d.style.cssText=`left:${Math.random()*100}%;top:-20px;background:transparent;font-size:${14+Math.random()*18}px;--dur:${2+Math.random()*2}s;--rot:${360+Math.random()*720}deg;animation-delay:${Math.random()*1}s;width:auto;height:auto;`;
+        document.body.appendChild(d);setTimeout(()=>d.remove(),5000);
+      }
+      spawnParticles(20,['#a78bfa','#60a5fa','#c4b5fd','#fff']);
+      break;
+    case 'unicorn':
+      for(let i=0;i<15;i++){
+        const u=document.createElement('div');u.className='confetti';u.textContent=pickRandom(['🦄','🌈','✨','💜','💖','⭐']);
+        u.style.cssText=`left:${Math.random()*100}%;top:-20px;background:transparent;font-size:${16+Math.random()*20}px;--dur:${2+Math.random()*2.5}s;--rot:${360+Math.random()*720}deg;animation-delay:${Math.random()*0.8}s;width:auto;height:auto;`;
+        document.body.appendChild(u);setTimeout(()=>u.remove(),5000);
+      }
+      body.style.transition='background 0.5s';
+      body.style.background='linear-gradient(135deg, #1a0a2e, #2e0a2e, #0a0e1a)';
+      spawnParticles(25,['#ec4899','#a78bfa','#f472b6','#c084fc']);
+      setTimeout(()=>{body.style.background='';body.style.transition='';},3000);
+      break;
+    default:
+      spawnParticles(15,['#fbbf24','#a78bfa','#34d399','#60a5fa']);
+  }
+}
+
+const WALK_TYPES=['bottom','top','diagonal','bounce','zoom','monster','summon'];
+const MONSTERS=['🐉','👾','👻','🦖','🐲','👹'];
+const SUMMONS=['🦄','🐉','🦅','🐺','🦁','🐸','🦋','🌈'];
+
 function merlixWalk(){
   if(document.querySelector('.merlix-walker'))return;
-  const w=document.createElement('div');
-  w.className='merlix-walker';
-  w.textContent='🧙‍♂️';
-  w.style.animation='wizWalk 6s linear forwards';
-  document.body.appendChild(w);
-  // Spell at midpoint
-  setTimeout(()=>{
-    const spell=document.createElement('div');
-    spell.className='merlix-spell';
-    spell.textContent=pickRandom(WIZ_WALK_SPELLS);
-    spell.style.left='calc(50% - 60px)';
-    spell.style.bottom='90px';
-    document.body.appendChild(spell);
-    spawnParticles(15,['#fbbf24','#a78bfa','#34d399','#60a5fa']);
-    setTimeout(()=>spell.remove(),2000);
-  },2800);
-  setTimeout(()=>w.remove(),6200);
-  // Random next walk
+  const spell=pickRandom(MERLIX_CRAZY_SPELLS);
+  const walkType=pickRandom(WALK_TYPES);
+
+  if(walkType==='monster'){
+    // Monster chases Merlix!
+    const monster=pickRandom(MONSTERS);
+    const w=document.createElement('div');
+    w.className='merlix-walker';
+    w.textContent='🧙‍♂️';
+    w.style.fontSize='55px';
+    w.style.animation='wizRunScared 5s linear forwards';
+    document.body.appendChild(w);
+    // Monster follows behind
+    const m=document.createElement('div');
+    m.className='monster-chaser';
+    m.textContent=monster;
+    m.style.animation='monsterChase 5.5s linear 0.4s forwards';
+    document.body.appendChild(m);
+    // Merlix yells
+    setTimeout(()=>{
+      const yell=document.createElement('div');
+      yell.className='merlix-spell';
+      yell.textContent=pickRandom(['😱 HIILFE!','🏃 Renn, Merlix!','😰 Ein '+monster+'!','💨 Schneller!!','😱 AAAH!']);
+      yell.style.left='calc(50% - 80px)';yell.style.bottom='90px';
+      document.body.appendChild(yell);
+      spawnParticles(20,['#ef4444','#fbbf24','#f97316']);
+      setTimeout(()=>yell.remove(),2500);
+    },2000);
+    // Merlix fights back at the end
+    setTimeout(()=>{
+      const fightSpell=document.createElement('div');
+      fightSpell.className='merlix-spell';
+      fightSpell.textContent=pickRandom(['⚡ NIMM DAS!','🔥 Feuerzauber!','💫 Verschwinde!','✨ PENG!']);
+      fightSpell.style.left='70%';fightSpell.style.bottom='90px';
+      document.body.appendChild(fightSpell);
+      spawnConfetti(40);
+      spawnParticles(30,['#7c3aed','#fbbf24','#ef4444','#22c55e']);
+      setTimeout(()=>fightSpell.remove(),2500);
+    },4000);
+    setTimeout(()=>{w.remove();m.remove();},6000);
+
+  } else if(walkType==='summon'){
+    // Merlix summons a creature!
+    const w=document.createElement('div');
+    w.className='merlix-walker';
+    w.textContent='🧙‍♂️';
+    w.style.animation='wizWalkBottom 6s linear forwards';
+    document.body.appendChild(w);
+    setTimeout(()=>{
+      const spellEl=document.createElement('div');
+      spellEl.className='merlix-spell';
+      spellEl.textContent=pickRandom(['🌟 Erscheine!','✨ Komm hervor!','💫 Beschwörung!','⚡ Manifestiere dich!']);
+      spellEl.style.left='calc(50% - 80px)';spellEl.style.bottom='90px';
+      document.body.appendChild(spellEl);
+      setTimeout(()=>spellEl.remove(),2500);
+      // Summon creature
+      const creature=document.createElement('div');
+      creature.className='summoned-creature';
+      creature.textContent=pickRandom(SUMMONS);
+      creature.style.fontSize='80px';
+      creature.style.left='calc(50% - 40px)';
+      creature.style.top='calc(50% - 60px)';
+      document.body.appendChild(creature);
+      spawnStarBurst();
+      spawnParticles(30,['#fbbf24','#a78bfa','#34d399','#ec4899']);
+      setTimeout(()=>{spawnConfetti(30);},1000);
+      setTimeout(()=>creature.remove(),3200);
+    },2500);
+    setTimeout(()=>w.remove(),6200);
+
+  } else {
+    // Regular walks with different paths
+    const w=document.createElement('div');
+    w.className='merlix-walker';
+    w.textContent='🧙‍♂️';
+    const anims={
+      bottom:'wizWalkBottom 6s linear forwards',
+      top:'wizWalkTop 6s linear forwards',
+      diagonal:'wizWalkDiag 5s linear forwards',
+      bounce:'wizBounce 5.5s ease-in-out forwards',
+      zoom:'wizZoom 4s ease-in-out forwards',
+    };
+    w.style.animation=anims[walkType]||anims.bottom;
+    if(walkType==='zoom')w.style.fontSize='70px';
+    document.body.appendChild(w);
+    // Cast spell at midpoint
+    const spellDelay=walkType==='zoom'?1800:2800;
+    setTimeout(()=>{
+      const spellEl=document.createElement('div');
+      spellEl.className='merlix-spell';
+      spellEl.textContent=spell.name;
+      spellEl.style.left='calc(50% - 80px)';
+      spellEl.style.cssText+=walkType==='top'?'top:120px;bottom:auto;':'bottom:90px;';
+      document.body.appendChild(spellEl);
+      merlixCrazyEffect(spell.effect);
+      setTimeout(()=>spellEl.remove(),2500);
+    },spellDelay);
+    const dur=walkType==='zoom'?4200:walkType==='diagonal'?5200:6200;
+    setTimeout(()=>w.remove(),dur);
+  }
   scheduleMerlixWalk();
 }
 function scheduleMerlixWalk(){
   if(merlixTimeout)clearTimeout(merlixTimeout);
-  merlixTimeout=setTimeout(merlixWalk,25000+Math.random()*35000);
+  merlixTimeout=setTimeout(merlixWalk,18000+Math.random()*22000);
 }
 
 // ─── Math Generation ────────────────────────────────────────────────────
@@ -565,6 +1127,31 @@ function render(){
             </button>`;
           }).join('')}
         </div>`;
+    } else if(activeTab==='wissen'){
+      const wDone=progress.wissenCompleted||0;
+      const wStars=progress.wissenStars||0;
+      const wPct=Math.min(100,Math.round(wDone/30*100));
+      tabContent=`
+        <div class="progress-wrap">
+          <div class="progress-bar"><div class="progress-fill greenfill" style="width:${wPct}%"></div></div>
+          <div class="progress-text">${wDone} Runden geschafft – ${wStars} Sterne gesammelt</div>
+        </div>
+        <div class="merlix-tip">
+          <div class="merlix-tip-avatar">🧙‍♂️</div>
+          <div class="merlix-tip-text"><strong>Merlix sagt:</strong> "Wissen ist die stärkste Magie! Wähle eine Schwierigkeit und teste, was du alles weißt. Trau dich ruhig auch mal an Schwer ran!"</div>
+        </div>
+        <div style="padding:20px 24px 0;display:flex;flex-direction:column;gap:10px">
+          <button class="main-btn green-btn" onclick="startWissen('easy')" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px">
+            <span style="font-size:24px">🌟</span> Einfach <span style="font-size:12px;opacity:0.7;margin-left:4px">– Aufwärmen!</span>
+          </button>
+          <button class="main-btn green-btn" onclick="startWissen('medium')" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#0d9488,#0f766e)">
+            <span style="font-size:24px">⚡</span> Mittel <span style="font-size:12px;opacity:0.7;margin-left:4px">– Zeig was du weißt!</span>
+          </button>
+          <button class="main-btn green-btn" onclick="startWissen('hard')" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#b91c1c,#991b1b)">
+            <span style="font-size:24px">🔥</span> Schwer <span style="font-size:12px;opacity:0.7;margin-left:4px">– Nur für echte Wissens-Zauberer!</span>
+          </button>
+        </div>
+        <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-dim);font-weight:600">Jede Runde: 5 zufällige Fragen</div>`;
     }
 
     app.innerHTML=`
@@ -582,6 +1169,7 @@ function render(){
         <button class="tab-btn ${activeTab==='read'?'active-read':''}" onclick="switchTab('read')"><span class="tab-emoji">📖</span>Lesen</button>
         <button class="tab-btn ${activeTab==='math'?'active-math':''}" onclick="switchTab('math')"><span class="tab-emoji">🔢</span>Mathe</button>
         <button class="tab-btn ${activeTab==='eng'?'active-eng':''}" onclick="switchTab('eng')"><span class="tab-emoji">🇬🇧</span>Englisch</button>
+        <button class="tab-btn ${activeTab==='wissen'?'active-wissen':''}" onclick="switchTab('wissen')"><span class="tab-emoji">🧠</span>Wissen</button>
       </div>
       ${tabContent}
     `;
@@ -687,12 +1275,54 @@ function render(){
       app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="engStep=0;render()">← Wörter nochmal ansehen</button><div class="step-info">Quiz: ${les.title}</div></div>
         <div style="padding:0 24px 6px"><div class="quiz-title" style="color:var(--orange)">🇬🇧 Quiz: ${les.title}</div></div>${qH}${bot}`;
     }
+
+  // ─── WISSEN VIEW ──────────────────────────────────────────────────────
+  } else if(currentView==='wissen'){
+    const q=wissenQuestions[wissenCurrent];
+    const isDone=wissenCurrent>=wissenQuestions.length;
+    const diffLabel=wissenDifficulty==='easy'?'🌟 Einfach':wissenDifficulty==='medium'?'⚡ Mittel':'🔥 Schwer';
+    const diffColor=wissenDifficulty==='easy'?'var(--green)':wissenDifficulty==='medium'?'#0d9488':'var(--red)';
+    const dots=wissenQuestions.map((_,i)=>{
+      let cls='eng-pip';if(i<wissenCurrent)cls+=wissenQuestions[i].wasCorrect?' pip-done':' ';if(i===wissenCurrent&&!isDone)cls+=' pip-current';
+      return `<div class="${cls}" style="${i<wissenCurrent&&!wissenQuestions[i].wasCorrect?'background:var(--red);border-color:var(--red)':''}"></div>`;
+    }).join('');
+
+    if(isDone){
+      const stars=wissenScore>=5?3:wissenScore>=3?2:1;
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button></div>
+        <div style="text-align:center;padding:40px 24px">
+          <div style="font-size:64px;margin-bottom:12px">${stars===3?'🎉':stars===2?'👍':'💪'}</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:28px;color:${stars===3?'var(--green)':stars===2?'var(--gold)':'var(--accent)'}">${wissenScore} von ${wissenQuestions.length} richtig!</div>
+          <div style="font-size:14px;color:var(--text-dim);font-weight:700;margin-top:6px">${diffLabel}</div>
+          <div class="stars-earned" style="margin:16px 0">${'⭐'.repeat(stars)}${'<span style="filter:grayscale(1) opacity(0.3)">⭐</span>'.repeat(3-stars)}</div>
+          <button class="main-btn green-btn" style="width:calc(100% - 48px);margin:16px auto 0" onclick="goBack()">Zurück 📅</button>
+        </div>`;
+    } else {
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button><div class="step-info">${diffLabel} – Frage ${wissenCurrent+1}/${wissenQuestions.length}</div></div>
+        <div class="eng-progress" style="margin-top:8px">${dots}</div>
+        <div style="text-align:center;font-size:52px;margin:12px 0 4px">${q.emoji||'🧠'}</div>
+        <div style="padding:0 24px">
+          <div style="font-family:'Fredoka One',cursive;font-size:20px;color:var(--text);text-align:center;margin-bottom:18px;line-height:1.4">${q.q}</div>
+        </div>
+        <div class="eng-options">
+          ${q.o.map((opt,oi)=>{
+            const sel=wissenSelected===oi;
+            const sC=wissenAnswered&&oi===q.c;
+            const sW=wissenAnswered&&sel&&oi!==q.c;
+            return `<button class="eng-opt-btn ${sC?'eng-correct':sW?'eng-wrong':sel?'eng-selected':''}" style="border-color:${sC?'var(--green)':sW?'var(--red)':sel?diffColor:'rgba(34,197,94,0.15)'};${sC?'background:rgba(34,197,94,0.15)':sW?'background:rgba(248,113,113,0.15)':sel?'background:rgba(34,197,94,0.1)':''}" ${wissenAnswered?'disabled':''} onclick="wissenSelect(${oi})">${sC?'✅ ':sW?'❌ ':''}${opt}</button>`;
+          }).join('')}
+        </div>
+        <div style="padding:0 24px;margin-top:14px">
+          <button class="main-btn green-btn" onclick="${wissenAnswered?'wissenNext()':'wissenCheck()'}" ${!wissenAnswered&&wissenSelected===null?'disabled':''}>${wissenAnswered?'Nächste Frage →':'Prüfen!'}</button>
+        </div>
+        <div style="text-align:center;margin-top:10px;font-size:14px;font-weight:700;color:var(--text-dim)">${wissenScore} richtig bisher</div>`;
+    }
   }
 }
 
 function renderReward(){
   const{score,total,type}=rewardData;
-  const msgs=type==='math'?WIZ_MATH:type==='eng'?WIZ_ENG:score===total?WIZ_PERFECT:score>=total-1?WIZ_GOOD:WIZ_TRY;
+  const msgs=type==='math'?WIZ_MATH:type==='eng'?WIZ_ENG:type==='wissen'?WIZ_WISSEN:score===total?WIZ_PERFECT:score>=total-1?WIZ_GOOD:WIZ_TRY;
   const msg=pickRandom(msgs);
   let ov=document.getElementById('reward-overlay');
   if(!ov){ov=document.createElement('div');ov.id='reward-overlay';ov.className='reward-overlay';document.body.appendChild(ov);}
@@ -707,14 +1337,90 @@ function renderReward(){
 // ═══════════════════════════════════════════════════════════════════════════
 window.switchTab=function(t){activeTab=t;render();};
 window.startDay=function(d){selectedDay=d;currentView='reading';quizAnswers={};quizSubmitted=false;render();window.scrollTo(0,0);};
-window.goBack=function(){currentView='calendar';selectedDay=null;engLesson=null;render();window.scrollTo(0,0);};
+window.goBack=function(){currentView='calendar';selectedDay=null;engLesson=null;wissenDifficulty=null;render();window.scrollTo(0,0);};
 window.goToQuiz=function(){currentView='quiz';quizAnswers={};quizSubmitted=false;render();window.scrollTo(0,0);};
 window.selectAnswer=function(qi,oi){if(quizSubmitted)return;quizAnswers[qi]=oi;render();};
+// ─── Instant Celebrations on Correct Answers ────────────────────────────
+const CELEBRATION_EMOJIS=['🎉','🥳','💥','⚡','🌟','✨','💫','🔥','🎊','🪄'];
+const MERLIX_CHEERS=['Ja!','Super!','Richtig!','Toll!','Wow!','Klasse!','Bravo!','Yeah!','Perfekt!','Magisch!'];
+const MERLIX_DANCES=['wizDanceJump','wizDanceSpin','wizDanceWiggle','wizDanceFlip'];
+
+function celebrateCorrect(intensity){
+  // intensity: 1=single correct, 2=quiz good, 3=quiz perfect
+  
+  // Mini Merlix pops up and cheers
+  const miniWiz=document.createElement('div');
+  miniWiz.style.cssText=`position:fixed;z-index:1001;pointer-events:none;font-size:${40+intensity*15}px;left:${30+Math.random()*40}%;bottom:${60+Math.random()*100}px;animation:wizCelebPop ${0.8+intensity*0.3}s cubic-bezier(0.34,1.56,0.64,1) forwards;filter:drop-shadow(0 0 15px rgba(139,92,246,0.5));`;
+  miniWiz.textContent='🧙‍♂️';
+  document.body.appendChild(miniWiz);
+  setTimeout(()=>miniWiz.remove(),2000+intensity*500);
+  
+  // Cheer text
+  const cheer=document.createElement('div');
+  cheer.className='merlix-spell';
+  cheer.textContent=pickRandom(MERLIX_CHEERS)+(intensity>=2?' '+pickRandom(CELEBRATION_EMOJIS):'');
+  cheer.style.cssText+=`left:${35+Math.random()*30}%;bottom:${130+intensity*30}px;font-size:${16+intensity*4}px;`;
+  document.body.appendChild(cheer);
+  setTimeout(()=>cheer.remove(),2500);
+  
+  // Particles
+  spawnParticles(8+intensity*10,['#fbbf24','#7c3aed','#34d399','#60a5fa','#f472b6','#fb923c']);
+  
+  if(intensity>=2){
+    // Confetti shower
+    spawnConfetti(20+intensity*20);
+    spawnStarBurst();
+    // Bonus emoji rain
+    const rainEmojis=intensity===3?['⭐','🌟','✨','💫','🎉','🏆']:['⭐','✨','💫'];
+    for(let i=0;i<5+intensity*5;i++){
+      const e=document.createElement('div');e.className='confetti';
+      e.textContent=pickRandom(rainEmojis);
+      e.style.cssText=`left:${Math.random()*100}%;top:-20px;background:transparent;font-size:${14+Math.random()*16}px;--dur:${1.5+Math.random()*2}s;--rot:${360+Math.random()*720}deg;animation-delay:${Math.random()*0.8}s;width:auto;height:auto;`;
+      document.body.appendChild(e);setTimeout(()=>e.remove(),4000);
+    }
+  }
+  
+  if(intensity>=3){
+    // MEGA celebration: screen flash, more confetti waves, random crazy effect
+    setTimeout(()=>spawnConfetti(50),300);
+    setTimeout(()=>spawnConfetti(40),700);
+    setTimeout(()=>{spawnStarBurst();spawnParticles(30,['#fbbf24','#ef4444','#22c55e','#3b82f6','#ec4899']);},500);
+    // Trigger a random crazy merlix effect
+    setTimeout(()=>{
+      const crazyEffects=['rainbow','diamonds','unicorn','explosion'];
+      merlixCrazyEffect(pickRandom(crazyEffects));
+    },800);
+    // Screen flash
+    const flash=document.createElement('div');
+    flash.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;z-index:997;pointer-events:none;background:rgba(251,191,36,0.15);animation:flashBang 0.6s ease-out forwards;';
+    if(!document.getElementById('flashStyle')){
+      const fs=document.createElement('style');fs.id='flashStyle';
+      fs.textContent='@keyframes flashBang{0%{opacity:1}100%{opacity:0}} @keyframes wizCelebPop{0%{transform:scale(0) rotate(-20deg) translateY(0);opacity:0}40%{transform:scale(1.4) rotate(10deg) translateY(-30px);opacity:1}60%{transform:scale(1.1) rotate(-5deg) translateY(-50px)}80%{transform:scale(1.2) rotate(3deg) translateY(-40px)}100%{transform:scale(0) rotate(15deg) translateY(-80px);opacity:0}}';
+      document.head.appendChild(fs);
+    } else if(!document.getElementById('celebPopStyle')){
+      const cs=document.createElement('style');cs.id='celebPopStyle';
+      cs.textContent='@keyframes wizCelebPop{0%{transform:scale(0) rotate(-20deg) translateY(0);opacity:0}40%{transform:scale(1.4) rotate(10deg) translateY(-30px);opacity:1}60%{transform:scale(1.1) rotate(-5deg) translateY(-50px)}80%{transform:scale(1.2) rotate(3deg) translateY(-40px)}100%{transform:scale(0) rotate(15deg) translateY(-80px);opacity:0}}';
+      document.head.appendChild(cs);
+    }
+    document.body.appendChild(flash);
+    setTimeout(()=>flash.remove(),800);
+  }
+}
+
+// Add the celebPop animation if not yet present
+(function(){
+  const s=document.createElement('style');
+  s.textContent='@keyframes wizCelebPop{0%{transform:scale(0) rotate(-20deg) translateY(0);opacity:0}40%{transform:scale(1.4) rotate(10deg) translateY(-30px);opacity:1}60%{transform:scale(1.1) rotate(-5deg) translateY(-50px)}80%{transform:scale(1.2) rotate(3deg) translateY(-40px)}100%{transform:scale(0) rotate(15deg) translateY(-80px);opacity:0}} @keyframes flashBang{0%{opacity:1}100%{opacity:0}}';
+  document.head.appendChild(s);
+})();
+
 window.submitQuiz=function(){
   const day=DAYS.find(d=>d.date===selectedDay);if(!day)return;quizSubmitted=true;
   const cor=day.quiz.filter((q,i)=>quizAnswers[i]===q.c).length;
   progress[selectedDay]={quizDone:true,score:cor,total:3};save();
-  showReward=true;rewardData={score:cor,total:3,type:'read'};renderReward();render();
+  // Celebrate based on score!
+  celebrateCorrect(cor===3?3:cor>=2?2:1);
+  setTimeout(()=>{showReward=true;rewardData={score:cor,total:3,type:'read'};renderReward();render();},cor===3?1500:800);
 };
 window.dismissReward=function(){showReward=false;rewardData=null;const ov=document.getElementById('reward-overlay');if(ov)ov.remove();currentView='calendar';selectedDay=null;engLesson=null;render();window.scrollTo(0,0);};
 
@@ -723,14 +1429,16 @@ window.startMath=function(){mathProblems=generateMathProblems();mathCurrent=0;ma
 window.checkMath=function(){
   if(mathAnswered||!mathUserAnswer)return;mathAnswered=true;
   const p=mathProblems[mathCurrent];const correct=parseInt(mathUserAnswer)===p.answer;
-  p.wasCorrect=correct;if(correct)mathScore++;render();
+  p.wasCorrect=correct;if(correct){mathScore++;celebrateCorrect(1);}
+  render();
 };
 window.nextMath=function(){
   mathCurrent++;mathAnswered=false;mathUserAnswer='';
   if(mathCurrent>=mathProblems.length){
     const stars=mathScore>=7?3:mathScore>=5?2:1;
     progress.mathCompleted=(progress.mathCompleted||0)+1;progress.mathStars=(progress.mathStars||0)+stars;save();
-    showReward=true;rewardData={score:mathScore,total:mathProblems.length,type:'math'};renderReward();
+    celebrateCorrect(stars);
+    setTimeout(()=>{showReward=true;rewardData={score:mathScore,total:mathProblems.length,type:'math'};renderReward();},stars===3?1500:800);
   }
   render();
 };
@@ -743,7 +1451,38 @@ window.submitEngQuiz=function(){
   const cor=les.quiz.filter((q,i)=>engQuizAnswers[i]===q.c).length;
   if(!progress.engDone)progress.engDone={};progress.engDone[les.id]=true;
   progress.engStars=(progress.engStars||0)+(cor===3?3:cor>=2?2:1);save();
-  showReward=true;rewardData={score:cor,total:3,type:'eng'};renderReward();render();
+  celebrateCorrect(cor===3?3:cor>=2?2:1);
+  setTimeout(()=>{showReward=true;rewardData={score:cor,total:3,type:'eng'};renderReward();render();},cor===3?1500:800);
+};
+
+// Wissen
+window.startWissen=function(diff){
+  wissenDifficulty=diff;
+  const bank=diff==='easy'?WISSEN_EASY:diff==='medium'?WISSEN_MEDIUM:WISSEN_HARD;
+  // Pick 5 random unique questions
+  const shuffled=[...bank].sort(()=>Math.random()-0.5);
+  wissenQuestions=shuffled.slice(0,5).map(q=>({...q,wasCorrect:false}));
+  wissenCurrent=0;wissenScore=0;wissenAnswered=false;wissenSelected=null;
+  currentView='wissen';render();window.scrollTo(0,0);
+};
+window.wissenSelect=function(oi){if(wissenAnswered)return;wissenSelected=oi;render();};
+window.wissenCheck=function(){
+  if(wissenAnswered||wissenSelected===null)return;wissenAnswered=true;
+  const q=wissenQuestions[wissenCurrent];
+  const correct=wissenSelected===q.c;q.wasCorrect=correct;
+  if(correct){wissenScore++;celebrateCorrect(1);}
+  render();
+};
+window.wissenNext=function(){
+  wissenCurrent++;wissenAnswered=false;wissenSelected=null;
+  if(wissenCurrent>=wissenQuestions.length){
+    const stars=wissenScore>=5?3:wissenScore>=3?2:1;
+    progress.wissenCompleted=(progress.wissenCompleted||0)+1;
+    progress.wissenStars=(progress.wissenStars||0)+stars;save();
+    celebrateCorrect(stars);
+    setTimeout(()=>{showReward=true;rewardData={score:wissenScore,total:wissenQuestions.length,type:'wissen'};renderReward();},stars===3?1500:800);
+  }
+  render();window.scrollTo(0,0);
 };
 
 // ─── Stars & Init ───────────────────────────────────────────────────────
@@ -751,8 +1490,9 @@ function createStars(){const sf=document.getElementById('starfield');for(let i=0
 createStars();
 render();
 scheduleMerlixWalk();
-// First walk after 8 seconds
-setTimeout(merlixWalk,8000);
+// First walk quickly, then another soon
+setTimeout(merlixWalk,5000);
+setTimeout(()=>{if(!document.querySelector('.merlix-walker'))merlixWalk();},18000);
 </script>
 </body>
 </html>
