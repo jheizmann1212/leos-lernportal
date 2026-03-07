@@ -108,6 +108,7 @@ body {
 .tab-btn.active-math { background:rgba(96,165,250,0.15); border-color:var(--blue); color:var(--blue); }
 .tab-btn.active-eng { background:rgba(251,146,60,0.15); border-color:var(--orange); color:var(--orange); }
 .tab-btn.active-wissen { background:rgba(34,197,94,0.15); border-color:var(--green); color:var(--green); }
+.tab-btn.active-schreib { background:rgba(236,72,153,0.15); border-color:#ec4899; color:#ec4899; }
 .tab-btn:hover:not(.active-read):not(.active-math):not(.active-eng) { border-color:rgba(255,255,255,0.15); }
 .tab-emoji { font-size:22px; display:block; margin-bottom:4px; }
 
@@ -119,6 +120,8 @@ body {
 .progress-fill.bluefill { background:linear-gradient(90deg,#3b82f6,#60a5fa,#93c5fd,#60a5fa,#3b82f6); background-size:300% 100%; animation:pShimmer 3s ease infinite; }
 .progress-fill.orangefill { background:linear-gradient(90deg,#f97316,#fb923c,#fdba74,#fb923c,#f97316); background-size:300% 100%; animation:pShimmer 3s ease infinite; }
 .progress-fill.greenfill { background:linear-gradient(90deg,#16a34a,#34d399,#6ee7b7,#34d399,#16a34a); background-size:300% 100%; animation:pShimmer 3s ease infinite; }
+.progress-fill.pinkfill { background:linear-gradient(90deg,#db2777,#ec4899,#f9a8d4,#ec4899,#db2777); background-size:300% 100%; animation:pShimmer 3s ease infinite; }
+.main-btn.pink-btn { background:linear-gradient(135deg,#db2777,#be185d); color:#fff; box-shadow:0 4px 20px rgba(236,72,153,0.3); }
 @keyframes pShimmer { 0%{background-position:300% 0} 100%{background-position:0% 0} }
 .progress-text { font-size:12px; color:var(--text-dim); font-weight:700; margin-top:5px; }
 
@@ -645,6 +648,142 @@ const ENG_LESSONS = [
       {en:"Eye",de:"Auge",phonetic:"Ai",example:"I see with my eye.",img:"👁️"},
     ],
     quiz:[{q:"Was heißt 'Hand'?",o:["Fuß","Kopf","Hand"],c:2},{q:"Wie sagt man 'Auge'?",o:["Head","Eye","Foot"],c:1},{q:"'I kick the ball with my foot' – Womit kicke ich den Ball?",o:["Hand","Kopf","Fuß"],c:2}]},
+  { id:9, title:"Kleidung", emoji:"👕", theme:"Clothes – Kleidung",
+    words:[
+      {en:"Shirt",de:"T-Shirt",phonetic:"Schört",example:"My shirt is blue.",img:"👕"},
+      {en:"Shoes",de:"Schuhe",phonetic:"Schuus",example:"I put on my shoes.",img:"👟"},
+      {en:"Hat",de:"Hut / Mütze",phonetic:"Hät",example:"The hat is on my head.",img:"🧢"},
+      {en:"Jacket",de:"Jacke",phonetic:"Dschä-ket",example:"I wear a jacket when it is cold.",img:"🧥"},
+    ],
+    quiz:[{q:"Was heißt 'Shoes'?",o:["Hut","Schuhe","Jacke"],c:1},{q:"Wie sagt man 'Jacke'?",o:["Shirt","Hat","Jacket"],c:2},{q:"'My shirt is blue' – Was ist blau?",o:["Die Schuhe","Das T-Shirt","Der Hut"],c:1}]},
+  { id:10, title:"Wetter", emoji:"🌤️", theme:"Weather – Wetter",
+    words:[
+      {en:"Sun",de:"Sonne",phonetic:"San",example:"The sun is hot.",img:"☀️"},
+      {en:"Rain",de:"Regen",phonetic:"Rein",example:"I hear the rain.",img:"🌧️"},
+      {en:"Snow",de:"Schnee",phonetic:"Snoh",example:"The snow is white.",img:"❄️"},
+      {en:"Wind",de:"Wind",phonetic:"Wind",example:"The wind blows my hat away!",img:"💨"},
+    ],
+    quiz:[{q:"Was heißt 'Rain'?",o:["Sonne","Schnee","Regen"],c:2},{q:"Wie sagt man 'Schnee'?",o:["Snow","Sun","Wind"],c:0},{q:"'The sun is hot' – Wie ist die Sonne?",o:["Kalt","Heiß","Nass"],c:1}]},
+  { id:11, title:"Im Haus", emoji:"🏠", theme:"In the house – Im Haus",
+    words:[
+      {en:"Door",de:"Tür",phonetic:"Door",example:"Please open the door.",img:"🚪"},
+      {en:"Window",de:"Fenster",phonetic:"Win-doh",example:"I look out the window.",img:"🪟"},
+      {en:"Table",de:"Tisch",phonetic:"Tei-bel",example:"The book is on the table.",img:"🪑"},
+      {en:"Bed",de:"Bett",phonetic:"Bed",example:"I sleep in my bed.",img:"🛏️"},
+    ],
+    quiz:[{q:"Was heißt 'Window'?",o:["Tür","Fenster","Tisch"],c:1},{q:"Wie sagt man 'Bett'?",o:["Table","Door","Bed"],c:2},{q:"'The book is on the table' – Wo ist das Buch?",o:["Im Bett","Auf dem Tisch","Am Fenster"],c:1}]},
+  { id:12, title:"Gefühle", emoji:"😊", theme:"Feelings – Gefühle",
+    words:[
+      {en:"Happy",de:"Glücklich / Fröhlich",phonetic:"Häp-pi",example:"I am happy today!",img:"😊"},
+      {en:"Sad",de:"Traurig",phonetic:"Säd",example:"The boy is sad.",img:"😢"},
+      {en:"Angry",de:"Wütend",phonetic:"Äng-gri",example:"The cat is angry.",img:"😠"},
+      {en:"Tired",de:"Müde",phonetic:"Tai-erd",example:"I am tired. Good night!",img:"😴"},
+    ],
+    quiz:[{q:"Was heißt 'Happy'?",o:["Traurig","Müde","Glücklich"],c:2},{q:"Wie sagt man 'Müde'?",o:["Sad","Tired","Angry"],c:1},{q:"'The boy is sad' – Wie fühlt sich der Junge?",o:["Glücklich","Wütend","Traurig"],c:2}]},
+  { id:13, title:"Obst", emoji:"🍓", theme:"Fruit – Obst",
+    words:[
+      {en:"Banana",de:"Banane",phonetic:"Bä-naa-na",example:"The banana is yellow.",img:"🍌"},
+      {en:"Strawberry",de:"Erdbeere",phonetic:"Stroh-bä-ri",example:"I love strawberries!",img:"🍓"},
+      {en:"Orange",de:"Orange",phonetic:"Oh-rendsch",example:"Orange juice is yummy.",img:"🍊"},
+      {en:"Grape",de:"Traube",phonetic:"Greip",example:"Grapes grow on a vine.",img:"🍇"},
+    ],
+    quiz:[{q:"Was heißt 'Strawberry'?",o:["Orange","Traube","Erdbeere"],c:2},{q:"Wie sagt man 'Banane'?",o:["Grape","Banana","Orange"],c:1},{q:"'I love strawberries' – Was mag ich?",o:["Orangen","Trauben","Erdbeeren"],c:2}]},
+  { id:14, title:"Schule", emoji:"🏫", theme:"School – Schule",
+    words:[
+      {en:"Book",de:"Buch",phonetic:"Buk",example:"I read a book.",img:"📖"},
+      {en:"Pencil",de:"Bleistift",phonetic:"Pen-sel",example:"I write with a pencil.",img:"✏️"},
+      {en:"Teacher",de:"Lehrer/Lehrerin",phonetic:"Tii-tscher",example:"My teacher is nice.",img:"👩‍🏫"},
+      {en:"School",de:"Schule",phonetic:"Skuul",example:"I go to school every day.",img:"🏫"},
+    ],
+    quiz:[{q:"Was heißt 'Teacher'?",o:["Schüler","Lehrer","Buch"],c:1},{q:"Wie sagt man 'Buch'?",o:["Pencil","School","Book"],c:2},{q:"'I write with a pencil' – Womit schreibe ich?",o:["Mit einem Buch","Mit einem Bleistift","Mit der Hand"],c:1}]},
+  { id:15, title:"Spielplatz", emoji:"🎠", theme:"Playground – Spielplatz",
+    words:[
+      {en:"Ball",de:"Ball",phonetic:"Bool",example:"I play with a ball.",img:"⚽"},
+      {en:"Swing",de:"Schaukel",phonetic:"Swing",example:"I sit on the swing.",img:"🎠"},
+      {en:"Friend",de:"Freund",phonetic:"Frend",example:"Tom is my friend.",img:"🤝"},
+      {en:"Play",de:"Spielen",phonetic:"Plei",example:"Let's play together!",img:"🎮"},
+    ],
+    quiz:[{q:"Was heißt 'Friend'?",o:["Feind","Bruder","Freund"],c:2},{q:"Wie sagt man 'Spielen'?",o:["Swing","Play","Ball"],c:1},{q:"'Let's play together!' – Was sollen wir zusammen machen?",o:["Schlafen","Spielen","Essen"],c:1}]},
+  { id:16, title:"Groß und Klein", emoji:"📏", theme:"Big and small – Groß und klein",
+    words:[
+      {en:"Big",de:"Groß",phonetic:"Big",example:"The elephant is big.",img:"🐘"},
+      {en:"Small",de:"Klein",phonetic:"Smool",example:"The mouse is small.",img:"🐭"},
+      {en:"Fast",de:"Schnell",phonetic:"Faast",example:"The car is fast.",img:"🏎️"},
+      {en:"Slow",de:"Langsam",phonetic:"Sloh",example:"The snail is slow.",img:"🐌"},
+    ],
+    quiz:[{q:"Was heißt 'Small'?",o:["Groß","Schnell","Klein"],c:2},{q:"Wie sagt man 'Schnell'?",o:["Slow","Big","Fast"],c:2},{q:"'The snail is slow' – Wie ist die Schnecke?",o:["Schnell","Langsam","Groß"],c:1}]},
+  { id:17, title:"Tagesablauf", emoji:"⏰", theme:"My day – Mein Tag",
+    words:[
+      {en:"Morning",de:"Morgen",phonetic:"Mor-ning",example:"I eat breakfast in the morning.",img:"🌅"},
+      {en:"Night",de:"Nacht",phonetic:"Nait",example:"Good night, sleep well!",img:"🌙"},
+      {en:"Eat",de:"Essen",phonetic:"Iit",example:"I eat an apple.",img:"🍽️"},
+      {en:"Sleep",de:"Schlafen",phonetic:"Sliip",example:"I sleep in my bed.",img:"😴"},
+    ],
+    quiz:[{q:"Was heißt 'Night'?",o:["Morgen","Tag","Nacht"],c:2},{q:"Wie sagt man 'Essen'?",o:["Sleep","Eat","Morning"],c:1},{q:"'I eat breakfast in the morning' – Wann esse ich Frühstück?",o:["Abends","Morgens","Nachts"],c:1}]},
+  { id:18, title:"Im Zoo", emoji:"🦁", theme:"At the zoo – Im Zoo",
+    words:[
+      {en:"Lion",de:"Löwe",phonetic:"Lai-en",example:"The lion is the king of animals.",img:"🦁"},
+      {en:"Monkey",de:"Affe",phonetic:"Man-ki",example:"The monkey climbs the tree.",img:"🐒"},
+      {en:"Elephant",de:"Elefant",phonetic:"Ele-fent",example:"The elephant has big ears.",img:"🐘"},
+      {en:"Snake",de:"Schlange",phonetic:"Sneik",example:"The snake has no legs.",img:"🐍"},
+    ],
+    quiz:[{q:"Was heißt 'Monkey'?",o:["Löwe","Schlange","Affe"],c:2},{q:"Wie sagt man 'Elefant'?",o:["Lion","Elephant","Snake"],c:1},{q:"'The snake has no legs' – Was hat die Schlange nicht?",o:["Augen","Beine","Zähne"],c:1}]},
+  { id:19, title:"Kleine Sätze 1", emoji:"💬", theme:"Simple sentences – Einfache Sätze",
+    words:[
+      {en:"I like",de:"Ich mag",phonetic:"Ai laik",example:"I like ice cream.",img:"🍦"},
+      {en:"I have",de:"Ich habe",phonetic:"Ai häv",example:"I have a dog.",img:"🐕"},
+      {en:"I can",de:"Ich kann",phonetic:"Ai kän",example:"I can swim.",img:"🏊"},
+      {en:"I want",de:"Ich möchte",phonetic:"Ai wont",example:"I want to play.",img:"🎯"},
+    ],
+    quiz:[{q:"Was heißt 'I like'?",o:["Ich habe","Ich mag","Ich kann"],c:1},{q:"Wie sagt man 'Ich kann'?",o:["I want","I have","I can"],c:2},{q:"'I have a dog' – Was habe ich?",o:["Eine Katze","Einen Hund","Einen Fisch"],c:1}]},
+  { id:20, title:"Ja und Nein", emoji:"✅", theme:"Yes and No – Ja und Nein",
+    words:[
+      {en:"Yes",de:"Ja",phonetic:"Jess",example:"Yes, I can do it!",img:"✅"},
+      {en:"No",de:"Nein",phonetic:"Noh",example:"No, thank you.",img:"❌"},
+      {en:"Please",de:"Bitte",phonetic:"Pliis",example:"Please help me.",img:"🙏"},
+      {en:"Thank you",de:"Danke",phonetic:"Thänk juu",example:"Thank you very much!",img:"😊"},
+    ],
+    quiz:[{q:"Was heißt 'Please'?",o:["Danke","Bitte","Ja"],c:1},{q:"Wie sagt man 'Danke'?",o:["Thank you","Please","Yes"],c:0},{q:"'No, thank you' – Was sage ich höflich?",o:["Ja, gerne!","Nein, danke","Bitte sehr"],c:1}]},
+  { id:21, title:"Natur", emoji:"🌳", theme:"Nature – Natur",
+    words:[
+      {en:"Tree",de:"Baum",phonetic:"Trii",example:"The tree is very tall.",img:"🌳"},
+      {en:"Flower",de:"Blume",phonetic:"Flau-er",example:"The flower is beautiful.",img:"🌸"},
+      {en:"River",de:"Fluss",phonetic:"Ri-wer",example:"The river flows to the sea.",img:"🏞️"},
+      {en:"Mountain",de:"Berg",phonetic:"Maun-ten",example:"The mountain is very high.",img:"🏔️"},
+    ],
+    quiz:[{q:"Was heißt 'Flower'?",o:["Baum","Blume","Berg"],c:1},{q:"Wie sagt man 'Fluss'?",o:["Mountain","Tree","River"],c:2},{q:"'The tree is very tall' – Wie ist der Baum?",o:["Klein","Sehr groß","Sehr alt"],c:1}]},
+  { id:22, title:"Fahrzeuge", emoji:"🚗", theme:"Vehicles – Fahrzeuge",
+    words:[
+      {en:"Car",de:"Auto",phonetic:"Kaar",example:"The car is fast.",img:"🚗"},
+      {en:"Bus",de:"Bus",phonetic:"Bass",example:"I go to school by bus.",img:"🚌"},
+      {en:"Bike",de:"Fahrrad",phonetic:"Baik",example:"I ride my bike.",img:"🚲"},
+      {en:"Train",de:"Zug",phonetic:"Trein",example:"The train goes choo choo!",img:"🚂"},
+    ],
+    quiz:[{q:"Was heißt 'Bike'?",o:["Auto","Bus","Fahrrad"],c:2},{q:"Wie sagt man 'Zug'?",o:["Car","Train","Bus"],c:1},{q:"'I go to school by bus' – Wie komme ich zur Schule?",o:["Mit dem Auto","Mit dem Fahrrad","Mit dem Bus"],c:2}]},
+  { id:23, title:"Kleine Sätze 2", emoji:"🗣️", theme:"More sentences – Mehr Sätze",
+    words:[
+      {en:"What is this?",de:"Was ist das?",phonetic:"Wot is dhis?",example:"What is this? It is a ball.",img:"❓"},
+      {en:"Where is",de:"Wo ist",phonetic:"Wär is",example:"Where is the cat?",img:"🔍"},
+      {en:"How old are you?",de:"Wie alt bist du?",phonetic:"Hau old aar juu?",example:"How old are you? I am seven.",img:"🎂"},
+      {en:"My name is",de:"Mein Name ist",phonetic:"Mai neim is",example:"My name is Leo.",img:"👋"},
+    ],
+    quiz:[{q:"Was heißt 'What is this?'?",o:["Wo ist das?","Was ist das?","Wer ist das?"],c:1},{q:"Wie fragt man nach dem Alter?",o:["What is this?","Where is?","How old are you?"],c:2},{q:"'My name is Leo' – Was sagt Leo hier?",o:["Wie er heißt","Wo er wohnt","Wie alt er ist"],c:0}]},
+  { id:24, title:"Wochentage", emoji:"📅", theme:"Days of the week – Wochentage",
+    words:[
+      {en:"Monday",de:"Montag",phonetic:"Man-dei",example:"On Monday I go to school.",img:"1️⃣"},
+      {en:"Friday",de:"Freitag",phonetic:"Frai-dei",example:"Friday is my favourite day!",img:"5️⃣"},
+      {en:"Saturday",de:"Samstag",phonetic:"Sä-ter-dei",example:"On Saturday I can play.",img:"6️⃣"},
+      {en:"Sunday",de:"Sonntag",phonetic:"San-dei",example:"On Sunday we visit grandma.",img:"7️⃣"},
+    ],
+    quiz:[{q:"Was heißt 'Monday'?",o:["Freitag","Sonntag","Montag"],c:2},{q:"Wie sagt man 'Samstag'?",o:["Sunday","Saturday","Friday"],c:1},{q:"'Friday is my favourite day' – Welcher Tag ist am besten?",o:["Montag","Samstag","Freitag"],c:2}]},
+  { id:25, title:"Zu Hause", emoji:"🏡", theme:"At home – Zu Hause",
+    words:[
+      {en:"Kitchen",de:"Küche",phonetic:"Kit-schen",example:"Mum cooks in the kitchen.",img:"🍳"},
+      {en:"Garden",de:"Garten",phonetic:"Gaar-den",example:"I play in the garden.",img:"🌻"},
+      {en:"Bathroom",de:"Badezimmer",phonetic:"Baath-ruum",example:"I brush my teeth in the bathroom.",img:"🚿"},
+      {en:"Room",de:"Zimmer",phonetic:"Ruum",example:"My room is nice and cosy.",img:"🛋️"},
+    ],
+    quiz:[{q:"Was heißt 'Kitchen'?",o:["Garten","Küche","Badezimmer"],c:1},{q:"Wie sagt man 'Garten'?",o:["Room","Bathroom","Garden"],c:2},{q:"'I brush my teeth in the bathroom' – Wo putze ich die Zähne?",o:["In der Küche","Im Badezimmer","Im Garten"],c:1}]},
 ];
 
 // ─── Allgemeinwissen / Sachkunde Quiz Bank ──────────────────────────────
@@ -719,6 +858,75 @@ const WISSEN_HARD=[
 
 const WIZ_WISSEN=["SCHLAU! Du weißt ja mehr als manche Zauberer!","BEEINDRUCKEND! Dein Wissen ist magisch!","GENIAL! Merlix ist stolz auf seinen Lehrling!","FANTASTISCH! Du bist ein echtes Wissens-Genie!"];
 
+// ─── Schreib-Übungen Word Banks ─────────────────────────────────────────
+const SCHREIB_EASY=[
+  {word:"Haus",hint:"Dort wohnst du",img:"🏠"},
+  {word:"Baum",hint:"Hat Blätter und steht im Wald",img:"🌳"},
+  {word:"Hund",hint:"Bellt und wedelt mit dem Schwanz",img:"🐕"},
+  {word:"Ball",hint:"Damit kann man spielen",img:"⚽"},
+  {word:"Buch",hint:"Darin kann man lesen",img:"📖"},
+  {word:"Maus",hint:"Klein, grau und mag Käse",img:"🐭"},
+  {word:"Fisch",hint:"Schwimmt im Wasser",img:"🐟"},
+  {word:"Sonne",hint:"Scheint am Himmel und ist warm",img:"☀️"},
+  {word:"Apfel",hint:"Ein rotes oder grünes Obst",img:"🍎"},
+  {word:"Katze",hint:"Miaut und schnurrt",img:"🐱"},
+  {word:"Blume",hint:"Wächst im Garten und ist bunt",img:"🌸"},
+  {word:"Vogel",hint:"Hat Flügel und kann fliegen",img:"🐦"},
+  {word:"Tisch",hint:"Darauf stehen Teller und Gläser",img:"🪑"},
+  {word:"Milch",hint:"Weiß und kommt von der Kuh",img:"🥛"},
+  {word:"Stern",hint:"Leuchtet nachts am Himmel",img:"⭐"},
+  {word:"Wasser",hint:"Damit kann man trinken und schwimmen",img:"💧"},
+  {word:"Mond",hint:"Scheint in der Nacht",img:"🌙"},
+  {word:"Nase",hint:"Damit riechst du",img:"👃"},
+  {word:"Schuh",hint:"Trägst du an den Füßen",img:"👟"},
+  {word:"Brot",hint:"Isst man zum Frühstück",img:"🍞"},
+];
+const SCHREIB_MEDIUM=[
+  {word:"Schmetterling",hint:"War erst eine Raupe",img:"🦋"},
+  {word:"Fahrrad",hint:"Hat zwei Räder und Pedale",img:"🚲"},
+  {word:"Fenster",hint:"Aus Glas, zum Hindurchschauen",img:"🪟"},
+  {word:"Elefant",hint:"Großes Tier mit Rüssel",img:"🐘"},
+  {word:"Kartoffel",hint:"Wächst unter der Erde",img:"🥔"},
+  {word:"Schokolade",hint:"Süß und braun, sehr lecker!",img:"🍫"},
+  {word:"Schaukel",hint:"Auf dem Spielplatz, vor und zurück",img:"🎠"},
+  {word:"Geburtstag",hint:"Dein besonderer Tag im Jahr",img:"🎂"},
+  {word:"Regenbogen",hint:"Bunt am Himmel nach dem Regen",img:"🌈"},
+  {word:"Schildkröte",hint:"Langsam und trägt ein Haus auf dem Rücken",img:"🐢"},
+  {word:"Frühstück",hint:"Die erste Mahlzeit am Morgen",img:"🥣"},
+  {word:"Handschuh",hint:"Hält die Hände warm im Winter",img:"🧤"},
+  {word:"Delphin",hint:"Springt aus dem Meer heraus",img:"🐬"},
+  {word:"Flugzeug",hint:"Fliegt hoch am Himmel",img:"✈️"},
+  {word:"Brücke",hint:"Geht über einen Fluss",img:"🌉"},
+  {word:"Kühlschrank",hint:"Hält Essen kalt und frisch",img:"🧊"},
+  {word:"Schnecke",hint:"Langsam mit Haus auf dem Rücken",img:"🐌"},
+  {word:"Drachen",hint:"Fliegt an einer Schnur im Wind",img:"🪁"},
+  {word:"Erdbeere",hint:"Rot, klein und süß",img:"🍓"},
+  {word:"Spielplatz",hint:"Dort gibt es Rutschen und Schaukeln",img:"🛝"},
+];
+const SCHREIB_HARD=[
+  {word:"Eichhörnchen",hint:"Sammelt Nüsse im Herbst",img:"🐿️"},
+  {word:"Feuerwehr",hint:"Kommt wenn es brennt",img:"🚒"},
+  {word:"Zahnbürste",hint:"Zum Zähneputzen",img:"🪥"},
+  {word:"Dinosaurier",hint:"Lebte vor Millionen Jahren",img:"🦕"},
+  {word:"Sonnenschein",hint:"Wenn die Sonne scheint",img:"☀️"},
+  {word:"Weihnachten",hint:"Fest im Dezember mit Geschenken",img:"🎄"},
+  {word:"Schlittschuh",hint:"Damit fährt man auf dem Eis",img:"⛸️"},
+  {word:"Hubschrauber",hint:"Fliegt mit einem Propeller",img:"🚁"},
+  {word:"Schatzkiste",hint:"Darin sind Gold und Edelsteine",img:"💎"},
+  {word:"Krankenwagen",hint:"Fährt mit Blaulicht zum Krankenhaus",img:"🚑"},
+  {word:"Wasserfall",hint:"Wasser das von oben herunter fällt",img:"💦"},
+  {word:"Marienkäfer",hint:"Rot mit schwarzen Punkten",img:"🐞"},
+  {word:"Abenteuer",hint:"Eine spannende Reise",img:"🗺️"},
+  {word:"Schneemann",hint:"Baut man im Winter aus Schnee",img:"⛄"},
+  {word:"Zauberstab",hint:"Merlix benutzt einen!",img:"🪄"},
+  {word:"Gewitterwolke",hint:"Dunkel, mit Blitz und Donner",img:"⛈️"},
+  {word:"Schwimmbad",hint:"Dort kann man schwimmen gehen",img:"🏊"},
+  {word:"Pflasterstein",hint:"Damit sind Wege gepflastert",img:"🧱"},
+  {word:"Regenwurm",hint:"Lebt in der Erde, lang und dünn",img:"🪱"},
+  {word:"Kindergarten",hint:"Dort war Leo vor der Schule",img:"🧒"},
+];
+const WIZ_SCHREIB=["MAGISCHE BUCHSTABEN! Du schreibst wie ein echter Zauberer!","FANTASTISCH! Jeder Buchstabe sitzt perfekt!","WUNDERBAR! Deine Schreibkraft ist beeindruckend!","BRILLANT! Merlix kann fast nicht so gut schreiben wie du!"];
+
 // ─── Wizard messages ────────────────────────────────────────────────────
 const WIZ_PERFECT=["FANTASTISCH, Leo! Alle richtig! Du bist ein wahrer Lese-Meister!","WUNDERBAR! Meine Zauberkraft wächst durch dein Wissen!","UNGLAUBLICH! Perfekt! Du liest ja besser als manche Zauberer!","MAGISCH! Alles richtig! Du hast die Weisheit eines Drachen!","SPEKTAKULÄR! Dein Wissen leuchtet heller als mein Zauberstab!","BRILLANT, Leo! Ich bin beeindruckt!","ERSTKLASSIG! Du bist auf dem Weg zum Lese-Zauberer!","HERVORRAGEND! Sogar meine Eule staunt!"];
 const WIZ_GOOD=["SUPER GEMACHT, Leo! Fast alles richtig! Beim nächsten Mal schaffst du alle!","KLASSE, Leo! Du wirst jeden Tag ein bisschen besser!","PRIMA! Du bist auf einem guten Weg, junger Zauberlehrling!","GUT GEMACHT! Übung macht den Meister – und den Zauberer!"];
@@ -734,7 +942,7 @@ let progress={};
 try{progress=JSON.parse(localStorage.getItem('leo-lernportal-v2')||'{}');}catch(e){}
 function save(){try{localStorage.setItem('leo-lernportal-v2',JSON.stringify(progress));}catch(e){}}
 
-let activeTab='read'; // read | math | eng | wissen
+let activeTab='read'; // read | math | eng | wissen | schreib
 let currentView='calendar';
 
 // Wissen state
@@ -744,6 +952,16 @@ let wissenCurrent=0;
 let wissenScore=0;
 let wissenAnswered=false;
 let wissenSelected=null;
+
+// Schreiben state
+let schreibDifficulty=null;
+let schreibWords=[];
+let schreibCurrent=0;
+let schreibScore=0;
+let schreibInput='';
+let schreibChecked=false;
+let schreibCorrect=false;
+let schreibAttempts=0;
 let selectedDay=null;
 let quizAnswers={};
 let quizSubmitted=false;
@@ -766,7 +984,7 @@ let engQuizSubmitted=false;
 function getToday(){return new Date().toISOString().slice(0,10);}
 function getDayLabel(d){const dt=new Date(d+'T12:00:00');const wd=["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];return wd[dt.getDay()]+', '+dt.getDate()+'. März';}
 function getCompleted(){return DAYS.filter(d=>progress[d.date]?.quizDone).length;}
-function getTotalStars(){return DAYS.reduce((s,d)=>s+(progress[d.date]?.score||0),0)+(progress.mathStars||0)+(progress.engStars||0);}
+function getTotalStars(){return DAYS.reduce((s,d)=>s+(progress[d.date]?.score||0),0)+(progress.mathStars||0)+(progress.engStars||0)+(progress.wissenStars||0)+(progress.schreibStars||0);}
 function getLevel(){const c=getCompleted();let l=LEVELS[0];for(const lv of LEVELS){if(c>=lv.min)l=lv;}return l;}
 function getStreak(){const today=getToday();let s=0;for(let i=DAYS.length-1;i>=0;i--){if(DAYS[i].date>today)continue;if(progress[DAYS[i].date]?.quizDone)s++;else break;}return s;}
 function pickRandom(a){return a[Math.floor(Math.random()*a.length)];}
@@ -1152,6 +1370,31 @@ function render(){
           </button>
         </div>
         <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-dim);font-weight:600">Jede Runde: 5 zufällige Fragen</div>`;
+    } else if(activeTab==='schreib'){
+      const sDone=progress.schreibCompleted||0;
+      const sStars=progress.schreibStars||0;
+      const sPct=Math.min(100,Math.round(sDone/20*100));
+      tabContent=`
+        <div class="progress-wrap">
+          <div class="progress-bar"><div class="progress-fill pinkfill" style="width:${sPct}%"></div></div>
+          <div class="progress-text">${sDone} Runden geschafft – ${sStars} Sterne gesammelt</div>
+        </div>
+        <div class="merlix-tip">
+          <div class="merlix-tip-avatar">🧙‍♂️</div>
+          <div class="merlix-tip-text"><strong>Merlix sagt:</strong> "Schreiben ist die mächtigste Zauberkraft! Ich zeige dir ein Wort mit einem Hinweis – du tippst es ein. Achte auf jeden Buchstaben!"</div>
+        </div>
+        <div style="padding:20px 24px 0;display:flex;flex-direction:column;gap:10px">
+          <button class="main-btn pink-btn" onclick="startSchreib('easy')" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px">
+            <span style="font-size:24px">✏️</span> Einfach <span style="font-size:12px;opacity:0.7;margin-left:4px">– Kurze Wörter</span>
+          </button>
+          <button class="main-btn pink-btn" onclick="startSchreib('medium')" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#be185d,#9d174d)">
+            <span style="font-size:24px">📝</span> Mittel <span style="font-size:12px;opacity:0.7;margin-left:4px">– Längere Wörter</span>
+          </button>
+          <button class="main-btn pink-btn" onclick="startSchreib('hard')" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#7c3aed,#6d28d9)">
+            <span style="font-size:24px">🧙‍♂️</span> Schwer <span style="font-size:12px;opacity:0.7;margin-left:4px">– Richtig lange Wörter!</span>
+          </button>
+        </div>
+        <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-dim);font-weight:600">Jede Runde: 6 Wörter richtig schreiben</div>`;
     }
 
     app.innerHTML=`
@@ -1170,6 +1413,7 @@ function render(){
         <button class="tab-btn ${activeTab==='math'?'active-math':''}" onclick="switchTab('math')"><span class="tab-emoji">🔢</span>Mathe</button>
         <button class="tab-btn ${activeTab==='eng'?'active-eng':''}" onclick="switchTab('eng')"><span class="tab-emoji">🇬🇧</span>Englisch</button>
         <button class="tab-btn ${activeTab==='wissen'?'active-wissen':''}" onclick="switchTab('wissen')"><span class="tab-emoji">🧠</span>Wissen</button>
+        <button class="tab-btn ${activeTab==='schreib'?'active-schreib':''}" onclick="switchTab('schreib')"><span class="tab-emoji">✏️</span>Schreiben</button>
       </div>
       ${tabContent}
     `;
@@ -1317,12 +1561,79 @@ function render(){
         </div>
         <div style="text-align:center;margin-top:10px;font-size:14px;font-weight:700;color:var(--text-dim)">${wissenScore} richtig bisher</div>`;
     }
+
+  // ─── SCHREIBEN VIEW ───────────────────────────────────────────────────
+  } else if(currentView==='schreib'){
+    const w=schreibWords[schreibCurrent];
+    const isDone=schreibCurrent>=schreibWords.length;
+    const diffLabel=schreibDifficulty==='easy'?'✏️ Einfach':schreibDifficulty==='medium'?'📝 Mittel':'🧙‍♂️ Schwer';
+    const dots=schreibWords.map((_,i)=>{
+      let cls='eng-pip';if(i<schreibCurrent)cls+=schreibWords[i].wasCorrect?' pip-done':' ';if(i===schreibCurrent&&!isDone)cls+=' pip-current';
+      return `<div class="${cls}" style="${i<schreibCurrent&&!schreibWords[i].wasCorrect?'background:var(--red);border-color:var(--red)':''}${i===schreibCurrent&&!isDone?'border-color:#ec4899;box-shadow:0 0 8px rgba(236,72,153,0.4)':''}"></div>`;
+    }).join('');
+    if(isDone){
+      const stars=schreibScore>=6?3:schreibScore>=4?2:1;
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button></div>
+        <div style="text-align:center;padding:40px 24px">
+          <div style="font-size:64px;margin-bottom:12px">${stars===3?'🎉':stars===2?'👍':'💪'}</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:28px;color:${stars===3?'var(--green)':stars===2?'var(--gold)':'#ec4899'}">${schreibScore} von ${schreibWords.length} richtig!</div>
+          <div style="font-size:14px;color:var(--text-dim);font-weight:700;margin-top:6px">${diffLabel}</div>
+          <div class="stars-earned" style="margin:16px 0">${'⭐'.repeat(stars)}${'<span style="filter:grayscale(1) opacity(0.3)">⭐</span>'.repeat(3-stars)}</div>
+          <button class="main-btn pink-btn" style="width:calc(100% - 48px);margin:16px auto 0" onclick="goBack()">Zurück 📅</button>
+        </div>`;
+    } else {
+      // Show letter boxes as hint for length
+      const letterHint=w.word.split('').map((_,i)=>`<span style="display:inline-block;width:28px;height:36px;border-bottom:3px solid ${schreibChecked?(schreibCorrect?'var(--green)':'var(--red)'):'rgba(236,72,153,0.4)'};margin:0 2px;font-family:'Fredoka One',cursive;font-size:22px;color:${schreibChecked?(schreibCorrect?'var(--green)':'var(--red)'):'transparent'};line-height:36px">${schreibChecked?w.word[i]:'_'}</span>`).join('');
+
+      let feedbackHTML='';
+      if(schreibChecked){
+        if(schreibCorrect){
+          feedbackHTML=`<div style="text-align:center;margin-top:14px;font-size:18px;font-weight:800;color:var(--green)">✅ Perfekt! Richtig geschrieben!</div>`;
+        } else {
+          // Show what was wrong
+          const userLetters=schreibInput.toLowerCase().split('');
+          const correctLetters=w.word.toLowerCase().split('');
+          let comparison='';
+          for(let i=0;i<Math.max(userLetters.length,correctLetters.length);i++){
+            const u=userLetters[i]||'';const c=correctLetters[i]||'';
+            comparison+=`<span style="color:${u===c?'var(--green)':'var(--red)'};font-weight:800">${u||'_'}</span>`;
+          }
+          feedbackHTML=`<div style="text-align:center;margin-top:14px">
+            <div style="font-size:16px;font-weight:800;color:var(--red)">❌ Fast! Du hast geschrieben: <span style="font-family:'Fredoka One',cursive;font-size:18px">${comparison}</span></div>
+            <div style="font-size:16px;font-weight:800;color:var(--green);margin-top:6px">Richtig wäre: <span style="font-family:'Fredoka One',cursive;font-size:20px">${w.word}</span></div>
+            ${schreibAttempts<2?'<div style="font-size:13px;color:var(--text-dim);margin-top:6px;font-weight:600">💡 Du hast noch einen Versuch!</div>':''}
+          </div>`;
+        }
+      }
+
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button><div class="step-info">${diffLabel} – Wort ${schreibCurrent+1}/${schreibWords.length}</div></div>
+        <div class="eng-progress" style="margin-top:8px">${dots}</div>
+        <div style="text-align:center;font-size:64px;margin:16px 0 4px">${w.img}</div>
+        <div style="text-align:center;padding:0 24px">
+          <div style="font-size:14px;color:#ec4899;font-weight:700;margin-bottom:4px">HINWEIS:</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--text);margin-bottom:12px">${w.hint}</div>
+          <div style="margin-bottom:16px;letter-spacing:4px">${letterHint}</div>
+          <div style="font-size:12px;color:var(--text-dim);font-weight:700;margin-bottom:8px">${w.word.length} Buchstaben</div>
+        </div>
+        <div style="padding:0 24px">
+          <input type="text" id="schreibInput" value="${schreibInput}" 
+            ${schreibChecked&&(schreibCorrect||schreibAttempts>=2)?'disabled':''}
+            oninput="schreibInput=this.value" onkeydown="if(event.key==='Enter')schreibCheck()"
+            placeholder="Tippe das Wort ein..."
+            autocomplete="off" autocapitalize="off" spellcheck="false"
+            style="width:100%;padding:16px;border-radius:14px;border:2px solid ${schreibChecked?(schreibCorrect?'var(--green)':'var(--red)'):'rgba(236,72,153,0.3)'};background:${schreibChecked?(schreibCorrect?'rgba(34,197,94,0.08)':'rgba(248,113,113,0.08)'):'rgba(255,255,255,0.06)'};color:#fff;font-family:'Fredoka One',cursive;font-size:24px;text-align:center;outline:none;transition:all 0.2s">
+          ${feedbackHTML}
+          <button class="main-btn pink-btn" style="margin-top:14px" onclick="${schreibChecked&&(schreibCorrect||schreibAttempts>=2)?'schreibNext()':'schreibCheck()'}">${schreibChecked&&(schreibCorrect||schreibAttempts>=2)?'Nächstes Wort →':(schreibChecked?'Nochmal versuchen!':'Prüfen!')}</button>
+        </div>
+        <div style="text-align:center;margin-top:10px;font-size:14px;font-weight:700;color:var(--text-dim)">${schreibScore} richtig bisher</div>`;
+      if(!schreibChecked||(!schreibCorrect&&schreibAttempts<2))setTimeout(()=>{const inp=document.getElementById('schreibInput');if(inp){inp.focus();if(!schreibChecked)inp.setSelectionRange(inp.value.length,inp.value.length);}},100);
+    }
   }
 }
 
 function renderReward(){
   const{score,total,type}=rewardData;
-  const msgs=type==='math'?WIZ_MATH:type==='eng'?WIZ_ENG:type==='wissen'?WIZ_WISSEN:score===total?WIZ_PERFECT:score>=total-1?WIZ_GOOD:WIZ_TRY;
+  const msgs=type==='math'?WIZ_MATH:type==='eng'?WIZ_ENG:type==='wissen'?WIZ_WISSEN:type==='schreib'?WIZ_SCHREIB:score===total?WIZ_PERFECT:score>=total-1?WIZ_GOOD:WIZ_TRY;
   const msg=pickRandom(msgs);
   let ov=document.getElementById('reward-overlay');
   if(!ov){ov=document.createElement('div');ov.id='reward-overlay';ov.className='reward-overlay';document.body.appendChild(ov);}
@@ -1481,6 +1792,37 @@ window.wissenNext=function(){
     progress.wissenStars=(progress.wissenStars||0)+stars;save();
     celebrateCorrect(stars);
     setTimeout(()=>{showReward=true;rewardData={score:wissenScore,total:wissenQuestions.length,type:'wissen'};renderReward();},stars===3?1500:800);
+  }
+  render();window.scrollTo(0,0);
+};
+
+// Schreiben
+window.startSchreib=function(diff){
+  schreibDifficulty=diff;
+  const bank=diff==='easy'?SCHREIB_EASY:diff==='medium'?SCHREIB_MEDIUM:SCHREIB_HARD;
+  const shuffled=[...bank].sort(()=>Math.random()-0.5);
+  schreibWords=shuffled.slice(0,6).map(w=>({...w,wasCorrect:false}));
+  schreibCurrent=0;schreibScore=0;schreibInput='';schreibChecked=false;schreibCorrect=false;schreibAttempts=0;
+  currentView='schreib';render();window.scrollTo(0,0);
+};
+window.schreibCheck=function(){
+  if(!schreibInput.trim())return;
+  const w=schreibWords[schreibCurrent];
+  schreibCorrect=schreibInput.trim().toLowerCase()===w.word.toLowerCase();
+  schreibChecked=true;schreibAttempts++;
+  if(schreibCorrect){w.wasCorrect=true;schreibScore++;celebrateCorrect(1);}
+  else if(schreibAttempts>=2){w.wasCorrect=false;}
+  else{schreibChecked=true;} // show error but allow retry
+  render();
+};
+window.schreibNext=function(){
+  schreibCurrent++;schreibInput='';schreibChecked=false;schreibCorrect=false;schreibAttempts=0;
+  if(schreibCurrent>=schreibWords.length){
+    const stars=schreibScore>=6?3:schreibScore>=4?2:1;
+    progress.schreibCompleted=(progress.schreibCompleted||0)+1;
+    progress.schreibStars=(progress.schreibStars||0)+stars;save();
+    celebrateCorrect(stars);
+    setTimeout(()=>{showReward=true;rewardData={score:schreibScore,total:schreibWords.length,type:'schreib'};renderReward();},stars===3?1500:800);
   }
   render();window.scrollTo(0,0);
 };
