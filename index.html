@@ -109,6 +109,7 @@ body {
 .tab-btn.active-eng { background:rgba(251,146,60,0.15); border-color:var(--orange); color:var(--orange); }
 .tab-btn.active-wissen { background:rgba(34,197,94,0.15); border-color:var(--green); color:var(--green); }
 .tab-btn.active-schreib { background:rgba(236,72,153,0.15); border-color:#ec4899; color:#ec4899; }
+.tab-btn.active-stadt { background:rgba(6,182,212,0.15); border-color:#06b6d4; color:#06b6d4; }
 .tab-btn:hover:not(.active-read):not(.active-math):not(.active-eng) { border-color:rgba(255,255,255,0.15); }
 .tab-emoji { font-size:22px; display:block; margin-bottom:4px; }
 
@@ -988,6 +989,89 @@ const TEST_WISSEN=[
   {q:"Was passiert mit Wasser bei 0 Grad?",o:["Es kocht","Es verdampft","Es gefriert"],c:2},
 ];
 const WIZ_TEST=["PRÜFUNG BESTANDEN! Merlix verleiht dir ein Zauber-Zeugnis!","FANTASTISCH! Du hast den Test gemeistert wie ein echter Zauberer!","BRAVO! Dein Zeugnis ist so gut, dass sogar die Sterne staunen!","WUNDERBAR! Merlix ist mächtig stolz auf seinen Zauberlehrling!"];
+// ─── Städte & Länder ─────────────────────────────────────────────────────
+const STADT_EASY=[
+  {q:"Was ist die Hauptstadt von Deutschland?",o:["München","Hamburg","Berlin"],c:2,emoji:"🇩🇪"},
+  {q:"Welche Sprache spricht man in Deutschland?",o:["Englisch","Deutsch","Spanisch"],c:1,emoji:"🗣️"},
+  {q:"Was ist die Hauptstadt von Frankreich?",o:["Lyon","Paris","Marseille"],c:1,emoji:"🇫🇷"},
+  {q:"In welchem Land steht der Eiffelturm?",o:["England","Deutschland","Frankreich"],c:2,emoji:"🗼"},
+  {q:"Welche Sprache spricht man in Frankreich?",o:["Italienisch","Französisch","Deutsch"],c:1,emoji:"🗣️"},
+  {q:"Was ist die Hauptstadt von Italien?",o:["Mailand","Venedig","Rom"],c:2,emoji:"🇮🇹"},
+  {q:"In welchem Land steht das Kolosseum?",o:["Griechenland","Italien","Spanien"],c:1,emoji:"🏟️"},
+  {q:"Was ist die Hauptstadt von England?",o:["Manchester","London","Liverpool"],c:1,emoji:"🇬🇧"},
+  {q:"Welche Sprache spricht man in England?",o:["Englisch","Französisch","Deutsch"],c:0,emoji:"🗣️"},
+  {q:"Was ist die Hauptstadt von Spanien?",o:["Barcelona","Sevilla","Madrid"],c:2,emoji:"🇪🇸"},
+  {q:"Was ist die Hauptstadt von Österreich?",o:["Salzburg","Wien","Graz"],c:1,emoji:"🇦🇹"},
+  {q:"Welche Sprache spricht man in Österreich?",o:["Deutsch","Englisch","Französisch"],c:0,emoji:"🗣️"},
+  {q:"Auf welchem Kontinent liegt Deutschland?",o:["Asien","Afrika","Europa"],c:2,emoji:"🌍"},
+  {q:"Was ist die Hauptstadt der Schweiz?",o:["Zürich","Bern","Genf"],c:1,emoji:"🇨🇭"},
+  {q:"Wie viele Sprachen spricht man in der Schweiz?",o:["Eine","Zwei","Vier"],c:2,emoji:"🗣️"},
+];
+const STADT_MEDIUM=[
+  {q:"Was ist die Hauptstadt der USA?",o:["New York","Los Angeles","Washington D.C."],c:2,emoji:"🇺🇸"},
+  {q:"Welche Sprache spricht man in Brasilien?",o:["Spanisch","Portugiesisch","Englisch"],c:1,emoji:"🇧🇷"},
+  {q:"Was ist die Hauptstadt von Japan?",o:["Osaka","Tokio","Kyoto"],c:1,emoji:"🇯🇵"},
+  {q:"Welche Sprache spricht man in Japan?",o:["Chinesisch","Koreanisch","Japanisch"],c:2,emoji:"🗣️"},
+  {q:"Auf welchem Kontinent liegt Ägypten?",o:["Europa","Afrika","Asien"],c:1,emoji:"🌍"},
+  {q:"Was ist die Hauptstadt von China?",o:["Shanghai","Peking","Hongkong"],c:1,emoji:"🇨🇳"},
+  {q:"In welchem Land stehen die Pyramiden?",o:["Mexiko","Indien","Ägypten"],c:2,emoji:"🏛️"},
+  {q:"Was ist die Hauptstadt von Russland?",o:["Sankt Petersburg","Moskau","Kiew"],c:1,emoji:"🇷🇺"},
+  {q:"Welche Sprache spricht man in Mexiko?",o:["Englisch","Portugiesisch","Spanisch"],c:2,emoji:"🇲🇽"},
+  {q:"Was ist die Hauptstadt von Australien?",o:["Sydney","Melbourne","Canberra"],c:2,emoji:"🇦🇺"},
+  {q:"Auf welchem Kontinent liegt Australien?",o:["Asien","Australien/Ozeanien","Afrika"],c:1,emoji:"🌏"},
+  {q:"Was ist die Hauptstadt von Griechenland?",o:["Athen","Thessaloniki","Kreta"],c:0,emoji:"🇬🇷"},
+  {q:"In welchem Land steht die Freiheitsstatue?",o:["Frankreich","England","USA"],c:2,emoji:"🗽"},
+  {q:"Was ist die Hauptstadt von Polen?",o:["Krakau","Warschau","Danzig"],c:1,emoji:"🇵🇱"},
+  {q:"Welche Sprache spricht man in der Türkei?",o:["Arabisch","Türkisch","Griechisch"],c:1,emoji:"🇹🇷"},
+];
+const STADT_HARD=[
+  {q:"Was ist die Hauptstadt von Kanada?",o:["Toronto","Vancouver","Ottawa"],c:2,emoji:"🇨🇦"},
+  {q:"Welche Sprachen spricht man in Kanada?",o:["Nur Englisch","Englisch und Französisch","Englisch und Spanisch"],c:1,emoji:"🗣️"},
+  {q:"Was ist die Hauptstadt von Indien?",o:["Mumbai","Neu-Delhi","Kalkutta"],c:1,emoji:"🇮🇳"},
+  {q:"Wie viele Kontinente gibt es?",o:["5","7","9"],c:1,emoji:"🌍"},
+  {q:"Was ist die Hauptstadt von Südkorea?",o:["Busan","Seoul","Tokio"],c:1,emoji:"🇰🇷"},
+  {q:"In welchem Land liegt der Amazonas-Regenwald?",o:["Afrika","Australien","Brasilien"],c:2,emoji:"🌳"},
+  {q:"Was ist die Hauptstadt von Norwegen?",o:["Stockholm","Helsinki","Oslo"],c:2,emoji:"🇳🇴"},
+  {q:"Auf welchem Kontinent liegt Argentinien?",o:["Nordamerika","Südamerika","Europa"],c:1,emoji:"🇦🇷"},
+  {q:"Was ist die Hauptstadt von Thailand?",o:["Bangkok","Phuket","Chiang Mai"],c:0,emoji:"🇹🇭"},
+  {q:"Welches ist das größte Land der Welt?",o:["China","Kanada","Russland"],c:2,emoji:"🗺️"},
+  {q:"Was ist die Hauptstadt von Ägypten?",o:["Alexandria","Kairo","Luxor"],c:1,emoji:"🇪🇬"},
+  {q:"Welche Sprache spricht man in Argentinien?",o:["Portugiesisch","Spanisch","Englisch"],c:1,emoji:"🗣️"},
+  {q:"Was ist die Hauptstadt von Schweden?",o:["Göteborg","Malmö","Stockholm"],c:2,emoji:"🇸🇪"},
+  {q:"In welchem Land liegt die Chinesische Mauer?",o:["Japan","China","Indien"],c:1,emoji:"🧱"},
+  {q:"Was ist die Hauptstadt von Neuseeland?",o:["Auckland","Wellington","Christchurch"],c:1,emoji:"🇳🇿"},
+];
+const WIZ_STADT=["WELTENBUMMLER! Du kennst dich ja auf der ganzen Welt aus!","GEOGRAPHIE-GENIE! Merlix ist beeindruckt von deinem Wissen!","FANTASTISCH! Du bist ein echter kleiner Entdecker!","MAGISCH! Dein Weltwissen ist größer als Merlix' Zauberkarte!"];
+
+// ─── Map Quiz: countries with approximate positions on a simplified world map ──
+// x,y in percentage of map (0-100), name, capital, flag, continent
+const MAP_COUNTRIES=[
+  {name:"Deutschland",capital:"Berlin",flag:"🇩🇪",x:50,y:30,continent:"Europa",lang:"Deutsch"},
+  {name:"Frankreich",capital:"Paris",flag:"🇫🇷",x:46,y:34,continent:"Europa",lang:"Französisch"},
+  {name:"Italien",capital:"Rom",flag:"🇮🇹",x:51,y:38,continent:"Europa",lang:"Italienisch"},
+  {name:"Spanien",capital:"Madrid",flag:"🇪🇸",x:43,y:38,continent:"Europa",lang:"Spanisch"},
+  {name:"England",capital:"London",flag:"🇬🇧",x:45,y:28,continent:"Europa",lang:"Englisch"},
+  {name:"Österreich",capital:"Wien",flag:"🇦🇹",x:52,y:32,continent:"Europa",lang:"Deutsch"},
+  {name:"Polen",capital:"Warschau",flag:"🇵🇱",x:54,y:28,continent:"Europa",lang:"Polnisch"},
+  {name:"Griechenland",capital:"Athen",flag:"🇬🇷",x:55,y:40,continent:"Europa",lang:"Griechisch"},
+  {name:"Norwegen",capital:"Oslo",flag:"🇳🇴",x:50,y:20,continent:"Europa",lang:"Norwegisch"},
+  {name:"Schweden",capital:"Stockholm",flag:"🇸🇪",x:53,y:22,continent:"Europa",lang:"Schwedisch"},
+  {name:"USA",capital:"Washington D.C.",flag:"🇺🇸",x:20,y:32,continent:"Nordamerika",lang:"Englisch"},
+  {name:"Kanada",capital:"Ottawa",flag:"🇨🇦",x:20,y:22,continent:"Nordamerika",lang:"Englisch & Französisch"},
+  {name:"Brasilien",capital:"Brasília",flag:"🇧🇷",x:30,y:60,continent:"Südamerika",lang:"Portugiesisch"},
+  {name:"Argentinien",capital:"Buenos Aires",flag:"🇦🇷",x:27,y:72,continent:"Südamerika",lang:"Spanisch"},
+  {name:"Ägypten",capital:"Kairo",flag:"🇪🇬",x:57,y:44,continent:"Afrika",lang:"Arabisch"},
+  {name:"China",capital:"Peking",flag:"🇨🇳",x:77,y:34,continent:"Asien",lang:"Chinesisch"},
+  {name:"Japan",capital:"Tokio",flag:"🇯🇵",x:85,y:34,continent:"Asien",lang:"Japanisch"},
+  {name:"Indien",capital:"Neu-Delhi",flag:"🇮🇳",x:72,y:44,continent:"Asien",lang:"Hindi & Englisch"},
+  {name:"Australien",capital:"Canberra",flag:"🇦🇺",x:83,y:68,continent:"Australien",lang:"Englisch"},
+  {name:"Russland",capital:"Moskau",flag:"🇷🇺",x:65,y:22,continent:"Europa/Asien",lang:"Russisch"},
+  {name:"Türkei",capital:"Ankara",flag:"🇹🇷",x:58,y:37,continent:"Europa/Asien",lang:"Türkisch"},
+  {name:"Mexiko",capital:"Mexiko-Stadt",flag:"🇲🇽",x:15,y:42,continent:"Nordamerika",lang:"Spanisch"},
+  {name:"Südafrika",capital:"Pretoria",flag:"🇿🇦",x:55,y:72,continent:"Afrika",lang:"Englisch & Afrikaans"},
+  {name:"Thailand",capital:"Bangkok",flag:"🇹🇭",x:77,y:47,continent:"Asien",lang:"Thailändisch"},
+];
+
 const TEST_NOTEN=[
   {min:90,note:"1 ⭐",text:"AUSGEZEICHNET",emoji:"🏆",color:"var(--gold)",msg:"Du bist ein Wissens-Champion! Besser geht es kaum!"},
   {min:75,note:"2 ⭐",text:"SEHR GUT",emoji:"🌟",color:"var(--green)",msg:"Super Ergebnis! Du kannst richtig stolz auf dich sein!"},
@@ -1050,6 +1134,21 @@ let testAnswered=false;
 let testSelected=null;
 let testInput='';
 let testType=''; // current question type
+
+// Stadt state
+let stadtDifficulty=null;
+let stadtQuestions=[];
+let stadtCurrent=0;
+let stadtScore=0;
+let stadtAnswered=false;
+let stadtSelected=null;
+
+// Map Quiz state
+let mapQuizCountries=[];
+let mapCurrent=0;
+let mapScore=0;
+let mapAnswered=false;
+let mapClickedId=null;
 let selectedDay=null;
 let quizAnswers={};
 let quizSubmitted=false;
@@ -1072,7 +1171,7 @@ let engQuizSubmitted=false;
 function getToday(){return new Date().toISOString().slice(0,10);}
 function getDayLabel(d){const dt=new Date(d+'T12:00:00');const wd=["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];return wd[dt.getDay()]+', '+dt.getDate()+'. März';}
 function getCompleted(){return DAYS.filter(d=>progress[d.date]?.quizDone).length;}
-function getTotalStars(){return DAYS.reduce((s,d)=>s+(progress[d.date]?.score||0),0)+(progress.mathStars||0)+(progress.engStars||0)+(progress.wissenStars||0)+(progress.schreibStars||0);}
+function getTotalStars(){return DAYS.reduce((s,d)=>s+(progress[d.date]?.score||0),0)+(progress.mathStars||0)+(progress.engStars||0)+(progress.wissenStars||0)+(progress.schreibStars||0)+(progress.stadtStars||0);}
 function getLevel(){const c=getCompleted();let l=LEVELS[0];for(const lv of LEVELS){if(c>=lv.min)l=lv;}return l;}
 function getStreak(){const today=getToday();let s=0;for(let i=DAYS.length-1;i>=0;i--){if(DAYS[i].date>today)continue;if(progress[DAYS[i].date]?.quizDone)s++;else break;}return s;}
 function pickRandom(a){return a[Math.floor(Math.random()*a.length)];}
@@ -1487,6 +1586,38 @@ function render(){
           </button>
         </div>
         <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-dim);font-weight:600">Jede Runde: 6 Wörter richtig schreiben</div>`;
+    } else if(activeTab==='stadt'){
+      const stDone=progress.stadtCompleted||0;
+      const stStars=progress.stadtStars||0;
+      const stPct=Math.min(100,Math.round(stDone/20*100));
+      tabContent=`
+        <div class="progress-wrap">
+          <div class="progress-bar"><div class="progress-fill" style="height:100%;border-radius:10px;background:linear-gradient(90deg,#0891b2,#06b6d4,#67e8f9,#06b6d4,#0891b2);background-size:300% 100%;animation:pShimmer 3s ease infinite;width:${stPct}%"></div></div>
+          <div class="progress-text">${stDone} Runden geschafft – ${stStars} Sterne gesammelt</div>
+        </div>
+        <div class="merlix-tip">
+          <div class="merlix-tip-avatar">🧙‍♂️</div>
+          <div class="merlix-tip-text"><strong>Merlix sagt:</strong> "Die Welt ist groß und voller Wunder! Lerne Hauptstädte, Sprachen und Kontinente kennen. Ein Zauberer muss sich überall auskennen!"</div>
+        </div>
+        <div style="padding:20px 24px 0;display:flex;flex-direction:column;gap:10px">
+          <button class="main-btn" onclick="startStadt('easy')" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;box-shadow:0 4px 20px rgba(6,182,212,0.3)">
+            <span style="font-size:24px">🏠</span> Einfach <span style="font-size:12px;opacity:0.7;margin-left:4px">– Europa und Nachbarländer</span>
+          </button>
+          <button class="main-btn" onclick="startStadt('medium')" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#0e7490,#155e75);color:#fff;box-shadow:0 4px 20px rgba(6,182,212,0.3)">
+            <span style="font-size:24px">✈️</span> Mittel <span style="font-size:12px;opacity:0.7;margin-left:4px">– Berühmte Länder weltweit</span>
+          </button>
+          <button class="main-btn" onclick="startStadt('hard')" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#164e63,#0c4a6e);color:#fff;box-shadow:0 4px 20px rgba(6,182,212,0.3)">
+            <span style="font-size:24px">🌏</span> Schwer <span style="font-size:12px;opacity:0.7;margin-left:4px">– Weltreise für Profis!</span>
+          </button>
+        </div>
+        <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-dim);font-weight:600">Jede Runde: 5 Fragen zu Städten, Ländern & Sprachen</div>
+        <div style="padding:16px 24px 0">
+          <div style="height:1px;background:rgba(255,255,255,0.08);margin-bottom:16px"></div>
+          <button class="main-btn" onclick="startMapQuiz()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;box-shadow:0 4px 20px var(--accent-glow)">
+            <span style="font-size:24px">🗺️</span> Karten-Rätsel – Finde das Land!
+          </button>
+          <div style="text-align:center;margin-top:6px;font-size:12px;color:var(--text-dim);font-weight:600">Tippe auf der Weltkarte das richtige Land an!</div>
+        </div>`;
     } else if(activeTab==='test'){
       const testsDone=progress.testsDone||0;
       const bestNote=progress.bestNote||'-';
@@ -1535,6 +1666,7 @@ function render(){
         <button class="tab-btn ${activeTab==='eng'?'active-eng':''}" onclick="switchTab('eng')"><span class="tab-emoji">🔤</span>Englisch</button>
         <button class="tab-btn ${activeTab==='wissen'?'active-wissen':''}" onclick="switchTab('wissen')"><span class="tab-emoji">🧠</span>Wissen</button>
         <button class="tab-btn ${activeTab==='schreib'?'active-schreib':''}" onclick="switchTab('schreib')"><span class="tab-emoji">✏️</span>Schreiben</button>
+        <button class="tab-btn ${activeTab==='stadt'?'active-stadt':''}" onclick="switchTab('stadt')"><span class="tab-emoji">🌍</span>Welt</button>
       </div>
       <div style="padding:8px 24px 0">
         <button onclick="switchTab('test')" style="width:100%;padding:12px;border-radius:14px;border:2px solid ${activeTab==='test'?'var(--gold)':'rgba(251,191,36,0.15)'};background:${activeTab==='test'?'rgba(251,191,36,0.15)':'rgba(251,191,36,0.04)'};color:${activeTab==='test'?'var(--gold)':'var(--text-dim)'};font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px">
@@ -1801,6 +1933,121 @@ function render(){
       if(!textAnswered)setTimeout(()=>{const inp=document.getElementById('textInput');if(inp)inp.focus();},100);
     }
 
+  // ─── MAP QUIZ VIEW ─────────────────────────────────────────────────────
+  } else if(currentView==='mapquiz'){
+    const isDone=mapCurrent>=mapQuizCountries.length;
+    const target=!isDone?mapQuizCountries[mapCurrent]:null;
+    const dots=mapQuizCountries.map((_,i)=>{
+      let cls='eng-pip';if(i<mapCurrent)cls+=mapQuizCountries[i].wasCorrect?' pip-done':' ';if(i===mapCurrent&&!isDone)cls+=' pip-current';
+      return `<div class="${cls}" style="${i<mapCurrent&&!mapQuizCountries[i].wasCorrect?'background:var(--red);border-color:var(--red)':''}${i===mapCurrent&&!isDone?'border-color:#7c3aed;box-shadow:0 0 8px var(--accent-glow)':''}"></div>`;
+    }).join('');
+    if(isDone){
+      const stars=mapScore>=6?3:mapScore>=4?2:1;
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button></div>
+        <div style="text-align:center;padding:40px 24px">
+          <div style="font-size:64px;margin-bottom:12px">${stars===3?'🎉':stars===2?'👍':'💪'}</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:28px;color:${stars===3?'var(--green)':stars===2?'var(--gold)':'var(--accent)'}">${mapScore} von ${mapQuizCountries.length} gefunden!</div>
+          <div class="stars-earned" style="margin:16px 0">${'⭐'.repeat(stars)}${'<span style="filter:grayscale(1) opacity(0.3)">⭐</span>'.repeat(3-stars)}</div>
+          <button class="main-btn" style="width:calc(100% - 48px);margin:16px auto 0;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff" onclick="goBack()">Zurück 📅</button>
+        </div>`;
+    } else {
+      // Build map with all country dots
+      const countryDots=MAP_COUNTRIES.map(c=>{
+        const isTarget=c.name===target.name;
+        const isClicked=mapClickedId===c.name;
+        const dotColor=!mapAnswered?'rgba(255,255,255,0.4)':(isTarget?'var(--green)':(isClicked?'var(--red)':'rgba(255,255,255,0.25)'));
+        const dotSize=isTarget&&mapAnswered?16:(isClicked&&mapAnswered?14:10);
+        const label=mapAnswered&&(isTarget||isClicked)?`<div style="position:absolute;top:${dotSize/2+4}px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10px;font-weight:800;color:${isTarget?'var(--green)':'var(--red)'};text-shadow:0 1px 3px rgba(0,0,0,0.8)">${c.flag} ${c.name}</div>`:'';
+        return `<div onclick="mapClick('${c.name}')" style="position:absolute;left:${c.x}%;top:${c.y}%;transform:translate(-50%,-50%);width:${dotSize}px;height:${dotSize}px;border-radius:50%;background:${dotColor};cursor:${mapAnswered?'default':'pointer'};transition:all 0.3s;box-shadow:0 0 ${isTarget&&mapAnswered?'12px var(--green-glow)':(isClicked&&mapAnswered?'8px rgba(248,113,113,0.4)':'4px rgba(255,255,255,0.1)')};z-index:${isTarget||isClicked?5:1};border:2px solid ${mapAnswered?(isTarget?'var(--green)':(isClicked&&!isTarget?'var(--red)':'transparent')):'transparent'}">${label}</div>`;
+      }).join('');
+
+      let feedbackHTML='';
+      if(mapAnswered){
+        const correct=mapClickedId===target.name;
+        feedbackHTML=correct?
+          `<div style="text-align:center;margin-top:12px;padding:12px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:12px"><div style="font-size:16px;font-weight:800;color:var(--green)">✅ Richtig! ${target.flag} ${target.name}</div><div style="font-size:13px;color:var(--text-dim);margin-top:4px">Hauptstadt: ${target.capital} · Sprache: ${target.lang} · ${target.continent}</div></div>`:
+          `<div style="text-align:center;margin-top:12px;padding:12px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:12px"><div style="font-size:16px;font-weight:800;color:var(--red)">❌ Das war ${mapClickedId}!</div><div style="font-size:15px;font-weight:800;color:var(--green);margin-top:4px">${target.flag} ${target.name} ist hier markiert (grün)</div><div style="font-size:13px;color:var(--text-dim);margin-top:4px">Hauptstadt: ${target.capital} · Sprache: ${target.lang} · ${target.continent}</div></div>`;
+      }
+
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button><div class="step-info">Land ${mapCurrent+1}/${mapQuizCountries.length}</div></div>
+        <div class="eng-progress" style="margin-top:6px">${dots}</div>
+        <div style="text-align:center;padding:8px 24px 0">
+          <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--wizard-purple);margin-bottom:4px">🗺️ Finde auf der Karte:</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:26px;color:#fff">${target.flag} ${target.name}</div>
+          <div style="font-size:13px;color:var(--text-dim);font-weight:600;margin-top:2px">Hauptstadt: ${target.capital}</div>
+        </div>
+        <div style="position:relative;margin:12px 16px 0;padding-top:50%;background:linear-gradient(135deg,rgba(30,27,75,0.8),rgba(15,23,42,0.9));border-radius:16px;border:2px solid rgba(139,92,246,0.2);overflow:hidden">
+          <!-- Simplified continent outlines -->
+          <svg style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.15" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <!-- North America -->
+            <path d="M5,15 L25,12 L30,20 L28,30 L22,35 L18,40 L12,42 L8,38 L5,30 Z" fill="#4ade80" stroke="#4ade80" stroke-width="0.3"/>
+            <!-- South America -->
+            <path d="M22,48 L32,45 L35,55 L33,65 L28,75 L24,78 L22,70 L20,58 Z" fill="#4ade80" stroke="#4ade80" stroke-width="0.3"/>
+            <!-- Europe -->
+            <path d="M42,18 L55,16 L58,22 L56,28 L52,32 L48,35 L44,32 L42,26 Z" fill="#60a5fa" stroke="#60a5fa" stroke-width="0.3"/>
+            <!-- Africa -->
+            <path d="M44,38 L58,36 L62,42 L60,55 L56,65 L52,72 L48,68 L45,55 L44,45 Z" fill="#fbbf24" stroke="#fbbf24" stroke-width="0.3"/>
+            <!-- Asia -->
+            <path d="M58,14 L90,12 L92,25 L88,35 L80,42 L72,48 L65,42 L60,35 L58,25 Z" fill="#f87171" stroke="#f87171" stroke-width="0.3"/>
+            <!-- Australia -->
+            <path d="M78,60 L90,58 L92,65 L88,72 L82,74 L78,68 Z" fill="#c084fc" stroke="#c084fc" stroke-width="0.3"/>
+          </svg>
+          <!-- Country dots -->
+          ${countryDots}
+          <!-- Continent labels -->
+          <div style="position:absolute;left:14%;top:24%;font-size:8px;color:rgba(74,222,128,0.3);font-weight:800;pointer-events:none">AMERIKA</div>
+          <div style="position:absolute;left:46%;top:20%;font-size:8px;color:rgba(96,165,250,0.3);font-weight:800;pointer-events:none">EUROPA</div>
+          <div style="position:absolute;left:50%;top:52%;font-size:8px;color:rgba(251,191,36,0.3);font-weight:800;pointer-events:none">AFRIKA</div>
+          <div style="position:absolute;left:72%;top:22%;font-size:8px;color:rgba(248,113,113,0.3);font-weight:800;pointer-events:none">ASIEN</div>
+          <div style="position:absolute;left:80%;top:62%;font-size:8px;color:rgba(192,132,252,0.3);font-weight:800;pointer-events:none">AUSTRALIEN</div>
+        </div>
+        <div style="padding:0 24px">
+          ${feedbackHTML}
+          ${mapAnswered?`<button class="main-btn" onclick="mapNext()" style="margin-top:12px;width:100%;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;box-shadow:0 4px 20px var(--accent-glow)">Nächstes Land →</button>`:`<div style="text-align:center;margin-top:10px;font-size:13px;color:var(--wizard-purple);font-weight:600">👆 Tippe auf den richtigen Punkt auf der Karte!</div>`}
+        </div>
+        <div style="text-align:center;margin-top:8px;font-size:14px;font-weight:700;color:var(--text-dim)">${mapScore} richtig bisher</div>`;
+    }
+
+  // ─── STADT VIEW ────────────────────────────────────────────────────────
+  } else if(currentView==='stadt'){
+    const q=stadtQuestions[stadtCurrent];
+    const isDone=stadtCurrent>=stadtQuestions.length;
+    const diffLabel=stadtDifficulty==='easy'?'🏠 Einfach':stadtDifficulty==='medium'?'✈️ Mittel':'🌏 Schwer';
+    const dots=stadtQuestions.map((_,i)=>{
+      let cls='eng-pip';if(i<stadtCurrent)cls+=stadtQuestions[i].wasCorrect?' pip-done':' ';if(i===stadtCurrent&&!isDone)cls+=' pip-current';
+      return `<div class="${cls}" style="${i<stadtCurrent&&!stadtQuestions[i].wasCorrect?'background:var(--red);border-color:var(--red)':''}${i===stadtCurrent&&!isDone?'border-color:#06b6d4;box-shadow:0 0 8px rgba(6,182,212,0.4)':''}"></div>`;
+    }).join('');
+    if(isDone){
+      const stars=stadtScore>=5?3:stadtScore>=3?2:1;
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button></div>
+        <div style="text-align:center;padding:40px 24px">
+          <div style="font-size:64px;margin-bottom:12px">${stars===3?'🎉':stars===2?'👍':'💪'}</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:28px;color:${stars===3?'var(--green)':stars===2?'var(--gold)':'#06b6d4'}">${stadtScore} von ${stadtQuestions.length} richtig!</div>
+          <div style="font-size:14px;color:var(--text-dim);font-weight:700;margin-top:6px">${diffLabel}</div>
+          <div class="stars-earned" style="margin:16px 0">${'⭐'.repeat(stars)}${'<span style="filter:grayscale(1) opacity(0.3)">⭐</span>'.repeat(3-stars)}</div>
+          <button class="main-btn" style="width:calc(100% - 48px);margin:16px auto 0;background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff" onclick="goBack()">Zurück 📅</button>
+        </div>`;
+    } else {
+      app.innerHTML=`<div class="topbar"><button class="back-btn" onclick="goBack()">← Zurück</button><div class="step-info">${diffLabel} – Frage ${stadtCurrent+1}/${stadtQuestions.length}</div></div>
+        <div class="eng-progress" style="margin-top:8px">${dots}</div>
+        <div style="text-align:center;font-size:52px;margin:12px 0 4px">${q.emoji||'🌍'}</div>
+        <div style="padding:0 24px">
+          <div style="font-family:'Fredoka One',cursive;font-size:19px;color:var(--text);text-align:center;margin-bottom:18px;line-height:1.4">${q.q}</div>
+        </div>
+        <div class="eng-options">
+          ${q.o.map((opt,oi)=>{
+            const sel=stadtSelected===oi;
+            const sC=stadtAnswered&&oi===q.c;
+            const sW=stadtAnswered&&sel&&oi!==q.c;
+            return `<button class="eng-opt-btn ${sC?'eng-correct':sW?'eng-wrong':sel?'eng-selected':''}" style="border-color:${sC?'var(--green)':sW?'var(--red)':sel?'#06b6d4':'rgba(6,182,212,0.15)'};${sC?'background:rgba(34,197,94,0.15)':sW?'background:rgba(248,113,113,0.15)':sel?'background:rgba(6,182,212,0.1)':''}" ${stadtAnswered?'disabled':''} onclick="stadtSelect(${oi})">${sC?'✅ ':sW?'❌ ':''}${opt}</button>`;
+          }).join('')}
+        </div>
+        <div style="padding:0 24px;margin-top:14px">
+          <button class="main-btn" onclick="${stadtAnswered?'stadtNext()':'stadtCheck()'}" style="background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;box-shadow:0 4px 20px rgba(6,182,212,0.3)" ${!stadtAnswered&&stadtSelected===null?'disabled':''}>${stadtAnswered?'Nächste Frage →':'Prüfen!'}</button>
+        </div>
+        <div style="text-align:center;margin-top:10px;font-size:14px;font-weight:700;color:var(--text-dim)">${stadtScore} richtig bisher</div>`;
+    }
+
   // ─── TEST VIEW ────────────────────────────────────────────────────────
   } else if(currentView==='test'){
     const isDone=testCurrent>=testQuestions.length;
@@ -1863,7 +2110,7 @@ function render(){
 
 function renderReward(){
   const{score,total,type}=rewardData;
-  const msgs=type==='math'?WIZ_MATH:type==='eng'?WIZ_ENG:type==='wissen'?WIZ_WISSEN:type==='schreib'?WIZ_SCHREIB:type==='test'?WIZ_TEST:score===total?WIZ_PERFECT:score>=total-1?WIZ_GOOD:WIZ_TRY;
+  const msgs=type==='math'?WIZ_MATH:type==='eng'?WIZ_ENG:type==='wissen'?WIZ_WISSEN:type==='schreib'?WIZ_SCHREIB:type==='stadt'?WIZ_STADT:type==='test'?WIZ_TEST:score===total?WIZ_PERFECT:score>=total-1?WIZ_GOOD:WIZ_TRY;
   const msg=pickRandom(msgs);
   let ov=document.getElementById('reward-overlay');
   if(!ov){ov=document.createElement('div');ov.id='reward-overlay';ov.className='reward-overlay';document.body.appendChild(ov);}
@@ -1878,7 +2125,7 @@ function renderReward(){
 // ═══════════════════════════════════════════════════════════════════════════
 window.switchTab=function(t){activeTab=t;render();};
 window.startDay=function(d){selectedDay=d;currentView='reading';quizAnswers={};quizSubmitted=false;render();window.scrollTo(0,0);};
-window.goBack=function(){currentView='calendar';selectedDay=null;engLesson=null;wissenDifficulty=null;render();window.scrollTo(0,0);};
+window.goBack=function(){currentView='calendar';selectedDay=null;engLesson=null;wissenDifficulty=null;stadtDifficulty=null;render();window.scrollTo(0,0);};
 window.goToQuiz=function(){currentView='quiz';quizAnswers={};quizSubmitted=false;render();window.scrollTo(0,0);};
 window.selectAnswer=function(qi,oi){if(quizSubmitted)return;quizAnswers[qi]=oi;render();};
 // ─── Instant Celebrations on Correct Answers ────────────────────────────
@@ -2046,6 +2293,63 @@ window.textNext=function(){
     celebrateCorrect(stars);
     setTimeout(()=>{showReward=true;rewardData={score:textScore,total:textaufgaben.length,type:'math'};renderReward();},stars===3?1500:800);
   }render();window.scrollTo(0,0);
+};
+
+// Map Quiz
+window.startMapQuiz=function(){
+  const shuffled=[...MAP_COUNTRIES].sort(()=>Math.random()-0.5);
+  mapQuizCountries=shuffled.slice(0,8).map(c=>({...c,wasCorrect:false}));
+  mapCurrent=0;mapScore=0;mapAnswered=false;mapClickedId=null;
+  currentView='mapquiz';render();window.scrollTo(0,0);
+};
+window.mapClick=function(name){
+  if(mapAnswered)return;
+  mapClickedId=name;mapAnswered=true;
+  const target=mapQuizCountries[mapCurrent];
+  const correct=name===target.name;
+  target.wasCorrect=correct;
+  if(correct){mapScore++;celebrateCorrect(1);}
+  render();
+};
+window.mapNext=function(){
+  mapCurrent++;mapAnswered=false;mapClickedId=null;
+  if(mapCurrent>=mapQuizCountries.length){
+    const stars=mapScore>=6?3:mapScore>=4?2:1;
+    progress.stadtCompleted=(progress.stadtCompleted||0)+1;
+    progress.stadtStars=(progress.stadtStars||0)+stars;save();
+    celebrateCorrect(stars);
+    setTimeout(()=>{showReward=true;rewardData={score:mapScore,total:mapQuizCountries.length,type:'stadt'};renderReward();},stars===3?1500:800);
+  }
+  render();window.scrollTo(0,0);
+};
+
+// Städte & Länder
+window.startStadt=function(diff){
+  stadtDifficulty=diff;
+  const bank=diff==='easy'?STADT_EASY:diff==='medium'?STADT_MEDIUM:STADT_HARD;
+  const shuffled=[...bank].sort(()=>Math.random()-0.5);
+  stadtQuestions=shuffled.slice(0,5).map(q=>({...q,wasCorrect:false}));
+  stadtCurrent=0;stadtScore=0;stadtAnswered=false;stadtSelected=null;
+  currentView='stadt';render();window.scrollTo(0,0);
+};
+window.stadtSelect=function(oi){if(stadtAnswered)return;stadtSelected=oi;render();};
+window.stadtCheck=function(){
+  if(stadtAnswered||stadtSelected===null)return;stadtAnswered=true;
+  const q=stadtQuestions[stadtCurrent];
+  const correct=stadtSelected===q.c;q.wasCorrect=correct;
+  if(correct){stadtScore++;celebrateCorrect(1);}
+  render();
+};
+window.stadtNext=function(){
+  stadtCurrent++;stadtAnswered=false;stadtSelected=null;
+  if(stadtCurrent>=stadtQuestions.length){
+    const stars=stadtScore>=5?3:stadtScore>=3?2:1;
+    progress.stadtCompleted=(progress.stadtCompleted||0)+1;
+    progress.stadtStars=(progress.stadtStars||0)+stars;save();
+    celebrateCorrect(stars);
+    setTimeout(()=>{showReward=true;rewardData={score:stadtScore,total:stadtQuestions.length,type:'stadt'};renderReward();},stars===3?1500:800);
+  }
+  render();window.scrollTo(0,0);
 };
 
 // Test-Modus
