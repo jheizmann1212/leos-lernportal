@@ -881,6 +881,261 @@ button{
 }
 .timer-fill.warn{background:var(--red);}
 
+/* ============================================================ */
+/* START: Mode-Auswahl                                            */
+/* ============================================================ */
+.mode-stack{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-bottom:24px;
+}
+.mode-card{
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  padding:18px 20px;
+  text-align:left;
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  transition:transform .1s, background .15s, border-color .15s;
+  box-shadow:var(--shadow-sm);
+}
+.mode-card:active{transform:scale(.985);background:var(--bg-soft);}
+.mode-card .mode-icon{
+  width:48px;height:48px;
+  border-radius:14px;
+  background:var(--bronze-bg);
+  color:var(--bronze);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.mode-card .mode-icon svg{width:24px;height:24px;}
+.mode-card .mode-body{flex:1;min-width:0;}
+.mode-card .mode-title{
+  font-size:17px;
+  font-weight:600;
+  letter-spacing:-0.01em;
+  margin-bottom:2px;
+}
+.mode-card .mode-desc{
+  font-size:13.5px;
+  color:var(--ink-soft);
+  line-height:1.35;
+}
+.mode-card .mode-stat{
+  font-family:'Geist Mono',monospace;
+  font-size:12px;
+  color:var(--ink-dim);
+  font-variant-numeric:tabular-nums;
+  margin-top:4px;
+}
+.mode-card .mode-arrow{
+  color:var(--ink-dim);
+  flex-shrink:0;
+}
+
+/* ============================================================ */
+/* CARDS SCREEN                                                  */
+/* ============================================================ */
+.cards-stage{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  padding:20px 0;
+  min-height:260px;
+}
+.flashcard{
+  position:relative;
+  width:100%;
+  max-width:360px;
+  aspect-ratio:1.4 / 1;
+  perspective:1200px;
+}
+.flashcard-inner{
+  position:relative;
+  width:100%;
+  height:100%;
+  transition:transform .5s cubic-bezier(.3,.7,.4,1);
+  transform-style:preserve-3d;
+}
+.flashcard.flipped .flashcard-inner{
+  transform:rotateY(180deg);
+}
+.flashcard-face{
+  position:absolute;
+  inset:0;
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow-lg);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+}
+.flashcard-back{
+  transform:rotateY(180deg);
+  background:var(--bronze-bg);
+  border-color:var(--bronze-soft);
+}
+.flashcard-box-label{
+  position:absolute;
+  top:14px;
+  left:18px;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--ink-dim);
+}
+.flashcard-equation{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+  font-size:72px;
+  line-height:1;
+  letter-spacing:-0.03em;
+  font-variant-numeric:tabular-nums;
+  color:var(--ink);
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+}
+.flashcard-equation .op{color:var(--bronze);font-style:italic;font-size:60px;}
+.flashcard-equation .eq{color:var(--ink-dim);font-size:60px;}
+.flashcard-equation .ans{color:var(--bronze);font-style:italic;}
+.flashcard-back .flashcard-equation{font-size:54px;}
+.flashcard-back .flashcard-equation .op,
+.flashcard-back .flashcard-equation .eq{font-size:46px;}
+.flashcard-trick{
+  font-size:14px;
+  color:var(--ink-soft);
+  text-align:center;
+  margin-top:14px;
+  max-width:260px;
+  line-height:1.45;
+  font-style:italic;
+}
+.flashcard.swipe-right .flashcard-inner{
+  transform:translateX(120%) rotate(15deg);
+  opacity:0;
+  transition:transform .35s, opacity .35s;
+}
+.flashcard.swipe-left .flashcard-inner{
+  transform:translateX(-120%) rotate(-15deg);
+  opacity:0;
+  transition:transform .35s, opacity .35s;
+}
+.flashcard.fresh .flashcard-inner{
+  animation:cardEnter .3s cubic-bezier(.3,.9,.5,1);
+}
+@keyframes cardEnter{
+  from{transform:scale(.9);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+
+.cards-stack-bg{
+  position:absolute;
+  width:100%;
+  max-width:360px;
+  aspect-ratio:1.4 / 1;
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  pointer-events:none;
+}
+.cards-stack-bg.bg1{
+  transform:translateY(8px) scale(.96);
+  opacity:.6;
+  z-index:-1;
+}
+.cards-stack-bg.bg2{
+  transform:translateY(16px) scale(.92);
+  opacity:.3;
+  z-index:-2;
+}
+
+.cards-session-stats{
+  display:flex;
+  justify-content:space-around;
+  gap:12px;
+  padding:14px 0 6px;
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+}
+.cards-session-stat{
+  text-align:center;
+}
+.cards-session-stat-num{
+  font-family:'Fraunces',serif;
+  font-size:22px;
+  font-weight:500;
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.cards-session-stat-num.good{color:var(--green);}
+.cards-session-stat-num.bad{color:var(--red);}
+.cards-session-stat-label{
+  font-size:11px;
+  color:var(--ink-dim);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  font-weight:500;
+  margin-top:3px;
+}
+
+.cards-stop-btn{
+  display:block;
+  width:100%;
+  padding:14px;
+  background:transparent;
+  color:var(--ink-soft);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  font-size:14px;
+  font-weight:500;
+  margin-top:14px;
+}
+.cards-stop-btn:active{background:var(--bg-soft);}
+
+/* Box-Verteilung Anzeige auf Startseite */
+.boxes-mini{
+  display:flex;
+  gap:4px;
+  margin-top:8px;
+  height:6px;
+}
+.boxes-mini .seg{
+  flex:1;
+  background:var(--bg-soft);
+  border-radius:2px;
+  position:relative;
+  overflow:hidden;
+}
+.boxes-mini .seg .fill{
+  position:absolute;
+  inset:0;
+  background:var(--bronze);
+  transform-origin:left;
+  transition:transform .5s;
+}
+.boxes-mini .seg.b1 .fill{background:#c87a5a;}
+.boxes-mini .seg.b2 .fill{background:#d9a86a;}
+.boxes-mini .seg.b3 .fill{background:var(--bronze-soft);}
+.boxes-mini .seg.b4 .fill{background:var(--bronze);}
+.boxes-mini .seg.b5 .fill{background:var(--green);}
+
 /* Konfetti */
 .confetti{
   position:fixed;
@@ -931,14 +1186,49 @@ button{
 
     <div class="start-progress">
       <div class="start-progress-head">
-        <div class="start-progress-label">Dein Fortschritt</div>
-        <div class="start-progress-value mono"><span id="masteredCount">0</span><span class="of"> / 10 Reihen</span></div>
+        <div class="start-progress-label">Reihen gemeistert</div>
+        <div class="start-progress-value mono"><span id="masteredCount">0</span><span class="of"> / 10</span></div>
       </div>
       <div class="start-progress-bar"><div id="masteredFill" class="start-progress-fill" style="width:0%"></div></div>
     </div>
 
-    <button class="btn-primary" onclick="goToOverview()">Weiter</button>
-    <div style="height:10px"></div>
+    <div class="start-progress">
+      <div class="start-progress-head">
+        <div class="start-progress-label">Karten im Kasten</div>
+        <div class="start-progress-value mono"><span id="cardsSittingCount">0</span><span class="of"> / 100 sitzen</span></div>
+      </div>
+      <div class="boxes-mini" id="boxesMini">
+        <div class="seg b1"><div class="fill" style="transform:scaleX(0)"></div></div>
+        <div class="seg b2"><div class="fill" style="transform:scaleX(0)"></div></div>
+        <div class="seg b3"><div class="fill" style="transform:scaleX(0)"></div></div>
+        <div class="seg b4"><div class="fill" style="transform:scaleX(0)"></div></div>
+        <div class="seg b5"><div class="fill" style="transform:scaleX(0)"></div></div>
+      </div>
+    </div>
+
+    <div class="mode-stack">
+      <button class="mode-card" onclick="goToOverview()">
+        <div class="mode-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </div>
+        <div class="mode-body">
+          <div class="mode-title">Reihen üben</div>
+          <div class="mode-desc">Eine Reihe nach der anderen lernen. Erklären, üben, prüfen.</div>
+        </div>
+        <svg class="mode-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <button class="mode-card" onclick="startCardsSession()">
+        <div class="mode-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v14"/></svg>
+        </div>
+        <div class="mode-body">
+          <div class="mode-title">Karten ziehen</div>
+          <div class="mode-desc">Karteikasten. Sitzt eine Karte, kommt sie seltener. Wackelt sie, häufiger.</div>
+        </div>
+        <svg class="mode-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+
     <button class="btn-secondary" onclick="goTo('screen-settings')">Einstellungen</button>
   </section>
 
@@ -1105,6 +1395,118 @@ button{
   </section>
 
   <!-- ============================================================
+       SCREEN: CARDS (Karteikasten)
+       ============================================================ -->
+  <section id="screen-cards" class="screen">
+    <div class="topbar">
+      <button class="topbar-back" onclick="stopCardsSession()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Fertig
+      </button>
+      <div class="topbar-title">Karteikasten</div>
+      <div class="quiz-count mono" id="cardsCount">0</div>
+    </div>
+
+    <div class="quiz-bali-row">
+      <div class="quiz-bali-avatar">
+        <img src="bali/bali-focus.jpeg" alt="Bali" id="cardsBaliImg">
+      </div>
+      <div class="quiz-bali-bubble" id="cardsBubble">Was ist das?</div>
+    </div>
+
+    <div class="cards-stage">
+      <div class="cards-stack-bg bg2"></div>
+      <div class="cards-stack-bg bg1"></div>
+      <div class="flashcard fresh" id="flashcard">
+        <div class="flashcard-inner">
+          <div class="flashcard-face flashcard-front">
+            <div class="flashcard-box-label" id="cardBoxLabel">Box 1</div>
+            <div class="flashcard-equation">
+              <span id="cardA">2</span>
+              <span class="op">×</span>
+              <span id="cardB">3</span>
+              <span class="eq">=</span>
+              <span id="cardAns" class="ans" style="opacity:.3">?</span>
+            </div>
+          </div>
+          <div class="flashcard-face flashcard-back">
+            <div class="flashcard-equation">
+              <span id="cardBackA">2</span>
+              <span class="op">×</span>
+              <span id="cardBackB">3</span>
+              <span class="eq">=</span>
+              <span id="cardBackRes" class="ans">6</span>
+            </div>
+            <div class="flashcard-trick" id="cardTrick"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-session-stats">
+      <div class="cards-session-stat">
+        <div class="cards-session-stat-num good mono" id="cardsSessionRight">0</div>
+        <div class="cards-session-stat-label">Richtig</div>
+      </div>
+      <div class="cards-session-stat">
+        <div class="cards-session-stat-num bad mono" id="cardsSessionWrong">0</div>
+        <div class="cards-session-stat-label">Falsch</div>
+      </div>
+      <div class="cards-session-stat">
+        <div class="cards-session-stat-num mono" id="cardsSessionUp">0</div>
+        <div class="cards-session-stat-label">Aufgestiegen</div>
+      </div>
+    </div>
+
+    <div class="numpad">
+      <button class="numkey" onclick="cardKey('1')">1</button>
+      <button class="numkey" onclick="cardKey('2')">2</button>
+      <button class="numkey" onclick="cardKey('3')">3</button>
+      <button class="numkey" onclick="cardKey('4')">4</button>
+      <button class="numkey" onclick="cardKey('5')">5</button>
+      <button class="numkey" onclick="cardKey('6')">6</button>
+      <button class="numkey" onclick="cardKey('7')">7</button>
+      <button class="numkey" onclick="cardKey('8')">8</button>
+      <button class="numkey" onclick="cardKey('9')">9</button>
+      <button class="numkey action del" onclick="cardKeyDel()">Löschen</button>
+      <button class="numkey" onclick="cardKey('0')">0</button>
+      <button class="numkey ok" id="cardOkBtn" onclick="cardKeyOk()" disabled>OK</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCREEN: CARDS RESULT
+       ============================================================ -->
+  <section id="screen-cards-result" class="screen">
+    <div class="result-hero">
+      <div class="result-bali"><img id="cardsResultBaliImg" src="bali/bali-happy.jpeg" alt="Bali"></div>
+      <div class="result-eyebrow">Karten-Session</div>
+      <h2 class="result-title" id="cardsResultTitle">Stark, Leo.</h2>
+      <p class="result-message" id="cardsResultMessage"></p>
+
+      <div class="result-stats">
+        <div class="result-stat">
+          <div class="result-stat-num good mono" id="cardsResultRight">0</div>
+          <div class="result-stat-label">Richtig</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-num bad mono" id="cardsResultWrong">0</div>
+          <div class="result-stat-label">Falsch</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-num mono" id="cardsResultUp">0</div>
+          <div class="result-stat-label">Aufgestiegen</div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn-primary" onclick="startCardsSession()">Weiter ziehen</button>
+        <button class="btn-secondary" onclick="goTo('screen-start')">Zur Startseite</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
        SCREEN: SETTINGS
        ============================================================ -->
   <section id="screen-settings" class="screen">
@@ -1187,18 +1589,34 @@ const REIHEN_HINT = {
   9: 'Trick: Mal 10 und dann die Zahl einmal abziehen.'
 };
 
-const defaultState = () => ({
-  levels: Object.fromEntries(LEVEL_ORDER.map((n, i) => [n, {
-    unlocked: i === 0,
-    explained: false,
-    practiced: false,
-    mastered: false,
-    bestQuote: 0,
-    attempts: 0
-  }])),
-  boss: { unlocked: false, mastered: false, bestQuote: 0 },
-  settings: { speed: false, sound: true }
-});
+const defaultState = () => {
+  // Alle 100 Karten initialisieren: jede in Box 1, noch nie gesehen
+  const cards = {};
+  for(let a = 1; a <= 10; a++){
+    for(let b = 1; b <= 10; b++){
+      cards[`${a}x${b}`] = {
+        a, b,
+        box: 1,
+        seen: 0,        // wie oft gesehen
+        correct: 0,     // wie oft richtig
+        lastSeen: 0     // timestamp
+      };
+    }
+  }
+  return {
+    levels: Object.fromEntries(LEVEL_ORDER.map((n, i) => [n, {
+      unlocked: i === 0,
+      explained: false,
+      practiced: false,
+      mastered: false,
+      bestQuote: 0,
+      attempts: 0
+    }])),
+    boss: { unlocked: false, mastered: false, bestQuote: 0 },
+    cards,
+    settings: { speed: false, sound: true }
+  };
+};
 
 let state = loadState();
 
@@ -1212,8 +1630,13 @@ function loadState(){
     if(!s.levels) s.levels = def.levels;
     if(!s.boss) s.boss = def.boss;
     if(!s.settings) s.settings = def.settings;
+    if(!s.cards) s.cards = def.cards;
     for(const n of LEVEL_ORDER){
       if(!s.levels[n]) s.levels[n] = def.levels[n];
+    }
+    // Falls einzelne Karten fehlen (z.B. nach Update): ergänzen
+    for(const key of Object.keys(def.cards)){
+      if(!s.cards[key]) s.cards[key] = def.cards[key];
     }
     return s;
   }catch(e){
@@ -1246,6 +1669,25 @@ function renderStart(){
   const mastered = LEVEL_ORDER.filter(n => state.levels[n].mastered).length;
   document.getElementById('masteredCount').textContent = mastered;
   document.getElementById('masteredFill').style.width = (mastered/10*100) + '%';
+
+  // Karten-Statistik
+  const boxCounts = [0, 0, 0, 0, 0, 0]; // index 1-5 used
+  Object.values(state.cards).forEach(c => {
+    boxCounts[c.box]++;
+  });
+  // "Sitzen" = Box 4 oder 5
+  const sitting = boxCounts[4] + boxCounts[5];
+  document.getElementById('cardsSittingCount').textContent = sitting;
+
+  // Box-Verteilung als Balken (auf 100 normiert)
+  const boxesMini = document.getElementById('boxesMini');
+  const segs = boxesMini.querySelectorAll('.seg');
+  segs.forEach((seg, i) => {
+    const boxNum = i + 1;
+    const ratio = boxCounts[boxNum] / 100; // max 100 Karten
+    const fill = seg.querySelector('.fill');
+    fill.style.transform = `scaleX(${ratio})`;
+  });
 }
 
 /* ============================================================
@@ -1750,6 +2192,297 @@ function playSound(type){
 }
 
 /* ============================================================
+   KARTENKASTEN (Leitner)
+   ============================================================ */
+
+// Tricks für die schwierigeren Aufgaben. Symmetrisch: 7×8 == 8×7.
+function getTrick(a, b){
+  const [x, y] = a <= b ? [a, b] : [b, a]; // normalisieren: x <= y
+  const key = `${x}x${y}`;
+  const tricks = {
+    // Quadrate
+    '6x6': 'Sechs mal sechs, sechsunddreißig.',
+    '7x7': 'Sieben mal sieben, neunundvierzig.',
+    '8x8': 'Acht mal acht, vierundsechzig.',
+    '9x9': 'Neun mal neun, einundachtzig.',
+    // Die zickigen
+    '6x7': 'Sechs mal sieben, zweiundvierzig. Reim dir das.',
+    '6x8': 'Doppelt 3×8. Also 24 plus 24 = 48.',
+    '6x9': '6 mal 10 minus 6. Also 60 minus 6 = 54.',
+    '7x8': '5, 6, 7, 8. Heißt 56 ist 7 mal 8.',
+    '7x9': '7 mal 10 minus 7. Also 70 minus 7 = 63.',
+    '8x9': '8 mal 10 minus 8. Also 80 minus 8 = 72.',
+    // 4er bei größeren
+    '4x6': 'Verdopple 2×6, also 12 plus 12 = 24.',
+    '4x7': 'Verdopple 2×7, also 14 plus 14 = 28.',
+    '4x8': 'Verdopple 2×8, also 16 plus 16 = 32.',
+    '4x9': '4 mal 10 minus 4. Also 40 minus 4 = 36.',
+    // 3er
+    '3x6': 'Doppelt 3, dreimal. Oder halbe 6×6.',
+    '3x7': 'Drei Siebener: 7 plus 7 plus 7 = 21.',
+    '3x8': 'Drei Achter: 8 plus 8 plus 8 = 24.',
+    '3x9': '3 mal 10 minus 3. Also 30 minus 3 = 27.',
+    // 9er-Trick allgemein
+    '2x9': '2 mal 10 minus 2 = 18. Quersumme ist 9.',
+    '5x9': '5 mal 10 minus 5 = 45.',
+  };
+  return tricks[key] || null;
+}
+
+// Gewichtung pro Box für Zufallsziehung
+const BOX_WEIGHTS = { 1: 50, 2: 25, 3: 15, 4: 8, 5: 2 };
+
+function pickCard(){
+  // Karten nach Boxen gruppieren
+  const byBox = { 1: [], 2: [], 3: [], 4: [], 5: [] };
+  for(const card of Object.values(state.cards)){
+    byBox[card.box].push(card);
+  }
+
+  // Welche Boxen sind gefüllt? (gewichtetes Auswahl-Array bauen)
+  const weighted = [];
+  for(const [box, weight] of Object.entries(BOX_WEIGHTS)){
+    if(byBox[box].length > 0){
+      weighted.push({ box: parseInt(box), weight });
+    }
+  }
+
+  if(weighted.length === 0) return null;
+
+  // Box wählen nach Gewicht
+  const totalWeight = weighted.reduce((s, w) => s + w.weight, 0);
+  let r = Math.random() * totalWeight;
+  let chosenBox = weighted[0].box;
+  for(const w of weighted){
+    r -= w.weight;
+    if(r <= 0){ chosenBox = w.box; break; }
+  }
+
+  // Karte aus dieser Box: bevorzugt eine, die nicht direkt zuletzt dran war
+  const candidates = byBox[chosenBox];
+  // Wenn aktuelle Karte in den Kandidaten ist und es Alternativen gibt: ausschließen
+  let filtered = candidates;
+  if(currentCard && candidates.length > 1){
+    filtered = candidates.filter(c => `${c.a}x${c.b}` !== `${currentCard.a}x${currentCard.b}`);
+    if(filtered.length === 0) filtered = candidates;
+  }
+  // Sortiere nach lastSeen (älteste zuerst) für leichten Bias
+  filtered.sort((a, b) => a.lastSeen - b.lastSeen);
+  // Aus den ältesten ein Drittel zufällig wählen
+  const pool = filtered.slice(0, Math.max(1, Math.ceil(filtered.length / 3)));
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+let currentCard = null;
+let cardAnswer = '';
+let cardLocked = false;
+let cardHasFailedThisRound = false;
+let sessionStats = { right: 0, wrong: 0, up: 0 };
+
+function startCardsSession(){
+  sessionStats = { right: 0, wrong: 0, up: 0 };
+  currentCard = null;
+  updateSessionStats();
+  drawNextCard();
+  goTo('screen-cards');
+}
+
+function stopCardsSession(){
+  // Wenn nichts passiert ist, direkt zurück
+  if(sessionStats.right === 0 && sessionStats.wrong === 0){
+    goTo('screen-start');
+    renderStart();
+    return;
+  }
+  // Result-Screen zeigen
+  document.getElementById('cardsResultRight').textContent = sessionStats.right;
+  document.getElementById('cardsResultWrong').textContent = sessionStats.wrong;
+  document.getElementById('cardsResultUp').textContent = sessionStats.up;
+
+  const total = sessionStats.right + sessionStats.wrong;
+  const quote = total > 0 ? Math.round(sessionStats.right / total * 100) : 0;
+  const title = document.getElementById('cardsResultTitle');
+  const msg = document.getElementById('cardsResultMessage');
+  const baliImg = document.getElementById('cardsResultBaliImg');
+
+  if(quote >= 90){
+    title.textContent = 'Top, Leo.';
+    msg.textContent = `${sessionStats.right} von ${total} richtig. Da sitzt richtig was.`;
+    baliImg.src = 'bali/bali-happy.jpeg';
+  } else if(quote >= 70){
+    title.textContent = 'Gute Runde.';
+    msg.textContent = `${sessionStats.right} von ${total} richtig. ${sessionStats.up} Karten sind weiter gerutscht.`;
+    baliImg.src = 'bali/bali-happy.jpeg';
+  } else if(quote >= 50){
+    title.textContent = 'Halbe Sache.';
+    msg.textContent = `${sessionStats.right} von ${total}. Üb die schwierigen Reihen nochmal in Ruhe und komm zurück.`;
+    baliImg.src = 'bali/bali-thinking.jpeg';
+  } else {
+    title.textContent = 'Heute war zäh.';
+    msg.textContent = `${sessionStats.right} von ${total}. Schau dir die Reihen nochmal an. Beim nächsten Mal wird's besser.`;
+    baliImg.src = 'bali/bali-shy.jpeg';
+  }
+
+  goTo('screen-cards-result');
+  renderStart();
+}
+
+function drawNextCard(){
+  const card = pickCard();
+  if(!card) return;
+  currentCard = card;
+  cardAnswer = '';
+  cardLocked = false;
+  cardHasFailedThisRound = false;
+
+  const flashcard = document.getElementById('flashcard');
+  flashcard.classList.remove('flipped', 'swipe-left', 'swipe-right');
+  void flashcard.offsetWidth; // reflow
+  flashcard.classList.add('fresh');
+  setTimeout(() => flashcard.classList.remove('fresh'), 300);
+
+  document.getElementById('cardA').textContent = card.a;
+  document.getElementById('cardB').textContent = card.b;
+  document.getElementById('cardBackA').textContent = card.a;
+  document.getElementById('cardBackB').textContent = card.b;
+  document.getElementById('cardBackRes').textContent = card.a * card.b;
+  document.getElementById('cardAns').textContent = '?';
+  document.getElementById('cardAns').style.opacity = '0.3';
+  document.getElementById('cardBoxLabel').textContent = `Box ${card.box}`;
+  document.getElementById('cardOkBtn').disabled = true;
+
+  // Bali Bubble
+  const bubble = document.getElementById('cardsBubble');
+  bubble.className = 'quiz-bali-bubble';
+  bubble.textContent = randomPrompt();
+  document.getElementById('cardsBaliImg').src = 'bali/bali-focus.jpeg';
+
+  // Counter
+  const total = sessionStats.right + sessionStats.wrong;
+  document.getElementById('cardsCount').textContent = total;
+}
+
+function cardKey(d){
+  if(cardLocked) return;
+  if(cardAnswer.length >= 3) return;
+  cardAnswer += d;
+  const ansEl = document.getElementById('cardAns');
+  ansEl.textContent = cardAnswer;
+  ansEl.style.opacity = '1';
+  document.getElementById('cardOkBtn').disabled = false;
+}
+
+function cardKeyDel(){
+  if(cardLocked || cardAnswer.length === 0) return;
+  cardAnswer = cardAnswer.slice(0, -1);
+  const ansEl = document.getElementById('cardAns');
+  if(cardAnswer.length === 0){
+    ansEl.textContent = '?';
+    ansEl.style.opacity = '0.3';
+    document.getElementById('cardOkBtn').disabled = true;
+  } else {
+    ansEl.textContent = cardAnswer;
+  }
+}
+
+function cardKeyOk(){
+  if(cardLocked || cardAnswer.length === 0) return;
+  submitCard(parseInt(cardAnswer, 10));
+}
+
+function submitCard(val){
+  if(cardLocked) return;
+  cardLocked = true;
+  const card = currentCard;
+  const correct = card.a * card.b;
+  const bubble = document.getElementById('cardsBubble');
+  const baliImg = document.getElementById('cardsBaliImg');
+  const flashcard = document.getElementById('flashcard');
+
+  card.seen++;
+  card.lastSeen = Date.now();
+
+  if(val === correct){
+    card.correct++;
+    // Box hoch nur, wenn diese Karte in dieser Runde nicht falsch war
+    if(!cardHasFailedThisRound){
+      if(card.box < 5){
+        card.box++;
+        sessionStats.up++;
+      }
+    }
+    sessionStats.right++;
+    saveState();
+    updateSessionStats();
+
+    bubble.classList.add('correct');
+    bubble.textContent = randomPraise();
+    baliImg.src = 'bali/bali-happy.jpeg';
+    playSound('good');
+
+    // Karte fliegt nach rechts, dann nächste
+    setTimeout(() => {
+      flashcard.classList.add('swipe-right');
+      setTimeout(drawNextCard, 350);
+    }, 600);
+
+  } else {
+    cardHasFailedThisRound = true;
+    card.box = 1; // Zurück in Box 1
+    sessionStats.wrong++;
+    saveState();
+    updateSessionStats();
+
+    bubble.classList.add('wrong');
+    const trick = (card.box === 1 && card.seen <= 3) ? getTrick(card.a, card.b) : null;
+    bubble.textContent = `${card.a} × ${card.b} = ${correct}.`;
+    baliImg.src = 'bali/bali-thinking.jpeg';
+    playSound('bad');
+
+    // Karte umdrehen → zeigt Lösung + Trick
+    document.getElementById('cardTrick').textContent = trick || '';
+    setTimeout(() => {
+      flashcard.classList.add('flipped');
+    }, 300);
+
+    // Karte fliegt nach links nach 2.5s, dieselbe Karte kommt direkt wieder
+    setTimeout(() => {
+      flashcard.classList.remove('flipped');
+      flashcard.classList.add('swipe-left');
+      setTimeout(() => {
+        // Dieselbe Karte direkt nochmal anbieten (nicht zufällig neu ziehen)
+        currentCard = card;
+        cardAnswer = '';
+        cardLocked = false;
+        const fc = document.getElementById('flashcard');
+        fc.classList.remove('swipe-left', 'flipped');
+        void fc.offsetWidth;
+        fc.classList.add('fresh');
+        setTimeout(() => fc.classList.remove('fresh'), 300);
+        document.getElementById('cardA').textContent = card.a;
+        document.getElementById('cardB').textContent = card.b;
+        document.getElementById('cardAns').textContent = '?';
+        document.getElementById('cardAns').style.opacity = '0.3';
+        document.getElementById('cardBoxLabel').textContent = `Box ${card.box}`;
+        document.getElementById('cardOkBtn').disabled = true;
+        const bb = document.getElementById('cardsBubble');
+        bb.className = 'quiz-bali-bubble';
+        bb.textContent = 'Nochmal.';
+        document.getElementById('cardsBaliImg').src = 'bali/bali-focus.jpeg';
+        const totalCount = sessionStats.right + sessionStats.wrong;
+        document.getElementById('cardsCount').textContent = totalCount;
+      }, 350);
+    }, 2200);
+  }
+}
+
+function updateSessionStats(){
+  document.getElementById('cardsSessionRight').textContent = sessionStats.right;
+  document.getElementById('cardsSessionWrong').textContent = sessionStats.wrong;
+  document.getElementById('cardsSessionUp').textContent = sessionStats.up;
+}
+
+/* ============================================================
    FINISH QUIZ
    ============================================================ */
 function finishQuiz(){
@@ -1923,13 +2656,18 @@ function resetProgress(){
    PHYSICAL KEYBOARD SUPPORT (für Eltern beim Testen)
    ============================================================ */
 document.addEventListener('keydown', (e) => {
-  if(!document.getElementById('screen-quiz').classList.contains('active')) return;
+  const onQuiz = document.getElementById('screen-quiz').classList.contains('active');
+  const onCards = document.getElementById('screen-cards').classList.contains('active');
+  if(!onQuiz && !onCards) return;
   if(/^[0-9]$/.test(e.key)){
-    keyPress(e.key);
+    if(onQuiz) keyPress(e.key);
+    else cardKey(e.key);
   } else if(e.key === 'Backspace'){
-    keyDel();
+    if(onQuiz) keyDel();
+    else cardKeyDel();
   } else if(e.key === 'Enter'){
-    keyOk();
+    if(onQuiz) keyOk();
+    else cardKeyOk();
   }
 });
 
