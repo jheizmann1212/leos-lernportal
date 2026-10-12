@@ -64,10 +64,33 @@
   .end td{border-bottom:1px solid #ddd;padding:8px 14px}
   .end td:last-child{text-align:right}
   .end .sig{margin-top:30px;display:flex;gap:30px;justify-content:center;flex-wrap:wrap;font-size:1.1rem}
+  .endbtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+
+  .home{background:none;border:none;color:var(--accent);padding:0;font-size:1rem;margin-bottom:6px}
+
+  /* Übersicht */
+  #menu h1{font-size:clamp(1.3rem,4vw,1.8rem);margin:24px 0 4px}
+  #menu .sub{text-align:center;color:var(--muted);margin-bottom:28px}
+  .card{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;text-align:left;
+    background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0;font-size:1.2rem}
+  .card small{display:block;color:var(--muted);font-size:1rem;margin-top:4px}
+  .chip{white-space:nowrap;font-size:1rem;padding:6px 12px;border-radius:999px;border:2px solid currentColor}
+  .chip.done{color:var(--ok);background:var(--okbg)}
+  .chip.open{color:var(--accent)}
+  .chip.wait{color:var(--muted)}
+  .card.locked{opacity:.55;cursor:default}
 </style>
 </head>
 <body>
-<div class="page">
+
+<div class="page" id="menu" style="display:none">
+  <h1>Probearbeiten Mathe</h1>
+  <div class="sub">Klassenarbeit am Donnerstag, 15.10.2026</div>
+  <div id="cards"></div>
+</div>
+
+<div class="page" id="test" style="display:none">
+  <button class="home" id="home">◀ Übersicht</button>
   <div class="head">
     <label>Name: <input id="name" autocomplete="off"></label>
     <span id="date"></span>
@@ -122,11 +145,14 @@
   <section class="task end" id="t9">
     <table id="sum"></table>
     <div class="sig"><span>Note:<b id="note" style="font-size:1.4rem"></b></span><span>Unterschrift Erziehungsberechtigte: ____________</span></div>
-    <p style="text-align:center;margin-top:40px"><button id="wipe" class="sec">Nochmal von vorne</button></p>
+    <div class="endbtns">
+      <button id="back" class="sec">◀ Zur Übersicht</button>
+      <button id="wipe" class="sec">Nochmal von vorne</button>
+    </div>
   </section>
 </div>
 
-<div class="bar">
+<div class="bar" id="bar" style="display:none">
   <button id="prev" class="sec">◀ Zurück</button>
   <button id="check">Prüfen ✓</button>
   <button id="next" class="sec">Weiter ▶</button>
@@ -139,138 +165,159 @@ const mark=(el,ok)=>{el.classList.remove('ok','bad'); el.classList.add(ok?'ok':'
 const fmt=x=>String(x).replace('.',',');
 const eur=x=>x.toFixed(2).replace('.',',');
 const inp=(ans,extra='')=>`<input class="n ${extra}" data-ans="${ans}" inputmode="numeric">`;
-
-/* Jeden Tag neue Zahlen: Zufall hängt am Datum */
-const today=new Date();
-const seed=today.getFullYear()*10000+(today.getMonth()+1)*100+today.getDate();
-$('#date').textContent=today.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
-let s=seed>>>0;
-const rnd=()=>{s=(s+0x6D2B79F5)>>>0;let t=s;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296};
-const ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
-const pickN=(arr,n)=>{arr=[...arr];const o=[];while(o.length<n)o.push(arr.splice(ri(0,arr.length-1),1)[0]);return o};
-
 const max={1:6,2:5,3:14,4:12,5:6,6:6,7:6,8:3};
-const pts={};
+const noteOf=(tot,all)=>{const p=tot/all*100; return p>=92?1:p>=81?2:p>=67?3:p>=50?4:p>=30?5:6;};
 
-/* 1: Zahlenstrahl. Jede Linie endet genau auf ihrem Strich, dort ein Punkt */
-(function(){
-  const axisY=130, x=v=>30+v*9.2, th=v=>v%10===0?16:v%5===0?11:6;
-  /* mind. 11 Striche Abstand, damit jedes Kästchen senkrecht über seinem Strich steht */
-  const extra=Array.from({length:10},()=>0);
-  for(let k=0;k<12;k++) extra[ri(0,9)]++;
-  const vals=[]; let v=extra[0];
-  for(let i=0;i<9;i++){ vals.push(v); v+=11+extra[i+1]; }
-  const given=pickN([0,1,2,3,4,5,6,7,8],2);
-  const cx=vals.map(v=>x(v));
-  for(let i=0;i<9;i++) cx[i]=Math.max(cx[i], i?cx[i-1]+95:47.5);
-  for(let i=8;i>=0;i--) cx[i]=Math.min(cx[i], i<8?cx[i+1]-95:952.5);
-  let s=`<svg viewBox="0 0 1000 190" preserveAspectRatio="none"><g stroke="#333" stroke-width="2" fill="none">`;
-  s+=`<line x1="${x(0)-8}" y1="${axisY}" x2="975" y2="${axisY}"/>`;
-  for(let v=0;v<=100;v++) s+=`<line x1="${x(v)}" y1="${axisY-th(v)}" x2="${x(v)}" y2="${axisY+th(v)}"/>`;
-  vals.forEach((v,i)=>{
-    s+=`<line x1="${cx[i]}" y1="46" x2="${x(v)}" y2="${axisY-th(v)}" stroke-dasharray="4 3" stroke-width="1.5"/>`;
-    s+=`<line x1="${x(v)}" y1="${axisY-th(v)}" x2="${x(v)}" y2="${axisY+th(v)}" stroke-width="3.5"/>`;
-  });
-  s+=`</g><g fill="#222">`;
-  vals.forEach(v=>{s+=`<circle cx="${x(v)}" cy="${axisY}" r="4"/>`;});
-  s+=`</g><polygon points="975,${axisY-9} 995,${axisY} 975,${axisY+9}" fill="#333"/></svg>`;
-  vals.forEach((v,i)=>{
-    const left=(cx[i]-42.5)/10;
-    s+= given.includes(i) ? `<span class="given box" style="left:${left}%">${v}</span>`
-                          : `<input class="n box" style="left:${left}%" data-ans="${v}" inputmode="numeric">`;
-  });
-  $('#nl').innerHTML=s;
-})();
+/* ---------- Die drei Probearbeiten ---------- */
+const TESTS=[
+  {id:1, day:'Montag',   date:'12.10.2026', from:'2026-10-12', key:'probearbeit-mathe-15-10-2026', orig:true, doneDefault:true},
+  {id:2, day:'Dienstag', date:'13.10.2026', from:'2026-10-13', key:'probearbeit-mathe-20261013', seed:20261013},
+  {id:3, day:'Mittwoch', date:'14.10.2026', from:'2026-10-14', key:'probearbeit-mathe-20261014', seed:20261014},
+];
+const todayISO=(()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');})();
+const load=key=>{try{return JSON.parse(localStorage.getItem(key));}catch(e){return null;}};
 
-/* 2: Zahlenreihe, 3 vorgegeben, 5 zum Ergänzen */
-(function(){
-  let st,a; do{ st=ri(3,9); a=ri(10,20); }while(a+7*st>99);
-  let h='';
-  for(let i=0;i<8;i++){
-    const v=a+i*st, up=(i>=1&&i<=3)?'up':'';
-    h+= i<3 ? `<span class="circ ${up}">${v}</span>` : inp(v,'circ '+up);
-    if(i<7) h+='<span class="dash"></span>';
-  }
-  $('#seq').innerHTML=h;
-})();
+/* Original-Probearbeit vom Blatt */
+const ORIGINAL={
+  nl:{vals:[0,13,28,40,43,59,68,69,91], given:[7,8]},
+  seq:{a:12, st:7},
+  vg:[[[20,22,23,24,30],[1,2]],[[40,43,44,45,50],[2]],[[80,84,85,86,90],[2]],[[50,50,51,52,60],[3,4]]],
+  mul:{rows:[5,3,9], cols:[2,7,4], miss:[[6,6],[10,4],[8,4]]},
+  k:[['10 + 89',99],['60 - 20',40],['100 - 90',10],['33 + 38',71],['53 - 35',18],['8 + 35',43]],
+  w6:[[73,17],[44,38]], w7:[[58,23],[93,35]],
+  story:{n:'Lentje',p:'sie',item:'ein 3-D-Bastelset',k:8,w:3,price:17.5,rest:6.5}
+};
 
-/* 3: VG-Z, VG, ZAHL, NV, NV-Z (Beispielzeile bleibt) */
-(function(){
-  const tens=pickN([1,2,3,4,5,6,8],4);
-  let h=`<tr><th>VG-<b>Z</b></th><th>VG</th><th>ZAHL</th><th>NV</th><th>NV-<b>Z</b></th></tr>
-         <tr><td>70</td><td>75</td><td>76</td><td>77</td><td>80</td></tr>`;
-  const giv=[[1,2],[2],[2],[3,4]];
-  tens.forEach((t,r)=>{
-    const z=t*10+ri(2,8), row=[t*10,z-1,z,z+1,t*10+10];
-    h+='<tr>'+row.map((v,c)=>`<td>${giv[r].includes(c)?v:inp(v)}</td>`).join('')+'</tr>';
-  });
-  $('#vg').innerHTML=h;
-})();
-
-/* 4: Einmaleins-Tabelle und fehlender Faktor */
-(function(){
-  const rows=pickN([3,4,5,6,7,8,9],3), cols=pickN([2,3,4,5,6,7,8,9],3);
-  let h='<tr><th>·</th>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr>';
-  rows.forEach(r=>{h+=`<tr><td>${r}</td>`+cols.map(c=>`<td>${inp(r*c)}</td>`).join('')+'</tr>';});
-  $('#mul').innerHTML=h;
-  let m='';
-  for(let i=0;i<3;i++){const a=ri(2,10), b=ri(3,9); m+=`<div class="eq">${inp(a)} · ${b} = ${a*b}</div>`;}
-  $('#miss').innerHTML=m;
-})();
-
-/* 5: Kopfrechnen, gleiche Aufgabentypen wie im Original */
-(function(){
-  const e=[];
-  { const t=ri(1,3)*10, n=ri(11,99-t); e.push([`${t} + ${n}`,t+n]); }
-  { const a=ri(5,9)*10, b=ri(1,a/10-1)*10; e.push([`${a} - ${b}`,a-b]); }
-  { const b=ri(1,9)*10; e.push([`100 - ${b}`,100-b]); }
-  { let a,b; do{a=ri(21,59);b=ri(21,49);}while(a%10+b%10<10||a+b>99||b%10===0||a%10===0); e.push([`${a} + ${b}`,a+b]); }
-  { let a,b; do{a=ri(41,95);b=ri(11,a-10);}while(b%10<=a%10||a%10===0); e.push([`${a} - ${b}`,a-b]); }
-  { let a,b; do{a=ri(3,9);b=ri(21,89);}while(b%10+a<10||a+b>99); e.push([`${a} + ${b}`,a+b]); }
-  const line=([t,r])=>`<div class="eq">${t} = ${inp(r)}</div>`;
-  $('#k1').innerHTML=e.slice(0,3).map(line).join('');
-  $('#k2').innerHTML=e.slice(3).map(line).join('');
-})();
-
-/* 6 + 7: halbschriftlich, erste Zeile vorgegeben */
-const ways={6:[],7:[]};
-(function(){
-  let a,b;
-  do{a=ri(41,79); b=ri(11,49);}while((a%10)+(b%10)!==10||a+b>99); ways[6].push(['a',a,b]);
-  do{a=ri(21,69); b=ri(21,49);}while((a%10)+(b%10)<=10||a+b>99); ways[6].push(['b',a,b]);
-  do{a=ri(41,89); b=ri(11,a-15);}while(b%10>=a%10||b%10===0); ways[7].push(['c',a,b]);
-  do{a=ri(51,98); b=ri(21,a-15);}while(b%10<=a%10||a%10===0); ways[7].push(['d',a,b]);
-})();
-for(const t in ways){
-  const op=t==='6'?'+':'-';
-  ways[t].forEach(([p,a,b])=>{
-    const i=k=>`<input class="n" id="${p}${k}" inputmode="numeric">`;
-    $('#w'+t).insertAdjacentHTML('beforeend',`<div class="way">
-      <span class="ze">ZE</span><span></span><span class="ze">ZE</span><span></span><span class="ze">ZE</span>
-      <span class="given">${a}</span><span>${op}</span><span class="given">${b}</span><span>=</span>${i('r1')}
-      ${i('a2')}<span>${op}</span>${i('b2')}<span>=</span>${i('c2')}
-      ${i('a3')}<span>${op}</span>${i('b3')}<span>=</span>${i('c3')}</div>`);
-  });
+/* Neue Zahlen, gleicher Aufbau */
+function generate(seed){
+  let s=seed>>>0;
+  const rnd=()=>{s=(s+0x6D2B79F5)>>>0;let t=s;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296};
+  const ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+  const pickN=(arr,n)=>{arr=[...arr];const o=[];while(o.length<n)o.push(arr.splice(ri(0,arr.length-1),1)[0]);return o};
+  const D={};
+  /* Zahlenstrahl: mind. 11 Striche Abstand, damit jedes Kästchen senkrecht über seinem Strich steht */
+  { const extra=Array(10).fill(0); for(let k=0;k<12;k++) extra[ri(0,9)]++;
+    const vals=[]; let v=extra[0]; for(let i=0;i<9;i++){vals.push(v); v+=11+extra[i+1];}
+    D.nl={vals, given:pickN([0,1,2,3,4,5,6,7,8],2)}; }
+  { let st,a; do{st=ri(3,9); a=ri(10,20);}while(a+7*st>99); D.seq={a,st}; }
+  { const tens=pickN([1,2,3,4,5,6,8],4), giv=[[1,2],[2],[2],[3,4]];
+    D.vg=tens.map((t,r)=>{const z=t*10+ri(2,8); return [[t*10,z-1,z,z+1,t*10+10],giv[r]];}); }
+  { const miss=[]; for(let i=0;i<3;i++) miss.push([ri(2,10),ri(3,9)]);
+    D.mul={rows:pickN([3,4,5,6,7,8,9],3), cols:pickN([2,3,4,5,6,7,8,9],3), miss}; }
+  { const e=[];
+    { const t=ri(1,3)*10, n=ri(11,99-t); e.push([`${t} + ${n}`,t+n]); }
+    { const a=ri(5,9)*10, b=ri(1,a/10-1)*10; e.push([`${a} - ${b}`,a-b]); }
+    { const b=ri(1,9)*10; e.push([`100 - ${b}`,100-b]); }
+    { let a,b; do{a=ri(21,59);b=ri(21,49);}while(a%10+b%10<10||a+b>99||b%10===0||a%10===0); e.push([`${a} + ${b}`,a+b]); }
+    { let a,b; do{a=ri(41,95);b=ri(11,a-10);}while(b%10<=a%10||a%10===0); e.push([`${a} - ${b}`,a-b]); }
+    { let a,b; do{a=ri(3,9);b=ri(21,89);}while(b%10+a<10||a+b>99); e.push([`${a} + ${b}`,a+b]); }
+    D.k=e; }
+  { let a,b; D.w6=[]; D.w7=[];
+    do{a=ri(41,79); b=ri(11,49);}while((a%10)+(b%10)!==10||a+b>99); D.w6.push([a,b]);
+    do{a=ri(21,69); b=ri(21,49);}while((a%10)+(b%10)<=10||a+b>99); D.w6.push([a,b]);
+    do{a=ri(41,89); b=ri(11,a-15);}while(b%10>=a%10||b%10===0); D.w7.push([a,b]);
+    do{a=ri(51,98); b=ri(21,a-15);}while(b%10<=a%10||a%10===0); D.w7.push([a,b]); }
+  { const who=[['Lentje','sie','ein 3-D-Bastelset'],['Ben','er','ein Lego-Auto'],['Mia','sie','ein Pferdebuch'],
+               ['Emil','er','einen Fußball'],['Lotta','sie','ein Puzzle'],['Jonas','er','eine Taschenlampe']][ri(0,5)];
+    const k=ri(4,9), w=ri(2,4), rest=ri(0,k-1)+0.5;
+    D.story={n:who[0],p:who[1],item:who[2],k,w,rest,price:w*k-rest}; }
+  return D;
 }
 
-/* 8: Sachaufgabe */
-(function(){
-  const who=[['Lentje','sie','ein 3-D-Bastelset'],['Ben','er','ein Lego-Auto'],['Mia','sie','ein Pferdebuch'],
-             ['Emil','er','einen Fußball'],['Lotta','sie','ein Puzzle'],['Jonas','er','eine Taschenlampe']][ri(0,5)];
-  const k=ri(4,9), w=ri(2,4), rest=ri(0,k-1)+0.5, price=w*k-rest;
-  const [n,p,item]=who, P=p[0].toUpperCase()+p.slice(1);
-  $('#story').textContent=`${n} hat ${k}.- Euro Taschengeld pro Woche. ${P} möchte sich ${item} kaufen für ${eur(price)}.- Euro.`;
-  $('#frage').textContent=`Wie lange muss ${n} sparen und wie viel Geld hat ${p} dann noch übrig?`;
-  $('#sol8').innerHTML=`<span style="color:var(--ink)">Diese Aufgabe prüft nicht der Computer, sondern Mama oder Papa. Vergleiche mit der Lösung:</span><br>
-    <b>Lösung:</b><br>
-    R: ${Array(w).fill(k).join(' + ')} = ${w*k} &nbsp;(also ${w} Wochen)<br>
-    R: ${eur(w*k)} - ${eur(price)} = ${eur(rest)}<br>
-    A: ${n} muss ${w} Wochen sparen. ${P} hat dann noch ${eur(rest)} Euro übrig.<br>
-    <span style="color:var(--ink)">Punkte (mit Mama/Papa): </span>
-    <select id="p8" style="font:inherit;font-size:1.1rem"><option value="">?</option><option>0</option><option>1</option><option>2</option><option>3</option></select>`;
-})();
+/* ---------- Übersicht ---------- */
+function statusOf(T){
+  const d=load(T.key);
+  if(d && d.cur===9){
+    let tot=0,all=0; for(const n in max){tot+=(d.pts&&d.pts[n])||0; all+=max[n];}
+    return {cls:'done', txt:`✓ fertig · ${fmt(tot)}/${all} · Note ${noteOf(tot,all)}`};
+  }
+  if(todayISO<T.from) return {cls:'wait', txt:`ab ${T.day}`, locked:true};
+  if(T.doneDefault && !d) return {cls:'done', txt:'✓ fertig'};
+  if(d) return {cls:'open', txt:`angefangen · Aufgabe ${Math.min(d.cur||1,8)}`};
+  return {cls:'open', txt:'offen'};
+}
+function showMenu(){
+  $('#menu').style.display='block';
+  $('#cards').innerHTML=TESTS.map(T=>{
+    const st=statusOf(T);
+    return `<button class="card ${st.locked?'locked':''}" data-id="${T.id}" ${st.locked?'disabled':''}>
+      <span>Probe ${T.id}<small>${T.day}, ${T.date}${T.orig?' · Original vom Blatt':''}</small></span>
+      <span class="chip ${st.cls}">${st.txt}</span></button>`;
+  }).join('');
+  $$('.card').forEach(c=>c.onclick=()=>{ if(!c.disabled) location.hash='#probe'+c.dataset.id; });
+}
 
-/* Prüfen */
+/* ---------- Probearbeit aufbauen ---------- */
+const pts={}; let ways={6:[],7:[]}; let KEY='', cur=1;
+
+function build(D){
+  /* 1 Zahlenstrahl: Linie endet genau auf dem dick markierten Strich mit Punkt */
+  { const axisY=130, x=v=>30+v*9.2, th=v=>v%10===0?16:v%5===0?11:6, vals=D.nl.vals;
+    const cx=vals.map(v=>x(v));
+    for(let i=0;i<9;i++) cx[i]=Math.max(cx[i], i?cx[i-1]+95:47.5);
+    for(let i=8;i>=0;i--) cx[i]=Math.min(cx[i], i<8?cx[i+1]-95:952.5);
+    let s=`<svg viewBox="0 0 1000 190" preserveAspectRatio="none"><g stroke="#333" stroke-width="2" fill="none">`;
+    s+=`<line x1="${x(0)-8}" y1="${axisY}" x2="975" y2="${axisY}"/>`;
+    for(let v=0;v<=100;v++) s+=`<line x1="${x(v)}" y1="${axisY-th(v)}" x2="${x(v)}" y2="${axisY+th(v)}"/>`;
+    vals.forEach((v,i)=>{
+      s+=`<line x1="${cx[i]}" y1="46" x2="${x(v)}" y2="${axisY-th(v)}" stroke-dasharray="4 3" stroke-width="1.5"/>`;
+      s+=`<line x1="${x(v)}" y1="${axisY-th(v)}" x2="${x(v)}" y2="${axisY+th(v)}" stroke-width="3.5"/>`;
+    });
+    s+=`</g><g fill="#222">`; vals.forEach(v=>{s+=`<circle cx="${x(v)}" cy="${axisY}" r="4"/>`;});
+    s+=`</g><polygon points="975,${axisY-9} 995,${axisY} 975,${axisY+9}" fill="#333"/></svg>`;
+    vals.forEach((v,i)=>{ const left=(cx[i]-42.5)/10;
+      s+= D.nl.given.includes(i) ? `<span class="given box" style="left:${left}%">${v}</span>`
+                                 : `<input class="n box" style="left:${left}%" data-ans="${v}" inputmode="numeric">`; });
+    $('#nl').innerHTML=s; }
+
+  /* 2 Zahlenreihe */
+  { let h=''; for(let i=0;i<8;i++){ const v=D.seq.a+i*D.seq.st, up=(i>=1&&i<=3)?'up':'';
+      h+= i<3 ? `<span class="circ ${up}">${v}</span>` : inp(v,'circ '+up);
+      if(i<7) h+='<span class="dash"></span>'; }
+    $('#seq').innerHTML=h; }
+
+  /* 3 VG-Z bis NV-Z */
+  { let h=`<tr><th>VG-<b>Z</b></th><th>VG</th><th>ZAHL</th><th>NV</th><th>NV-<b>Z</b></th></tr>
+           <tr><td>70</td><td>75</td><td>76</td><td>77</td><td>80</td></tr>`;
+    D.vg.forEach(([row,giv])=>{ h+='<tr>'+row.map((v,c)=>`<td>${giv.includes(c)?v:inp(v)}</td>`).join('')+'</tr>'; });
+    $('#vg').innerHTML=h; }
+
+  /* 4 Einmaleins */
+  { const {rows,cols,miss}=D.mul;
+    let h='<tr><th>·</th>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr>';
+    rows.forEach(r=>{h+=`<tr><td>${r}</td>`+cols.map(c=>`<td>${inp(r*c)}</td>`).join('')+'</tr>';});
+    $('#mul').innerHTML=h;
+    $('#miss').innerHTML=miss.map(([a,b])=>`<div class="eq">${inp(a)} · ${b} = ${a*b}</div>`).join(''); }
+
+  /* 5 Kopfrechnen */
+  { const line=([t,r])=>`<div class="eq">${t} = ${inp(r)}</div>`;
+    $('#k1').innerHTML=D.k.slice(0,3).map(line).join('');
+    $('#k2').innerHTML=D.k.slice(3).map(line).join(''); }
+
+  /* 6 + 7 halbschriftlich */
+  ways={6:D.w6.map((w,i)=>[['a','b'][i],...w]), 7:D.w7.map((w,i)=>[['c','d'][i],...w])};
+  for(const t in ways){ const op=t==='6'?'+':'-';
+    ways[t].forEach(([p,a,b])=>{ const i=k=>`<input class="n" id="${p}${k}" inputmode="numeric">`;
+      $('#w'+t).insertAdjacentHTML('beforeend',`<div class="way">
+        <span class="ze">ZE</span><span></span><span class="ze">ZE</span><span></span><span class="ze">ZE</span>
+        <span class="given">${a}</span><span>${op}</span><span class="given">${b}</span><span>=</span>${i('r1')}
+        ${i('a2')}<span>${op}</span>${i('b2')}<span>=</span>${i('c2')}
+        ${i('a3')}<span>${op}</span>${i('b3')}<span>=</span>${i('c3')}</div>`); }); }
+
+  /* 8 Sachaufgabe */
+  { const {n,p,item,k,w,rest,price}=D.story, P=p[0].toUpperCase()+p.slice(1);
+    $('#story').textContent=`${n} hat ${k}.- Euro Taschengeld pro Woche. ${P} möchte sich ${item} kaufen für ${eur(price)}.- Euro.`;
+    $('#frage').textContent=`Wie lange muss ${n} sparen und wie viel Geld hat ${p} dann noch übrig?`;
+    $('#sol8').innerHTML=`<span style="color:var(--ink)">Diese Aufgabe prüft nicht der Computer, sondern Mama oder Papa. Vergleiche mit der Lösung:</span><br>
+      <b>Lösung:</b><br>
+      R: ${Array(w).fill(k).join(' + ')} = ${w*k} &nbsp;(also ${w} Wochen)<br>
+      R: ${eur(w*k)} - ${eur(price)} = ${eur(rest)}<br>
+      A: ${n} muss ${w} Wochen sparen. ${P} hat dann noch ${eur(rest)} Euro übrig.<br>
+      <span style="color:var(--ink)">Punkte (mit Mama/Papa): </span>
+      <select id="p8" style="font:inherit;font-size:1.1rem"><option value="">?</option><option>0</option><option>1</option><option>2</option><option>3</option></select>`; }
+}
+
+/* ---------- Prüfen ---------- */
 function checkWay(p,a,b,op){
   const g=k=>num($('#'+p+k).value), T=op==='+'?a+b:a-b;
   const r1=g('r1')===T, a2=g('a2'), b2=g('b2'), c2=g('c2'), b3=g('b3');
@@ -300,66 +347,72 @@ function check(n){
   pts[n]=Math.round(frac*max[n]*2)/2;
   $(`#t${n} .pts b`).textContent=fmt(pts[n]);
 }
-document.addEventListener('change',e=>{
-  if(e.target.id==='p8'){ pts[8]=e.target.value===''?undefined:Number(e.target.value); $('#t8 .pts b').textContent=e.target.value; save(); }
-});
 
-/* Eine Aufgabe nach der anderen */
-let cur=1;
+/* ---------- Eine Aufgabe nach der anderen ---------- */
 function show(){
   $$('.task').forEach(s=>s.classList.remove('on'));
   $('#t'+cur).classList.add('on');
   $('#step').textContent=cur<=8?`Aufgabe ${cur} von 8`:'Ergebnis';
   $('#prev').disabled=cur===1;
-  $('#check').style.display=cur<=8?'':'none';
+  $('#bar').style.display=cur<=8?'flex':'none';
   $('#next').textContent=cur===8?'Fertig ▶':'Weiter ▶';
-  $('#next').style.display=cur<=8?'':'none';
   if(cur===9){
     let rows='', tot=0, all=0;
     for(const n in max){ const p=pts[n]; tot+=p||0; all+=max[n];
       rows+=`<tr><td>Aufgabe ${n}</td><td>${p==null?'-':fmt(p)} / ${max[n]} P</td></tr>`; }
     rows+=`<tr><td><b>Punkte</b></td><td><b>${fmt(tot)} / ${all}</b></td></tr>`;
     $('#sum').innerHTML=rows;
-    const pct=tot/all*100;
-    const note=pct>=92?1:pct>=81?2:pct>=67?3:pct>=50?4:pct>=30?5:6;
-    $('#note').textContent=' '+note+(pts[8]==null?' (ohne Aufgabe 8)':'');
+    $('#note').textContent=' '+noteOf(tot,all)+(pts[8]==null?' (ohne Aufgabe 8)':'');
   }
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* Speichern im Browser, pro Tag */
-const KEY='probearbeit-mathe-'+seed;
-const fields=()=>$$('input, textarea, select');
+/* ---------- Speichern pro Probearbeit ---------- */
+const fields=()=>$$('#test input, #test textarea, #test select');
 function save(){
-  try{
-    localStorage.setItem(KEY,JSON.stringify({
-      v:fields().map(e=>e.value),
-      c:fields().map(e=>e.classList.contains('ok')?'ok':e.classList.contains('bad')?'bad':''),
-      cur, pts, sol:$('#sol8').style.display
-    }));
-  }catch(e){}
+  try{ localStorage.setItem(KEY,JSON.stringify({
+    v:fields().map(e=>e.value),
+    c:fields().map(e=>e.classList.contains('ok')?'ok':e.classList.contains('bad')?'bad':''),
+    cur, pts, sol:$('#sol8').style.display })); }catch(e){}
 }
 function restore(){
-  let d; try{ d=JSON.parse(localStorage.getItem(KEY)); }catch(e){}
-  if(!d) return;
-  fields().forEach((e,i)=>{ if(d.v[i]!=null) e.value=d.v[i]; if(d.c[i]) e.classList.add(d.c[i]); });
+  const d=load(KEY); if(!d) return;
+  fields().forEach((e,i)=>{ if(d.v&&d.v[i]!=null) e.value=d.v[i]; if(d.c&&d.c[i]) e.classList.add(d.c[i]); });
   Object.assign(pts,d.pts||{});
   for(const n in pts) if(pts[n]!=null) $(`#t${n} .pts b`).textContent=fmt(pts[n]);
   if(d.sol) $('#sol8').style.display=d.sol;
   if(d.cur>=1 && d.cur<=9) cur=d.cur;
 }
 
-$('#prev').onclick=()=>{cur--;show();save();};
-$('#next').onclick=()=>{cur++;show();save();};
-$('#check').onclick=()=>{check(cur);save();};
-document.addEventListener('input',e=>{ if(e.target.matches('input.n')) e.target.classList.remove('ok','bad'); save(); });
-$('#wipe').onclick=()=>{
-  if(!confirm('Alles löschen und nochmal von vorne?')) return;
-  try{ localStorage.removeItem(KEY); }catch(e){}
-  location.reload();
-};
-restore();
-show();
+function openTest(T){
+  KEY=T.key;
+  $('#test').style.display='block';
+  $('#date').textContent=`${T.day}, ${T.date}`;
+  build(T.orig?ORIGINAL:generate(T.seed));
+  restore(); show();
+  $('#prev').onclick=()=>{cur--;show();save();};
+  $('#next').onclick=()=>{cur++;show();save();};
+  $('#check').onclick=()=>{check(cur);save();};
+  document.addEventListener('input',e=>{ if(e.target.matches('input.n')) e.target.classList.remove('ok','bad'); save(); });
+  document.addEventListener('change',e=>{
+    if(e.target.id==='p8'){ pts[8]=e.target.value===''?undefined:Number(e.target.value); $('#t8 .pts b').textContent=e.target.value; save(); }
+  });
+  const home=()=>{ location.hash=''; };
+  $('#home').onclick=home; $('#back').onclick=home;
+  $('#wipe').onclick=()=>{
+    if(!confirm('Alles löschen und diese Probe nochmal von vorne?')) return;
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    location.reload();
+  };
+}
+
+/* ---------- Start ---------- */
+function route(){
+  const m=location.hash.match(/^#probe(\d)$/), T=m&&TESTS.find(t=>t.id==m[1]);
+  if(T && !statusOf(T).locked) openTest(T); else showMenu();
+}
+window.addEventListener('hashchange',()=>location.reload());
+route();
 </script>
 </body>
 </html>
