@@ -170,6 +170,7 @@
   <section class="task end" id="t9">
     <table id="sum"></table>
     <div class="sig"><span>Note: ______</span><span>Unterschrift Erziehungsberechtigte: ____________</span></div>
+    <p style="text-align:center;margin-top:40px"><button id="wipe" class="sec">Nochmal von vorne</button></p>
   </section>
 </div>
 
@@ -269,10 +270,39 @@ function show(){
   }
   window.scrollTo({top:0,behavior:'smooth'});
 }
-$('#prev').onclick=()=>{cur--;show();};
-$('#next').onclick=()=>{cur++;show();};
-$('#check').onclick=()=>check(cur);
-document.addEventListener('input',e=>{ if(e.target.matches('input.n')) e.target.classList.remove('ok','bad'); });
+/* Speichern im Browser, damit beim Neuladen nichts verloren geht */
+const KEY='probearbeit-mathe-15-10-2026';
+const fields=()=>$$('input, textarea, select');
+function save(){
+  try{
+    localStorage.setItem(KEY,JSON.stringify({
+      v:fields().map(e=>e.value),
+      c:fields().map(e=>e.classList.contains('ok')?'ok':e.classList.contains('bad')?'bad':''),
+      cur, pts, sol:$('#sol8').style.display
+    }));
+  }catch(e){}
+}
+function restore(){
+  let d; try{ d=JSON.parse(localStorage.getItem(KEY)); }catch(e){}
+  if(!d) return;
+  fields().forEach((e,i)=>{ if(d.v[i]!=null) e.value=d.v[i]; if(d.c[i]) e.classList.add(d.c[i]); });
+  Object.assign(pts,d.pts||{});
+  for(const n in pts) if(pts[n]!=null) $(`#t${n} .pts b`).textContent=fmt(pts[n]);
+  if(d.sol) $('#sol8').style.display=d.sol;
+  if(d.cur>=1 && d.cur<=9) cur=d.cur;
+}
+
+$('#prev').onclick=()=>{cur--;show();save();};
+$('#next').onclick=()=>{cur++;show();save();};
+$('#check').onclick=()=>{check(cur);save();};
+$('#p8').addEventListener('change',save);
+document.addEventListener('input',e=>{ if(e.target.matches('input.n')) e.target.classList.remove('ok','bad'); save(); });
+$('#wipe').onclick=()=>{
+  if(!confirm('Alles löschen und nochmal von vorne?')) return;
+  try{ localStorage.removeItem(KEY); }catch(e){}
+  location.reload();
+};
+restore();
 show();
 </script>
 </body>
