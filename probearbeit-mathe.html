@@ -29,12 +29,10 @@
   .bad{border-color:var(--bad)!important;background:var(--badbg)!important;color:var(--bad)!important}
   .given{display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem;width:3.3em;height:2.2em;border:2px solid var(--line);border-radius:6px;background:#fff}
 
-  /* 1 Zahlenstrahl */
   .nl{position:relative;width:100%;aspect-ratio:1000/190}
   .nl svg{position:absolute;inset:0;width:100%;height:100%}
   .nl .box{position:absolute;top:0;width:8.5%;height:23%;font-size:clamp(.8rem,2.6vw,1.3rem)}
 
-  /* 2 Zahlenreihe */
   .row{display:flex;align-items:center;flex-wrap:wrap;gap:6px 0;justify-content:center}
   .circ{width:3.2em;height:3.2em;border-radius:50%;border:2px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem;background:#fff}
   input.circ{text-align:center;font:inherit;font-size:1.3rem;padding:0;color:var(--ink)}
@@ -50,14 +48,13 @@
   .eq{display:flex;align-items:center;gap:8px;font-size:1.3rem;margin:10px 0}
   .two{display:flex;flex-wrap:wrap;gap:10px 60px;justify-content:center}
 
-  /* 6/7 Kästchen mit Z E */
   .way{display:grid;grid-template-columns:auto 1.4em auto 1.4em auto;align-items:center;justify-items:center;gap:8px 4px;font-size:1.3rem}
   .ze{font-size:.95rem;color:var(--muted);letter-spacing:1.2em;padding-left:1.2em}
 
   .story{font-size:1.2rem;line-height:1.5;margin:10px 0}
   .lbl{display:inline-block;width:1.6em;font-weight:bold;vertical-align:top}
   textarea{font:inherit;font-size:1.2rem;width:calc(100% - 1.8em);min-height:2.6em;border:none;border-bottom:2px solid var(--line);background:transparent;resize:vertical;padding:4px}
-  .sol{display:none;margin-top:16px;padding:12px;border:2px dashed var(--ok);border-radius:10px;color:var(--ok);font-size:1.15rem}
+  .sol{display:none;margin-top:16px;padding:12px;border:2px dashed var(--ok);border-radius:10px;color:var(--ok);font-size:1.15rem;line-height:1.6}
 
   .bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:2px solid #ddd;padding:10px 16px;display:flex;gap:10px;justify-content:center;align-items:center}
   button{font:inherit;font-size:1.1rem;padding:10px 18px;border-radius:10px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
@@ -73,7 +70,7 @@
 <div class="page">
   <div class="head">
     <label>Name: <input id="name" autocomplete="off"></label>
-    <span>15.10.2026</span>
+    <span id="date"></span>
   </div>
   <h1>Probe - Klassenarbeit Mathematik - Wiederholung 2. Klasse</h1>
   <div class="step" id="step"></div>
@@ -85,61 +82,22 @@
 
   <section class="task" id="t2">
     <h2><span>2. Setze die Zahlenreihe fort.</span><span class="pts"><b></b> / 5 P</span></h2>
-    <div class="row">
-      <span class="circ">12</span><span class="dash"></span>
-      <span class="circ up">19</span><span class="dash"></span>
-      <span class="circ up">26</span><span class="dash"></span>
-      <input class="n circ up" data-ans="33" inputmode="numeric"><span class="dash"></span>
-      <input class="n circ" data-ans="40" inputmode="numeric"><span class="dash"></span>
-      <input class="n circ" data-ans="47" inputmode="numeric"><span class="dash"></span>
-      <input class="n circ" data-ans="54" inputmode="numeric"><span class="dash"></span>
-      <input class="n circ" data-ans="61" inputmode="numeric">
-    </div>
+    <div class="row" id="seq"></div>
   </section>
 
   <section class="task" id="t3">
     <h2><span>3. Ergänze die fehlenden Zahlen. Achte auf das Beispiel!</span><span class="pts"><b></b> / 14 P</span></h2>
-    <table class="g">
-      <tr><th>VG-<b>Z</b></th><th>VG</th><th>ZAHL</th><th>NV</th><th>NV-<b>Z</b></th></tr>
-      <tr><td>70</td><td>75</td><td>76</td><td>77</td><td>80</td></tr>
-      <tr><td><input class="n" data-ans="20" inputmode="numeric"></td><td>22</td><td>23</td><td><input class="n" data-ans="24" inputmode="numeric"></td><td><input class="n" data-ans="30" inputmode="numeric"></td></tr>
-      <tr><td><input class="n" data-ans="40" inputmode="numeric"></td><td><input class="n" data-ans="43" inputmode="numeric"></td><td>44</td><td><input class="n" data-ans="45" inputmode="numeric"></td><td><input class="n" data-ans="50" inputmode="numeric"></td></tr>
-      <tr><td><input class="n" data-ans="80" inputmode="numeric"></td><td><input class="n" data-ans="84" inputmode="numeric"></td><td>85</td><td><input class="n" data-ans="86" inputmode="numeric"></td><td><input class="n" data-ans="90" inputmode="numeric"></td></tr>
-      <tr><td><input class="n" data-ans="50" inputmode="numeric"></td><td><input class="n" data-ans="50" inputmode="numeric"></td><td><input class="n" data-ans="51" inputmode="numeric"></td><td>52</td><td>60</td></tr>
-    </table>
+    <table class="g" id="vg"></table>
   </section>
 
   <section class="task" id="t4">
     <h2><span>4. Multipliziere im Kopf. (Mal nehmen)</span><span class="pts"><b></b> / 12 P</span></h2>
-    <div class="flex">
-      <table class="g mul">
-        <tr><th>·</th><th>2</th><th>7</th><th>4</th></tr>
-        <tr><td>5</td><td><input class="n" data-ans="10" inputmode="numeric"></td><td><input class="n" data-ans="35" inputmode="numeric"></td><td><input class="n" data-ans="20" inputmode="numeric"></td></tr>
-        <tr><td>3</td><td><input class="n" data-ans="6" inputmode="numeric"></td><td><input class="n" data-ans="21" inputmode="numeric"></td><td><input class="n" data-ans="12" inputmode="numeric"></td></tr>
-        <tr><td>9</td><td><input class="n" data-ans="18" inputmode="numeric"></td><td><input class="n" data-ans="63" inputmode="numeric"></td><td><input class="n" data-ans="36" inputmode="numeric"></td></tr>
-      </table>
-      <div>
-        <div class="eq"><input class="n" data-ans="6" inputmode="numeric"> · 6 = 36</div>
-        <div class="eq"><input class="n" data-ans="10" inputmode="numeric"> · 4 = 40</div>
-        <div class="eq"><input class="n" data-ans="8" inputmode="numeric"> · 4 = 32</div>
-      </div>
-    </div>
+    <div class="flex"><table class="g mul" id="mul"></table><div id="miss"></div></div>
   </section>
 
   <section class="task" id="t5">
     <h2><span>5. Rechne im Kopf. Achtung: Plus und Minus gemischt.</span><span class="pts"><b></b> / 6 P</span></h2>
-    <div class="two">
-      <div>
-        <div class="eq">10 + 89 = <input class="n" data-ans="99" inputmode="numeric"></div>
-        <div class="eq">60 - 20 = <input class="n" data-ans="40" inputmode="numeric"></div>
-        <div class="eq">100 - 90 = <input class="n" data-ans="10" inputmode="numeric"></div>
-      </div>
-      <div>
-        <div class="eq">33 + 38 = <input class="n" data-ans="71" inputmode="numeric"></div>
-        <div class="eq">53 - 35 = <input class="n" data-ans="18" inputmode="numeric"></div>
-        <div class="eq">8 + 35 = <input class="n" data-ans="43" inputmode="numeric"></div>
-      </div>
-    </div>
+    <div class="two"><div id="k1"></div><div id="k2"></div></div>
   </section>
 
   <section class="task" id="t6">
@@ -154,22 +112,16 @@
 
   <section class="task" id="t8">
     <h2><span>8. Was musst du rechnen?</span><span class="pts"><b></b> / 3 P</span></h2>
-    <p class="story">Lentje hat 8.- Euro Taschengeld pro Woche. Sie möchte sich ein 3-D-Bastelset kaufen für 17,50.- Euro.</p>
-    <p class="story"><span class="lbl">F:</span> Wie lange muss Lentje sparen und wie viel Geld hat sie dann noch übrig?</p>
+    <p class="story" id="story"></p>
+    <p class="story"><span class="lbl">F:</span> <span id="frage"></span></p>
     <div class="story"><span class="lbl">A:</span><textarea id="a8"></textarea></div>
     <div class="story"><span class="lbl">R:</span><textarea id="r8"></textarea></div>
-    <div class="sol" id="sol8">
-      <b>Lösung zum Vergleichen:</b><br>
-      R: 8 + 8 + 8 = 24 (also 3 Wochen) &nbsp;·&nbsp; 24,00 - 17,50 = 6,50<br>
-      A: Lentje muss 3 Wochen sparen. Sie hat dann noch 6,50 Euro übrig.<br>
-      <span style="color:var(--ink)">Punkte (mit Mama/Papa): </span>
-      <select id="p8" style="font:inherit;font-size:1.1rem"><option value="">?</option><option>0</option><option>1</option><option>2</option><option>3</option></select>
-    </div>
+    <div class="sol" id="sol8"></div>
   </section>
 
   <section class="task end" id="t9">
     <table id="sum"></table>
-    <div class="sig"><span>Note: ______</span><span>Unterschrift Erziehungsberechtigte: ____________</span></div>
+    <div class="sig"><span>Note:<b id="note" style="font-size:1.4rem"></b></span><span>Unterschrift Erziehungsberechtigte: ____________</span></div>
     <p style="text-align:center;margin-top:40px"><button id="wipe" class="sec">Nochmal von vorne</button></p>
   </section>
 </div>
@@ -185,28 +137,110 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const num=v=>{v=(v||'').replace(/\s/g,'').replace(',','.'); return v===''?NaN:Number(v)};
 const mark=(el,ok)=>{el.classList.remove('ok','bad'); el.classList.add(ok?'ok':'bad')};
 const fmt=x=>String(x).replace('.',',');
+const eur=x=>x.toFixed(2).replace('.',',');
+const inp=(ans,extra='')=>`<input class="n ${extra}" data-ans="${ans}" inputmode="numeric">`;
+
+/* Jeden Tag neue Zahlen: Zufall hängt am Datum */
+const today=new Date();
+const seed=today.getFullYear()*10000+(today.getMonth()+1)*100+today.getDate();
+$('#date').textContent=today.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
+let s=seed>>>0;
+const rnd=()=>{s=(s+0x6D2B79F5)>>>0;let t=s;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296};
+const ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+const pickN=(arr,n)=>{arr=[...arr];const o=[];while(o.length<n)o.push(arr.splice(ri(0,arr.length-1),1)[0]);return o};
+
 const max={1:6,2:5,3:14,4:12,5:6,6:6,7:6,8:3};
 const pts={};
 
-/* 1: Zahlenstrahl */
+/* 1: Zahlenstrahl. Jede Linie endet genau auf ihrem Strich, dort ein Punkt */
 (function(){
-  const axisY=130, x=v=>30+v*9.2;
-  const boxes=[[0,55],[13,150],[28,290],[40,385],[43,480],[59,575],[68,670],[69,765,1],[91,880,1]];
+  const axisY=130, x=v=>30+v*9.2, th=v=>v%10===0?16:v%5===0?11:6;
+  /* mind. 11 Striche Abstand, damit jedes Kästchen senkrecht über seinem Strich steht */
+  const extra=Array.from({length:10},()=>0);
+  for(let k=0;k<12;k++) extra[ri(0,9)]++;
+  const vals=[]; let v=extra[0];
+  for(let i=0;i<9;i++){ vals.push(v); v+=11+extra[i+1]; }
+  const given=pickN([0,1,2,3,4,5,6,7,8],2);
+  const cx=vals.map(v=>x(v));
+  for(let i=0;i<9;i++) cx[i]=Math.max(cx[i], i?cx[i-1]+95:47.5);
+  for(let i=8;i>=0;i--) cx[i]=Math.min(cx[i], i<8?cx[i+1]-95:952.5);
   let s=`<svg viewBox="0 0 1000 190" preserveAspectRatio="none"><g stroke="#333" stroke-width="2" fill="none">`;
   s+=`<line x1="${x(0)-8}" y1="${axisY}" x2="975" y2="${axisY}"/>`;
-  for(let v=0;v<=100;v++){const h=v%10===0?16:v%5===0?11:6; s+=`<line x1="${x(v)}" y1="${axisY-h}" x2="${x(v)}" y2="${axisY+h}"/>`;}
-  boxes.forEach(([v,cx])=>{s+=`<line x1="${cx}" y1="46" x2="${x(v)}" y2="${axisY-18}" stroke-dasharray="4 3" stroke-width="1.5"/>`;});
+  for(let v=0;v<=100;v++) s+=`<line x1="${x(v)}" y1="${axisY-th(v)}" x2="${x(v)}" y2="${axisY+th(v)}"/>`;
+  vals.forEach((v,i)=>{
+    s+=`<line x1="${cx[i]}" y1="46" x2="${x(v)}" y2="${axisY-th(v)}" stroke-dasharray="4 3" stroke-width="1.5"/>`;
+    s+=`<line x1="${x(v)}" y1="${axisY-th(v)}" x2="${x(v)}" y2="${axisY+th(v)}" stroke-width="3.5"/>`;
+  });
+  s+=`</g><g fill="#222">`;
+  vals.forEach(v=>{s+=`<circle cx="${x(v)}" cy="${axisY}" r="4"/>`;});
   s+=`</g><polygon points="975,${axisY-9} 995,${axisY} 975,${axisY+9}" fill="#333"/></svg>`;
-  boxes.forEach(([v,cx,given])=>{
-    const left=(cx-42.5)/10;
-    s+= given ? `<span class="given box" style="left:${left}%">${v}</span>`
-              : `<input class="n box" style="left:${left}%" data-ans="${v}" inputmode="numeric">`;
+  vals.forEach((v,i)=>{
+    const left=(cx[i]-42.5)/10;
+    s+= given.includes(i) ? `<span class="given box" style="left:${left}%">${v}</span>`
+                          : `<input class="n box" style="left:${left}%" data-ans="${v}" inputmode="numeric">`;
   });
   $('#nl').innerHTML=s;
 })();
 
-/* 6 + 7: wie auf dem Blatt, erste Zeile vorgegeben, darunter zwei leere Zeilen */
-const ways={6:[['a',73,17],['b',44,38]],7:[['c',58,23],['d',93,35]]};
+/* 2: Zahlenreihe, 3 vorgegeben, 5 zum Ergänzen */
+(function(){
+  let st,a; do{ st=ri(3,9); a=ri(10,20); }while(a+7*st>99);
+  let h='';
+  for(let i=0;i<8;i++){
+    const v=a+i*st, up=(i>=1&&i<=3)?'up':'';
+    h+= i<3 ? `<span class="circ ${up}">${v}</span>` : inp(v,'circ '+up);
+    if(i<7) h+='<span class="dash"></span>';
+  }
+  $('#seq').innerHTML=h;
+})();
+
+/* 3: VG-Z, VG, ZAHL, NV, NV-Z (Beispielzeile bleibt) */
+(function(){
+  const tens=pickN([1,2,3,4,5,6,8],4);
+  let h=`<tr><th>VG-<b>Z</b></th><th>VG</th><th>ZAHL</th><th>NV</th><th>NV-<b>Z</b></th></tr>
+         <tr><td>70</td><td>75</td><td>76</td><td>77</td><td>80</td></tr>`;
+  const giv=[[1,2],[2],[2],[3,4]];
+  tens.forEach((t,r)=>{
+    const z=t*10+ri(2,8), row=[t*10,z-1,z,z+1,t*10+10];
+    h+='<tr>'+row.map((v,c)=>`<td>${giv[r].includes(c)?v:inp(v)}</td>`).join('')+'</tr>';
+  });
+  $('#vg').innerHTML=h;
+})();
+
+/* 4: Einmaleins-Tabelle und fehlender Faktor */
+(function(){
+  const rows=pickN([3,4,5,6,7,8,9],3), cols=pickN([2,3,4,5,6,7,8,9],3);
+  let h='<tr><th>·</th>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr>';
+  rows.forEach(r=>{h+=`<tr><td>${r}</td>`+cols.map(c=>`<td>${inp(r*c)}</td>`).join('')+'</tr>';});
+  $('#mul').innerHTML=h;
+  let m='';
+  for(let i=0;i<3;i++){const a=ri(2,10), b=ri(3,9); m+=`<div class="eq">${inp(a)} · ${b} = ${a*b}</div>`;}
+  $('#miss').innerHTML=m;
+})();
+
+/* 5: Kopfrechnen, gleiche Aufgabentypen wie im Original */
+(function(){
+  const e=[];
+  { const t=ri(1,3)*10, n=ri(11,99-t); e.push([`${t} + ${n}`,t+n]); }
+  { const a=ri(5,9)*10, b=ri(1,a/10-1)*10; e.push([`${a} - ${b}`,a-b]); }
+  { const b=ri(1,9)*10; e.push([`100 - ${b}`,100-b]); }
+  { let a,b; do{a=ri(21,59);b=ri(21,49);}while(a%10+b%10<10||a+b>99||b%10===0||a%10===0); e.push([`${a} + ${b}`,a+b]); }
+  { let a,b; do{a=ri(41,95);b=ri(11,a-10);}while(b%10<=a%10||a%10===0); e.push([`${a} - ${b}`,a-b]); }
+  { let a,b; do{a=ri(3,9);b=ri(21,89);}while(b%10+a<10||a+b>99); e.push([`${a} + ${b}`,a+b]); }
+  const line=([t,r])=>`<div class="eq">${t} = ${inp(r)}</div>`;
+  $('#k1').innerHTML=e.slice(0,3).map(line).join('');
+  $('#k2').innerHTML=e.slice(3).map(line).join('');
+})();
+
+/* 6 + 7: halbschriftlich, erste Zeile vorgegeben */
+const ways={6:[],7:[]};
+(function(){
+  let a,b;
+  do{a=ri(41,79); b=ri(11,49);}while((a%10)+(b%10)!==10||a+b>99); ways[6].push(['a',a,b]);
+  do{a=ri(21,69); b=ri(21,49);}while((a%10)+(b%10)<=10||a+b>99); ways[6].push(['b',a,b]);
+  do{a=ri(41,89); b=ri(11,a-15);}while(b%10>=a%10||b%10===0); ways[7].push(['c',a,b]);
+  do{a=ri(51,98); b=ri(21,a-15);}while(b%10<=a%10||a%10===0); ways[7].push(['d',a,b]);
+})();
 for(const t in ways){
   const op=t==='6'?'+':'-';
   ways[t].forEach(([p,a,b])=>{
@@ -218,14 +252,31 @@ for(const t in ways){
       ${i('a3')}<span>${op}</span>${i('b3')}<span>=</span>${i('c3')}</div>`);
   });
 }
+
+/* 8: Sachaufgabe */
+(function(){
+  const who=[['Lentje','sie','ein 3-D-Bastelset'],['Ben','er','ein Lego-Auto'],['Mia','sie','ein Pferdebuch'],
+             ['Emil','er','einen Fußball'],['Lotta','sie','ein Puzzle'],['Jonas','er','eine Taschenlampe']][ri(0,5)];
+  const k=ri(4,9), w=ri(2,4), rest=ri(0,k-1)+0.5, price=w*k-rest;
+  const [n,p,item]=who, P=p[0].toUpperCase()+p.slice(1);
+  $('#story').textContent=`${n} hat ${k}.- Euro Taschengeld pro Woche. ${P} möchte sich ${item} kaufen für ${eur(price)}.- Euro.`;
+  $('#frage').textContent=`Wie lange muss ${n} sparen und wie viel Geld hat ${p} dann noch übrig?`;
+  $('#sol8').innerHTML=`<span style="color:var(--ink)">Diese Aufgabe prüft nicht der Computer, sondern Mama oder Papa. Vergleiche mit der Lösung:</span><br>
+    <b>Lösung:</b><br>
+    R: ${Array(w).fill(k).join(' + ')} = ${w*k} &nbsp;(also ${w} Wochen)<br>
+    R: ${eur(w*k)} - ${eur(price)} = ${eur(rest)}<br>
+    A: ${n} muss ${w} Wochen sparen. ${P} hat dann noch ${eur(rest)} Euro übrig.<br>
+    <span style="color:var(--ink)">Punkte (mit Mama/Papa): </span>
+    <select id="p8" style="font:inherit;font-size:1.1rem"><option value="">?</option><option>0</option><option>1</option><option>2</option><option>3</option></select>`;
+})();
+
+/* Prüfen */
 function checkWay(p,a,b,op){
-  const g=k=>num($('#'+p+k).value), f=(x,y)=>op==='+'?x+y:x-y, T=f(a,b);
-  const r1=g('r1')===T, b2=g('b2'), b3=g('b3');
-  const a2=g('a2'), c2=g('c2');
-  let row2, row3;
+  const g=k=>num($('#'+p+k).value), T=op==='+'?a+b:a-b;
+  const r1=g('r1')===T, a2=g('a2'), b2=g('b2'), c2=g('c2'), b3=g('b3');
+  let row2,row3;
   if(op==='+'){
-    /* jeder richtige Weg zählt: z.B. 73+10, 83+7 oder 42+38, 80+2 */
-    row2=b2>0 && a2>0 && a2+b2===c2 && [a,b].some(x=>x===a2||x===b2);
+    row2=a2>0 && b2>0 && a2+b2===c2 && [a,b].some(x=>x===a2||x===b2);
     row3=row2 && b3>0 && g('a3')===c2 && g('a3')+b3===g('c3') && g('c3')===T;
   }else{
     row2=a2===a && b2>0 && b2<b && a2-b2===c2;
@@ -249,7 +300,9 @@ function check(n){
   pts[n]=Math.round(frac*max[n]*2)/2;
   $(`#t${n} .pts b`).textContent=fmt(pts[n]);
 }
-$('#p8').onchange=e=>{ pts[8]=e.target.value===''?undefined:Number(e.target.value); $('#t8 .pts b').textContent=e.target.value; };
+document.addEventListener('change',e=>{
+  if(e.target.id==='p8'){ pts[8]=e.target.value===''?undefined:Number(e.target.value); $('#t8 .pts b').textContent=e.target.value; save(); }
+});
 
 /* Eine Aufgabe nach der anderen */
 let cur=1;
@@ -264,14 +317,18 @@ function show(){
   if(cur===9){
     let rows='', tot=0, all=0;
     for(const n in max){ const p=pts[n]; tot+=p||0; all+=max[n];
-      rows+=`<tr><td>Aufgabe ${n}</td><td>${p===undefined?'-':fmt(p)} / ${max[n]} P</td></tr>`; }
+      rows+=`<tr><td>Aufgabe ${n}</td><td>${p==null?'-':fmt(p)} / ${max[n]} P</td></tr>`; }
     rows+=`<tr><td><b>Punkte</b></td><td><b>${fmt(tot)} / ${all}</b></td></tr>`;
     $('#sum').innerHTML=rows;
+    const pct=tot/all*100;
+    const note=pct>=92?1:pct>=81?2:pct>=67?3:pct>=50?4:pct>=30?5:6;
+    $('#note').textContent=' '+note+(pts[8]==null?' (ohne Aufgabe 8)':'');
   }
   window.scrollTo({top:0,behavior:'smooth'});
 }
-/* Speichern im Browser, damit beim Neuladen nichts verloren geht */
-const KEY='probearbeit-mathe-15-10-2026';
+
+/* Speichern im Browser, pro Tag */
+const KEY='probearbeit-mathe-'+seed;
 const fields=()=>$$('input, textarea, select');
 function save(){
   try{
@@ -295,7 +352,6 @@ function restore(){
 $('#prev').onclick=()=>{cur--;show();save();};
 $('#next').onclick=()=>{cur++;show();save();};
 $('#check').onclick=()=>{check(cur);save();};
-$('#p8').addEventListener('change',save);
 document.addEventListener('input',e=>{ if(e.target.matches('input.n')) e.target.classList.remove('ok','bad'); save(); });
 $('#wipe').onclick=()=>{
   if(!confirm('Alles löschen und nochmal von vorne?')) return;
